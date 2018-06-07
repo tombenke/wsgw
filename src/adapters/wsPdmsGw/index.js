@@ -2,7 +2,7 @@
 /*jshint node: true */
 'use strict';
 
-import http from 'http'
+//import http from 'http'
 //import SocketIo from 'socket.io'
 import ioClient from 'socket.io-client'
 import defaults from './config'

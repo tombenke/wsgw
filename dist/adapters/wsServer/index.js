@@ -44,10 +44,13 @@ var startup = function startup(container, next) {
 
     io.on('connection', function (socket) {
         container.logger.info('Client connected');
-        socket.on('message', function (data) {
+        socket.on('message', function (data, confirmCb) {
             var targetEv = serviceConfig.wsServer.forwardTopics ? data.topic : 'message';
             container.logger.info('[message] >> ' + JSON.stringify(data) + ' >> [' + targetEv + ']');
             socket.broadcast.emit(targetEv, data);
+            if (_lodash2.default.isFunction(confirmCb)) {
+                confirmCb(true);
+            }
         });
     });
     io.on('error', function (err) {

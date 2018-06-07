@@ -30,10 +30,13 @@ const startup = (container, next) => {
 
     io.on('connection', function (socket) {
         container.logger.info('Client connected')
-        socket.on('message', function (data) {
+        socket.on('message', function (data, confirmCb) {
             const targetEv = serviceConfig.wsServer.forwardTopics ? data.topic : 'message'
             container.logger.info(`[message] >> ${JSON.stringify(data)} >> [${targetEv}]`)
             socket.broadcast.emit(targetEv, data)
+            if (_.isFunction(confirmCb)) {
+                confirmCb(true)
+            }
         })
     })
     io.on('error', function (err) {

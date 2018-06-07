@@ -28,6 +28,10 @@ var _config = require('./config');
 
 var _config2 = _interopRequireDefault(_config);
 
+var _commands = require('./commands/');
+
+var _commands2 = _interopRequireDefault(_commands);
+
 var _cli = require('./cli');
 
 var _cli2 = _interopRequireDefault(_cli);
@@ -48,19 +52,20 @@ var start = exports.start = function start() {
     // Use CLI to gain additional parameters, and command to execute
 
     var _cli$parse = _cli2.default.parse(defaults, argv),
-        cliConfig = _cli$parse.cliConfig;
+        cliConfig = _cli$parse.cliConfig,
+        command = _cli$parse.command;
     // Create the final configuration parameter set
 
 
     var config = _npac2.default.makeConfig(defaults, cliConfig, 'configFileName');
 
-    // Define the adapters and executives to add to the container
-    var appAdapters = [_npac2.default.mergeConfig(config), _npac2.default.addLogger, _npacPdmsHemeraAdapter2.default.startup, _wsServer2.default.startup, _wsPdmsGw2.default.startup];
-
-    var appTerminators = [_wsPdmsGw2.default.shutdown, _wsServer2.default.shutdown, _npacPdmsHemeraAdapter2.default.shutdown];
-
     // Define the jobs to execute: hand over the command got by the CLI.
-    var jobs = [];
+    var jobs = [_npac2.default.makeCallSync(command)];
+
+    // Define the adapters and executives to add to the container
+    var appAdapters = command.name === 'server' ? [_npac2.default.mergeConfig(config), _npac2.default.addLogger, _npacPdmsHemeraAdapter2.default.startup, _wsServer2.default.startup, _wsPdmsGw2.default.startup, _commands2.default] : [_npac2.default.mergeConfig(config), _npac2.default.addLogger, _commands2.default];
+
+    var appTerminators = command.name === 'server' ? [_wsPdmsGw2.default.shutdown, _wsServer2.default.shutdown, _npacPdmsHemeraAdapter2.default.shutdown] : [];
 
     //Start the container
     _npac2.default.start(appAdapters, jobs, appTerminators, cb);

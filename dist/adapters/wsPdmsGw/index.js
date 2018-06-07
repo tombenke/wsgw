@@ -3,9 +3,8 @@
 /*jshint node: true */
 'use strict';
 
-var _http = require('http');
-
-var _http2 = _interopRequireDefault(_http);
+//import http from 'http'
+//import SocketIo from 'socket.io'
 
 var _socket = require('socket.io-client');
 
@@ -55,8 +54,6 @@ var setupInboundTopic = function setupInboundTopic(container, wsClient) {
  *
  * @function
  */
-
-//import SocketIo from 'socket.io'
 var setupOutboundTopic = function setupOutboundTopic(container, wsClient) {
     return function (topic) {
         // TODO: implement shutdown and enable reconnect.

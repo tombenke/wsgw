@@ -42,6 +42,76 @@ var parse = function parse(defaults) {
                 }
             }
         };
+    }).command('producer', 'Run as a producer client', function (yargs) {
+        return yargs.option("config", {
+            alias: "c",
+            desc: "The name of the configuration file",
+            default: defaults.configFileName
+        }).option("uri", {
+            alias: "u",
+            desc: "The URI of the WebSocket server",
+            type: 'string',
+            default: "http://localhost:8001"
+        }).option("topic", {
+            alias: "t",
+            desc: "The topic (event name) the message will be sent",
+            type: 'string',
+            default: "message"
+        }).option("message", {
+            alias: "m",
+            desc: "The JSON-format message string to send",
+            type: 'String',
+            default: "{}"
+        }).option("source", {
+            alias: "s",
+            desc: "The name of the YAML or JSON format source file that holds the messages to send",
+            type: 'String',
+            default: "messages.yml"
+        }).demandOption([]);
+    }, function (argv) {
+        results = {
+            command: {
+                name: 'producer',
+                args: {
+                    uri: argv.uri,
+                    topic: argv.topic,
+                    message: JSON.parse(argv.message),
+                    source: argv.source
+                }
+            },
+            cliConfig: {
+                configFileName: argv.config
+            }
+        };
+    }).command('consumer', 'Run as a consumer client', function (yargs) {
+        return yargs.option("config", {
+            alias: "c",
+            desc: "The name of the configuration file",
+            default: defaults.configFileName
+        }).option("uri", {
+            alias: "u",
+            desc: "The URI of the WebSocket server",
+            type: 'string',
+            default: "http://localhost:8001"
+        }).option("topic", {
+            alias: "t",
+            desc: "The topic (event name) the message will be sent",
+            type: 'string',
+            default: "message"
+        }).demandOption([]);
+    }, function (argv) {
+        results = {
+            command: {
+                name: 'consumer',
+                args: {
+                    uri: argv.uri,
+                    topic: argv.topic
+                }
+            },
+            cliConfig: {
+                configFileName: argv.config
+            }
+        };
     }).showHelpOnFail(false, 'Specify --help for available options').help().parse();
 
     return results;
