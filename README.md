@@ -20,6 +20,26 @@ Check if  is properly installed:
 
     $ wsgw --help
 
+## Usage
+### Use in server mode
+
+```bash
+    $ wsgw server --help
+
+    app.js server
+
+    Run in server mode
+
+    Options:
+      --version      Show version number                                   [boolean]
+      --help         Show help                                             [boolean]
+      --config, -c   The name of the configuration file      [default: "config.yml"]
+      --forward, -f  Forwards messages among inbound and outbound topics
+                                                          [boolean] [default: false]
+      --natsUri, -n  NATS server URI used by the pdms adapter.
+                                      [string] [default: "nats://demo.nats.io:4222"]
+```
+
 ## Get Help
 
 To learn more about the tool visit the [homepage](http://tombenke.github.io/wsgw/).
