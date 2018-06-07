@@ -8,6 +8,7 @@ import npac from 'npac'
 import * as pdms from 'npac-pdms-hemera-adapter'
 import appDefaults from './config'
 import wsServer from './adapters/wsServer/'
+import wsPdmsGw from './adapters/wsPdmsGw/'
 
 /*
 import {
@@ -75,12 +76,14 @@ describe('app', () => {
             npac.mergeConfig(config),
             npac.addLogger,
             pdms.startup,
-//            wsServer.startup
+            wsServer.startup,
+            wsPdmsGw.startup
             // TODO: Add BL adapter
         ]
 
         const terminators = [
-//            wsServer.shutdown,
+            wsPdmsGw.shutdown,
+            wsServer.shutdown,
             pdms.shutdown
         ]
 

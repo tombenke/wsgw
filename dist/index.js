@@ -55,9 +55,9 @@ var start = exports.start = function start() {
     var config = _npac2.default.makeConfig(defaults, cliConfig, 'configFileName');
 
     // Define the adapters and executives to add to the container
-    var appAdapters = [_npac2.default.mergeConfig(config), _npac2.default.addLogger, _npacPdmsHemeraAdapter2.default.startup, _wsServer2.default.startup];
+    var appAdapters = [_npac2.default.mergeConfig(config), _npac2.default.addLogger, _npacPdmsHemeraAdapter2.default.startup, _wsServer2.default.startup, _wsPdmsGw2.default.startup];
 
-    var appTerminators = [_wsServer2.default.shutdown, _npacPdmsHemeraAdapter2.default.shutdown];
+    var appTerminators = [_wsPdmsGw2.default.shutdown, _wsServer2.default.shutdown, _npacPdmsHemeraAdapter2.default.shutdown];
 
     // Define the jobs to execute: hand over the command got by the CLI.
     var jobs = [];

@@ -38,6 +38,10 @@ var _wsServer = require('./adapters/wsServer/');
 
 var _wsServer2 = _interopRequireDefault(_wsServer);
 
+var _wsPdmsGw = require('./adapters/wsPdmsGw/');
+
+var _wsPdmsGw2 = _interopRequireDefault(_wsPdmsGw);
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -104,11 +108,11 @@ describe('app', function () {
             'node', 'src/index.js'
         ]
         */
-        var adapters = [_npac2.default.mergeConfig(config), _npac2.default.addLogger, pdms.startup];
+        var adapters = [_npac2.default.mergeConfig(config), _npac2.default.addLogger, pdms.startup, _wsServer2.default.startup, _wsPdmsGw2.default.startup
+        // TODO: Add BL adapter
+        ];
 
-        var terminators = [
-        //            wsServer.shutdown,
-        pdms.shutdown];
+        var terminators = [_wsPdmsGw2.default.shutdown, _wsServer2.default.shutdown, pdms.shutdown];
 
         var testModule = function testModule(container, next) {
             container.logger.info('Run job to test the module');

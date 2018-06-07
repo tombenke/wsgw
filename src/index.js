@@ -24,10 +24,12 @@ export const start = (argv=process.argv, cb=null) => {
         npac.mergeConfig(config),
         npac.addLogger,
         pdms.startup,
-        wsServer.startup
+        wsServer.startup,
+        wsPdmsGw.startup
     ]
 
     const appTerminators = [
+        wsPdmsGw.shutdown,
         wsServer.shutdown,
         pdms.shutdown
     ]
