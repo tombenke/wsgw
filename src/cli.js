@@ -1,6 +1,5 @@
-#!/usr/bin/env node
-/*jshint node: true */
-'use strict';
+import _ from 'lodash'
+import path from 'path'
 
 const yargs = require('yargs')
 
@@ -70,13 +69,13 @@ const parse = (defaults, processArgv=process.argv) => {
                     alias: "m",
                     desc: "The JSON-format message string to send",
                     type: 'String',
-                    default: "{}"
+                    default: null
                 })
                 .option("source", {
                     alias: "s",
                     desc: "The name of the YAML or JSON format source file that holds the messages to send",
                     type: 'String',
-                    default: "messages.yml"
+                    default: null
                 })
                 .demandOption([]),
             argv => {
@@ -86,8 +85,8 @@ const parse = (defaults, processArgv=process.argv) => {
                         args: {
                             uri: argv.uri,
                             topic: argv.topic,
-                            message: JSON.parse(argv.message),
-                            source: argv.source
+                            message: (argv.message != null && _.isString(argv.message)) ? JSON.parse(argv.message) : null,
+                            source: (argv.source != null && _.isString(argv.source)) ? path.resolve(argv.source) : null
                         },
                     },
                     cliConfig: {

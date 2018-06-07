@@ -1,7 +1,14 @@
-#!/usr/bin/env node
-
-/*jshint node: true */
 'use strict';
+
+var _lodash = require('lodash');
+
+var _lodash2 = _interopRequireDefault(_lodash);
+
+var _path = require('path');
+
+var _path2 = _interopRequireDefault(_path);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var yargs = require('yargs');
 
@@ -61,12 +68,12 @@ var parse = function parse(defaults) {
             alias: "m",
             desc: "The JSON-format message string to send",
             type: 'String',
-            default: "{}"
+            default: null
         }).option("source", {
             alias: "s",
             desc: "The name of the YAML or JSON format source file that holds the messages to send",
             type: 'String',
-            default: "messages.yml"
+            default: null
         }).demandOption([]);
     }, function (argv) {
         results = {
@@ -75,8 +82,8 @@ var parse = function parse(defaults) {
                 args: {
                     uri: argv.uri,
                     topic: argv.topic,
-                    message: JSON.parse(argv.message),
-                    source: argv.source
+                    message: argv.message != null && _lodash2.default.isString(argv.message) ? JSON.parse(argv.message) : null,
+                    source: argv.source != null && _lodash2.default.isString(argv.source) ? _path2.default.resolve(argv.source) : null
                 }
             },
             cliConfig: {

@@ -29,6 +29,7 @@
     "lodash": "4.17.4",
     "npac": "^2.0.2",
     "npac-pdms-hemera-adapter": "^1.4.1",
+    "rxjs": "^6.2.0",
     "socket.io": "^2.1.1",
     "yargs": "10.0.3"
   },

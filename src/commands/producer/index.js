@@ -1,7 +1,16 @@
-#!/usr/bin/env node
-/*jshint node: true */
-'use strict'
+import _ from 'lodash'
 import ioClient from 'socket.io-client'
+import { interval, from, pipe } from 'rxjs'
+import { tap, map, mergeMap, delayWhen } from 'rxjs/operators'
+import { loadJsonFileSync } from 'datafile'
+
+const loadMessagesFromFile = fileName =>
+    _.chain(loadJsonFileSync(fileName, false))
+        .flatMap(item =>
+            _.chain(_.concat(_.get(item, 'message', []), _.has(item, 'file') ? loadFromJsonSync(item.file) : []))
+                .map(message => ({ delay: _.get(item, 'delay', 0), message: message}))
+                .value())
+        .value()
 
 /**
  * 'producer' command implementation
@@ -16,9 +25,28 @@ exports.execute = (container, args) => {
     const serverUri = args.uri || `http://localhost:${container.config.wsServer.port}`
     const wsClient = ioClient(serverUri)
 
-    container.logger.info(`${JSON.stringify(args.message)} >> [${args.topic}]`)
-    wsClient.emit(args.topic, args.message, confirmation => {
-        container.logger.info(`Got confirmation: ${confirmation}`)
+    const directMessage = args.message != null ? [{ delay: 0, message: args.message }] : []
+    const messagesToPublish = _.concat(directMessage, loadMessagesFromFile(args.source))
+    const finishWithSuccess = () => {
+        container.logger.info(`Successfully completed.`)
         wsClient.close()
-    })
+    }
+    const finishWithError = err => {
+        container.logger.error(`ERROR: ${err}!`)
+        wsClient.close()
+    }
+
+    from(messagesToPublish).pipe(
+        delayWhen(message => interval(message.delay)),
+        mergeMap(message => {
+            return new Promise((resolve, reject) => {
+                wsClient.emit(args.topic, message.message, confirmation => {
+                    container.logger.debug(`Got confirmation: ${confirmation}`)
+                    container.logger.info(`${JSON.stringify(message.message)} >> [${args.topic}]`)
+                    resolve(message)
+                })
+            })
+        })
+    ).subscribe((message) => { console.log(message)}, finishWithError, finishWithSuccess)
+
 }

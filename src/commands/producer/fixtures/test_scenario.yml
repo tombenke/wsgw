@@ -1,0 +1,20 @@
+---
+- delay: 200
+  message:
+      topic: TMA
+      payload:
+          id: some-unique-id-1
+          text: some plain text 1
+- delay: 100
+  message:
+      topic: TMA
+      payload:
+          id: some-unique-id-2
+          text: some plain text 2
+- delay: 300
+  message:
+      topic: TMA
+      payload:
+          id: some-unique-id-3
+          text: some plain text 3
+
