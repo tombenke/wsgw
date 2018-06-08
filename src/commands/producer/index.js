@@ -1,13 +1,17 @@
 import _ from 'lodash'
+import path from 'path'
 import ioClient from 'socket.io-client'
 import { interval, from, pipe } from 'rxjs'
 import { tap, map, mergeMap, delayWhen, scan } from 'rxjs/operators'
 import { loadJsonFileSync } from 'datafile'
 
-const loadMessagesFromFile = fileName =>
+const loadMessageFile = (hostFileName, messageFileName) =>
+    loadJsonFileSync(path.resolve(path.dirname(hostFileName), messageFileName))
+
+export const loadMessagesFromFile = fileName =>
     _.chain(loadJsonFileSync(fileName, false))
         .flatMap(item =>
-            _.chain(_.concat(_.get(item, 'message', []), _.has(item, 'file') ? loadFromJsonSync(item.file) : []))
+            _.chain(_.concat(_.get(item, 'message', []), _.has(item, 'file') ? loadMessageFile(fileName, item.file) : []))
                 .map(message => ({ delay: _.get(item, 'delay', 0), message: message}))
                 .value())
         .value()
@@ -49,5 +53,4 @@ exports.execute = (container, args) => {
             })
         })
     ).subscribe((message) => { console.log(message)}, finishWithError, finishWithSuccess)
-
 }

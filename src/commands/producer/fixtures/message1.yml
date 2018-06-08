@@ -1,0 +1,7 @@
+topic: TMA
+payload:
+    id: message1
+    content:
+        textField: Some text
+        numberField: 42
+        arrayField: [1, 2, 3, 4]

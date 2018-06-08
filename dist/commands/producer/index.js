@@ -1,8 +1,17 @@
 'use strict';
 
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.loadMessagesFromFile = undefined;
+
 var _lodash = require('lodash');
 
 var _lodash2 = _interopRequireDefault(_lodash);
+
+var _path = require('path');
+
+var _path2 = _interopRequireDefault(_path);
 
 var _socket = require('socket.io-client');
 
@@ -16,9 +25,13 @@ var _datafile = require('datafile');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var loadMessagesFromFile = function loadMessagesFromFile(fileName) {
+var loadMessageFile = function loadMessageFile(hostFileName, messageFileName) {
+    return (0, _datafile.loadJsonFileSync)(_path2.default.resolve(_path2.default.dirname(hostFileName), messageFileName));
+};
+
+var loadMessagesFromFile = exports.loadMessagesFromFile = function loadMessagesFromFile(fileName) {
     return _lodash2.default.chain((0, _datafile.loadJsonFileSync)(fileName, false)).flatMap(function (item) {
-        return _lodash2.default.chain(_lodash2.default.concat(_lodash2.default.get(item, 'message', []), _lodash2.default.has(item, 'file') ? loadFromJsonSync(item.file) : [])).map(function (message) {
+        return _lodash2.default.chain(_lodash2.default.concat(_lodash2.default.get(item, 'message', []), _lodash2.default.has(item, 'file') ? loadMessageFile(fileName, item.file) : [])).map(function (message) {
             return { delay: _lodash2.default.get(item, 'delay', 0), message: message };
         }).value();
     }).value();
