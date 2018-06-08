@@ -39,7 +39,7 @@ after(function (done) {
 describe('cli', function () {
     var defaults = _lodash2.default.merge({}, _config2.default, _npacPdmsHemeraAdapter2.default.defaults, _wsServer2.default.defaults, _wsPdmsGw2.default.defaults);
 
-    it('parse', function (done) {
+    it('#parse - server command with defaults', function (done) {
         var processArgv = ['node', 'src/index.js', 'server'];
         var expected = {
             command: {
@@ -49,7 +49,8 @@ describe('cli', function () {
             cliConfig: {
                 configFileName: "config.yml",
                 wsServer: {
-                    forwardTopics: false
+                    forwardTopics: false,
+                    port: 8001
                 },
                 pdms: {
                     natsUri: "nats://demo.nats.io:4222"
@@ -61,8 +62,8 @@ describe('cli', function () {
         done();
     });
 
-    it('parse with NATS URI', function (done) {
-        var processArgv = ['node', 'src/index.js', 'server', '-c', 'config.yml', '-n', 'nats://localhost:4222'];
+    it('#parse - server command with full list of args', function (done) {
+        var processArgv = ['node', 'src/index.js', 'server', '-c', 'config.yml', '-f', '-n', 'nats://localhost:4222', '-p', '8002'];
         var expected = {
             command: {
                 name: 'server',
@@ -71,11 +72,92 @@ describe('cli', function () {
             cliConfig: {
                 configFileName: "config.yml",
                 wsServer: {
-                    forwardTopics: false
+                    forwardTopics: true,
+                    port: 8002
                 },
                 pdms: {
                     natsUri: "nats://localhost:4222"
                 }
+            }
+        };
+
+        (0, _chai.expect)(_cli2.default.parse(defaults, processArgv)).to.eql(expected);
+        done();
+    });
+
+    it('#parse consumer command with defaults', function (done) {
+        var processArgv = ['node', 'src/index.js', 'consumer'];
+        var expected = {
+            command: {
+                name: 'consumer',
+                args: {
+                    topic: "message",
+                    uri: "http://localhost:8001"
+                }
+            },
+            cliConfig: {
+                configFileName: "config.yml"
+            }
+        };
+
+        (0, _chai.expect)(_cli2.default.parse(defaults, processArgv)).to.eql(expected);
+        done();
+    });
+
+    it('#parse consumer command with full list of args', function (done) {
+        var processArgv = ['node', 'src/index.js', 'consumer', '-c', 'config.yml', '-u', 'wss://ws.mydomain.com:1234', '-t', 'MY_TOPIC'];
+        var expected = {
+            command: {
+                name: 'consumer',
+                args: {
+                    topic: "MY_TOPIC",
+                    uri: "wss://ws.mydomain.com:1234"
+                }
+            },
+            cliConfig: {
+                configFileName: "config.yml"
+            }
+        };
+
+        (0, _chai.expect)(_cli2.default.parse(defaults, processArgv)).to.eql(expected);
+        done();
+    });
+
+    it('#parse producer command with defaults', function (done) {
+        var processArgv = ['node', 'src/index.js', 'producer'];
+        var expected = {
+            command: {
+                name: 'producer',
+                args: {
+                    topic: "message",
+                    uri: "http://localhost:8001",
+                    message: null,
+                    source: null
+                }
+            },
+            cliConfig: {
+                configFileName: "config.yml"
+            }
+        };
+
+        (0, _chai.expect)(_cli2.default.parse(defaults, processArgv)).to.eql(expected);
+        done();
+    });
+
+    it('#parse producer command with full list of args', function (done) {
+        var processArgv = ['node', 'src/index.js', 'producer', '-c', 'config.yml', '-u', 'wss://ws.mydomain.com:1234', '-t', 'MY_TOPIC', '-m', '{ "topic": "MY_TOPIC", "payload": "Some payload..."}', '-s', '/fixtures/test_scenario.yml'];
+        var expected = {
+            command: {
+                name: 'producer',
+                args: {
+                    topic: "MY_TOPIC",
+                    uri: "wss://ws.mydomain.com:1234",
+                    message: { topic: "MY_TOPIC", payload: "Some payload..." },
+                    source: '/fixtures/test_scenario.yml'
+                }
+            },
+            cliConfig: {
+                configFileName: "config.yml"
             }
         };
 

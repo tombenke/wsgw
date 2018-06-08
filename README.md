@@ -21,7 +21,7 @@ Check if  is properly installed:
     $ wsgw --help
 
 ## Usage
-### Use in server mode
+### Run in server mode
 
 ```bash
     $ wsgw server --help
@@ -36,6 +36,7 @@ Check if  is properly installed:
       --config, -c   The name of the configuration file      [default: "config.yml"]
       --forward, -f  Forwards messages among inbound and outbound topics
                                                           [boolean] [default: false]
+      --port, -p     The webSocket server port              [number] [default: 8001]
       --natsUri, -n  NATS server URI used by the pdms adapter.
                                       [string] [default: "nats://demo.nats.io:4222"]
 ```
@@ -47,19 +48,17 @@ For example:
 ```
 
 The server will listen on `http://localhost:8001` by default.
-You can change the port by setting the `WSGW_SERVER_PORT` environment value.
+You can change the port by setting the `WSGW_SERVER_PORT` environment value as well as using the `-p` parameter.
 
-### Use in client mode
+### Run in client mode
 
-#### Message consumer
+#### Run as a message consumer
 
 The consumer client connects to the WebSocket server, and starts observing the selected topic.
 Every time a message arrives, prints it out to the console.
 
 ```bash
-    $ wsgw producer --help
-
-    wsgw consumer
+    $ wsgw consumer --help
 
     Run as a consumer client
 
@@ -80,7 +79,7 @@ For example:
 ```
 
 
-#### Message producer
+#### Run as messages producer
 
 ```bash
     $ wsgw producer --help
@@ -100,6 +99,7 @@ For example:
       --message, -m  The JSON-format message string to send          [default: null]
       --source, -s   The name of the YAML or JSON format source file that holds the
                      messages to send                                [default: null]
+
 ```
 
 Send a direct message from the command line:
@@ -142,10 +142,10 @@ This is an example messages file:
 
 The file contains an array of message entries, where each entry can contain the following properties:
 
-- `delay`: Delay in milliseconds, to wait before sending the actual message. (NOT IMPLEMENTED YET)
-- `message`: The message object.
-- `file`: The name of the file, that contains the message.
-
+- `delay`: Delay in milliseconds, to wait before sending the actual message.
+  The delay is relative to the previous sending.
+- `message`: The message object, to send.
+- `file`: The name of the file, that contains the message. First it loads from the file, then sends it.
 
 ## References
 
