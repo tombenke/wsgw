@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import ioClient from 'socket.io-client'
 import { interval, from, pipe } from 'rxjs'
-import { tap, map, mergeMap, delayWhen } from 'rxjs/operators'
+import { tap, map, mergeMap, delayWhen, scan } from 'rxjs/operators'
 import { loadJsonFileSync } from 'datafile'
 
 const loadMessagesFromFile = fileName =>
@@ -37,6 +37,7 @@ exports.execute = (container, args) => {
     }
 
     from(messagesToPublish).pipe(
+        scan((accu, message) => _.merge({}, message, { delay: accu.delay + message.delay }), { delay: 0 }),
         delayWhen(message => interval(message.delay)),
         mergeMap(message => {
             return new Promise((resolve, reject) => {

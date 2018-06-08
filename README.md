@@ -147,10 +147,6 @@ The file contains an array of message entries, where each entry can contain the 
 - `file`: The name of the file, that contains the message.
 
 
-## Get Help
-
-To learn more about the tool visit the [homepage](http://tombenke.github.io/wsgw/).
-
 ## References
 
 - [npac](http://tombenke.github.io/npac).

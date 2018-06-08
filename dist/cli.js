@@ -27,6 +27,11 @@ var parse = function parse(defaults) {
             desc: "Forwards messages among inbound and outbound topics",
             type: 'boolean',
             default: defaults.wsServer.forwardTopics
+        }).option("port", {
+            alias: "p",
+            desc: "The webSocket server port",
+            type: 'number',
+            default: defaults.wsServer.port
         }).option("natsUri", {
             alias: "n",
             desc: "NATS server URI used by the pdms adapter.",
@@ -42,7 +47,8 @@ var parse = function parse(defaults) {
             cliConfig: {
                 configFileName: argv.config,
                 wsServer: {
-                    forwardTopics: argv.forward
+                    forwardTopics: argv.forward,
+                    port: argv.port
                 },
                 pdms: {
                     natsUri: argv.natsUri

@@ -48,7 +48,9 @@ exports.execute = function (container, args) {
         wsClient.close();
     };
 
-    (0, _rxjs.from)(messagesToPublish).pipe((0, _operators.delayWhen)(function (message) {
+    (0, _rxjs.from)(messagesToPublish).pipe((0, _operators.scan)(function (accu, message) {
+        return _lodash2.default.merge({}, message, { delay: accu.delay + message.delay });
+    }, { delay: 0 }), (0, _operators.delayWhen)(function (message) {
         return (0, _rxjs.interval)(message.delay);
     }), (0, _operators.mergeMap)(function (message) {
         return new Promise(function (resolve, reject) {
