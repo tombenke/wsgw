@@ -57,7 +57,7 @@ var setupInboundTopic = function setupInboundTopic(container, wsClient) {
 var setupOutboundTopic = function setupOutboundTopic(container, wsClient) {
     return function (topic) {
         // TODO: implement shutdown and enable reconnect.
-        if (_lodash2.default.isString(topic) && topic !== "") {
+        if (_lodash2.default.isString(topic) && topic != "") {
             container.logger.info('Setup producer of outbound NATS "' + topic + '" topic.');
             //        const serverUri = `http://localhost:${container.config.wsServer.port}`
             //        const wsClient = ioClient(serverUri, { reconnection: false })
@@ -110,6 +110,7 @@ var startup = function startup(container, next) {
     // Merges the defaults with the config coming from the outer world
     var serviceConfig = _lodash2.default.merge({}, _config2.default, { wsPdmsGw: container.config.wsPdmsGw || {} });
     container.logger.info('Start up wsPdmsGw adapter');
+    container.logger.info('wsPdmsGw.config: ' + JSON.stringify(serviceConfig));
 
     var serverUri = 'http://localhost:' + container.config.wsServer.port;
     var wsClient = (0, _socket2.default)(serverUri);

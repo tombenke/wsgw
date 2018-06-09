@@ -14,17 +14,29 @@ const parse = (defaults, processArgv=process.argv) => {
                     desc: "The name of the configuration file",
                     default: defaults.configFileName
                 })
+                .option("port", {
+                    alias: "p",
+                    desc: "The webSocket server port",
+                    type: 'number',
+                    default: defaults.wsServer.port
+                })
                 .option("forward", {
                     alias: "f",
                     desc: "Forwards messages among inbound and outbound topics",
                     type: 'boolean',
                     default: defaults.wsServer.forwardTopics
                 })
-                .option("port", {
-                    alias: "p",
-                    desc: "The webSocket server port",
-                    type: 'number',
-                    default: defaults.wsServer.port
+                .option("inbound", {
+                    alias: "i",
+                    desc: "Comma separated list of inbound NATS topics to forward through websocket",
+                    type: 'string',
+                    default: ""
+                })
+                .option("outbound", {
+                    alias: "o",
+                    desc: "Comma separated list of outbound NATS topics to forward towards from websocket",
+                    type: 'string',
+                    default: ""
                 })
                 .option("natsUri", {
                     alias: "n",
@@ -44,6 +56,12 @@ const parse = (defaults, processArgv=process.argv) => {
                         wsServer: {
                             forwardTopics: argv.forward,
                             port: argv.port
+                        },
+                        wsPdmsGw: {
+                            topics: {
+                                inbound: argv.inbound != "" ? _.map(argv.inbound.split(','), t => t.trim()) : [],
+                                outbound: argv.outbound != "" ? _.map(argv.outbound.split(','), t => t.trim()) : []
+                            }
                         },
                         pdms: {
                             natsUri: argv.natsUri

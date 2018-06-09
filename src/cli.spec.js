@@ -32,6 +32,12 @@ describe('cli', () => {
                     forwardTopics: false,
                     port: 8001
                 },
+                wsPdmsGw: {
+                    topics: {
+                        inbound: [],
+                        outbound: []
+                    }
+                },
                 pdms: {
                     natsUri: "nats://demo.nats.io:4222"
                 }
@@ -48,6 +54,8 @@ describe('cli', () => {
             'server',
             '-c', 'config.yml',
             '-f',
+            '-i', 'IN1,IN2, IN3',
+            '-o', 'OUT1, OUT2 ,OUT3',
             '-n', 'nats://localhost:4222',
             '-p', '8002'
         ]
@@ -61,6 +69,12 @@ describe('cli', () => {
                 wsServer: {
                     forwardTopics: true,
                     port: 8002
+                },
+                wsPdmsGw: {
+                    topics: {
+                        inbound: ['IN1', 'IN2', 'IN3'],
+                        outbound: ['OUT1', 'OUT2', 'OUT3']
+                    }
                 },
                 pdms: {
                     natsUri: "nats://localhost:4222"

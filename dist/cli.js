@@ -22,16 +22,26 @@ var parse = function parse(defaults) {
             alias: "c",
             desc: "The name of the configuration file",
             default: defaults.configFileName
-        }).option("forward", {
-            alias: "f",
-            desc: "Forwards messages among inbound and outbound topics",
-            type: 'boolean',
-            default: defaults.wsServer.forwardTopics
         }).option("port", {
             alias: "p",
             desc: "The webSocket server port",
             type: 'number',
             default: defaults.wsServer.port
+        }).option("forward", {
+            alias: "f",
+            desc: "Forwards messages among inbound and outbound topics",
+            type: 'boolean',
+            default: defaults.wsServer.forwardTopics
+        }).option("inbound", {
+            alias: "i",
+            desc: "Comma separated list of inbound NATS topics to forward through websocket",
+            type: 'string',
+            default: ""
+        }).option("outbound", {
+            alias: "o",
+            desc: "Comma separated list of outbound NATS topics to forward towards from websocket",
+            type: 'string',
+            default: ""
         }).option("natsUri", {
             alias: "n",
             desc: "NATS server URI used by the pdms adapter.",
@@ -49,6 +59,16 @@ var parse = function parse(defaults) {
                 wsServer: {
                     forwardTopics: argv.forward,
                     port: argv.port
+                },
+                wsPdmsGw: {
+                    topics: {
+                        inbound: argv.inbound != "" ? _lodash2.default.map(argv.inbound.split(','), function (t) {
+                            return t.trim();
+                        }) : [],
+                        outbound: argv.outbound != "" ? _lodash2.default.map(argv.outbound.split(','), function (t) {
+                            return t.trim();
+                        }) : []
+                    }
                 },
                 pdms: {
                     natsUri: argv.natsUri
