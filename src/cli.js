@@ -26,6 +26,12 @@ const parse = (defaults, processArgv=process.argv) => {
                     type: 'boolean',
                     default: defaults.wsServer.forwardTopics
                 })
+                .option("forwarderEvent", {
+                    alias: "e",
+                    desc: "The name of the event the server is listen to forward the incoming messages",
+                    type: 'string',
+                    default: defaults.wsServer.forwarderEvent
+                })
                 .option("inbound", {
                     alias: "i",
                     desc: "Comma separated list of inbound NATS topics to forward through websocket",
@@ -55,6 +61,7 @@ const parse = (defaults, processArgv=process.argv) => {
                         configFileName: argv.config,
                         wsServer: {
                             forwardTopics: argv.forward,
+                            forwarderEvent: argv.forwarderEvent,
                             port: argv.port
                         },
                         wsPdmsGw: {

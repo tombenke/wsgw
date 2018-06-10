@@ -36,6 +36,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var startup = function startup(container, next) {
     // Merges the defaults with the config coming from the outer world
     var serviceConfig = _lodash2.default.merge({}, _config2.default, { wsServer: container.config.wsServer || {} });
+    var forwarderEvent = serviceConfig.wsServer.forwarderEvent;
     container.logger.info('Start up wsServer adapter');
     container.logger.info('wsServer.config: ' + JSON.stringify(serviceConfig));
 
@@ -44,9 +45,9 @@ var startup = function startup(container, next) {
 
     io.on('connection', function (socket) {
         container.logger.info('Client connected');
-        socket.on('message', function (data, confirmCb) {
-            var targetEv = serviceConfig.wsServer.forwardTopics ? data.topic : 'message';
-            container.logger.info('[message] >> ' + JSON.stringify(data) + ' >> [' + targetEv + ']');
+        socket.on(forwarderEvent, function (data, confirmCb) {
+            var targetEv = serviceConfig.wsServer.forwardTopics ? data.topic : forwarderEvent;
+            container.logger.info('[' + forwarderEvent + '] >> ' + JSON.stringify(data) + ' >> [' + targetEv + ']');
             socket.broadcast.emit(targetEv, data);
             if (_lodash2.default.isFunction(confirmCb)) {
                 confirmCb(true);

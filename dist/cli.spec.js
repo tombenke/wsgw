@@ -50,6 +50,7 @@ describe('cli', function () {
                 configFileName: "config.yml",
                 wsServer: {
                     forwardTopics: false,
+                    forwarderEvent: "message",
                     port: 8001
                 },
                 wsPdmsGw: {
@@ -69,7 +70,7 @@ describe('cli', function () {
     });
 
     it('#parse - server command with full list of args', function (done) {
-        var processArgv = ['node', 'src/index.js', 'server', '-c', 'config.yml', '-f', '-i', 'IN1,IN2, IN3', '-o', 'OUT1, OUT2 ,OUT3', '-n', 'nats://localhost:4222', '-p', '8002'];
+        var processArgv = ['node', 'src/index.js', 'server', '-c', 'config.yml', '-f', '-e', 'fwd$', '-i', 'IN1,IN2, IN3', '-o', 'OUT1, OUT2 ,OUT3', '-n', 'nats://localhost:4222', '-p', '8002'];
         var expected = {
             command: {
                 name: 'server',
@@ -79,6 +80,7 @@ describe('cli', function () {
                 configFileName: "config.yml",
                 wsServer: {
                     forwardTopics: true,
+                    forwarderEvent: "fwd$",
                     port: 8002
                 },
                 wsPdmsGw: {

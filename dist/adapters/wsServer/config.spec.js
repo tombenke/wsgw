@@ -21,6 +21,7 @@ describe('wsServer.config', function () {
         var expected = {
             wsServer: {
                 forwardTopics: false,
+                forwarderEvent: 'message',
                 port: 8001
             }
         };

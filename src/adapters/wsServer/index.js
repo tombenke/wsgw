@@ -22,6 +22,7 @@ import _ from 'lodash'
 const startup = (container, next) => {
     // Merges the defaults with the config coming from the outer world
     const serviceConfig = _.merge({}, defaults, { wsServer: container.config.wsServer || {} })
+    const forwarderEvent = serviceConfig.wsServer.forwarderEvent
     container.logger.info('Start up wsServer adapter')
     container.logger.info(`wsServer.config: ${JSON.stringify(serviceConfig)}`)
 
@@ -30,9 +31,9 @@ const startup = (container, next) => {
 
     io.on('connection', function (socket) {
         container.logger.info('Client connected')
-        socket.on('message', function (data, confirmCb) {
-            const targetEv = serviceConfig.wsServer.forwardTopics ? data.topic : 'message'
-            container.logger.info(`[message] >> ${JSON.stringify(data)} >> [${targetEv}]`)
+        socket.on(forwarderEvent, function (data, confirmCb) {
+            const targetEv = serviceConfig.wsServer.forwardTopics ? data.topic : forwarderEvent
+            container.logger.info(`[${forwarderEvent}] >> ${JSON.stringify(data)} >> [${targetEv}]`)
             socket.broadcast.emit(targetEv, data)
             if (_.isFunction(confirmCb)) {
                 confirmCb(true)

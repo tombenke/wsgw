@@ -46,6 +46,40 @@ For example you can implement a backend service, which is a sensor event consume
 that preprocesses and forwards the measured values toward frontend applications that visualize them.
 At the same time you can control the backend by sending command messages via the `wsgw` as a message producer client.
 
+### Events vs. topics
+
+The WebSocket uses event handlers to manage the receiving and sending of messages.
+The server and the clients can subscribe to event names, that they observe,
+and act in case an incoming message arrives.
+
+If we want to send a message from a client to more than one recipient clients,
+that connect to the same WebSocket server, we can use the broadcast function, at the server side.
+
+By default the `wsgw` application in server mode subscribes to the "message" event,
+and the messages it got immediately broadcasts back to all the clients with the same event "message" name.
+So any client, that is subscribed to the "message" topic will get the message (except the original sender).
+Here there is some similarity to how the topics work in case of messaging middlewares,
+such as the NATS works.
+
+Furthermore, when the server receives an incoming event in the "message",
+it checks if it has a `topic` property.
+If yes, then it will forward the message to an event named as the value of this property field,
+instead of using the original "message" name. Now the clients can subscribe to the topic name,
+instead of the "message", then the sender can make difference among the recipients, which should get the message.
+The sender always emits the message with the "message" event name. We call it `forwarderEvent`.
+The default name of the `forwardEvent` is `"message"`, but you can define a different one, via a server config parameter.
+
+So far we have achieved to use `wsgw` as a server that provides topic-like feature to us in the WebSocket domain.
+The target recipiens can be addressed by the `topic` field withing the messages.
+
+It is also possible to define real topics of a messaging middleware that will be connected to this ecosystem.
+you can define so called _outbound_ topics to the server,
+that should match to the value of the `topic` field of the outgoing messages,
+then the server will forward these messages toward not only to the WebSocket events, but to the NATS server topics,
+if the `forward` mode is switched on. In this mode, you also can list the _inbound_ NATS topics the `wsgw` will subscribe to,
+then forward the arriving messages to the `forwardEvent`, so the forwarder will further broadcasts to the final recipients.
+These incoming messages should also contain the `topic` property of course.
+
 ## Installation
 
 Run the install command:
@@ -67,17 +101,20 @@ Check if `wsgw` is properly installed:
     Run in server mode
 
     Options:
-      --version       Show version number                                  [boolean]
-      --help          Show help                                            [boolean]
-      --config, -c    The name of the configuration file     [default: "config.yml"]
-      --port, -p      The webSocket server port             [number] [default: 8001]
-      --forward, -f   Forwards messages among inbound and outbound topics
+      --version             Show version number                            [boolean]
+      --help                Show help                                      [boolean]
+      --config, -c          The name of the configuration file
+                                                             [default: "config.yml"]
+      --port, -p            The webSocket server port       [number] [default: 8001]
+      --forward, -f         Forwards messages among inbound and outbound topics
                                                           [boolean] [default: false]
-      --inbound, -i   Comma separated list of inbound NATS topics to forward through
-                      websocket                               [string] [default: ""]
-      --outbound, -o  Comma separated list of outbound NATS topics to forward
-                      towards from websocket                  [string] [default: ""]
-      --natsUri, -n   NATS server URI used by the pdms adapter.
+      --forwarderEvent, -e  The name of the event the server is listen to forward
+                            the incoming messages      [string] [default: "message"]
+      --inbound, -i         Comma separated list of inbound NATS topics to forward
+                            through websocket                 [string] [default: ""]
+      --outbound, -o        Comma separated list of outbound NATS topics to forward
+                            towards from websocket            [string] [default: ""]
+      --natsUri, -n         NATS server URI used by the pdms adapter.
                                       [string] [default: "nats://demo.nats.io:4222"]
 ```
 
@@ -194,6 +231,11 @@ The file contains an array of message entries, where each entry can contain the 
   The delay is relative to the previous sending.
 - `message`: The message object, to send.
 - `file`: The name of the file, that contains the message. First it loads from the file, then sends it.
+
+Note: The messages you want to send to a specific topic should contain the name of the target topic,
+in the message as a `topic` property, but the event name you have to send is the `<forwardEvent>` of the server,
+that is "message" by default. If you change the name of the `forwardEvent` on the server,
+you also have to change it in the `producer` as well. You can use the `-t` argument for this, that is by default set to "message".
 
 ## References
 

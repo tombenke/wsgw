@@ -10,6 +10,7 @@ describe('wsServer.config', () => {
         const expected = {
             wsServer: {
                 forwardTopics: false,
+                forwarderEvent: 'message',
                 port: 8001
             }
         }

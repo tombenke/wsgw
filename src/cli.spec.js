@@ -30,6 +30,7 @@ describe('cli', () => {
                 configFileName: "config.yml",
                 wsServer: {
                     forwardTopics: false,
+                    forwarderEvent: "message",
                     port: 8001
                 },
                 wsPdmsGw: {
@@ -54,6 +55,7 @@ describe('cli', () => {
             'server',
             '-c', 'config.yml',
             '-f',
+            '-e', 'fwd$',
             '-i', 'IN1,IN2, IN3',
             '-o', 'OUT1, OUT2 ,OUT3',
             '-n', 'nats://localhost:4222',
@@ -68,6 +70,7 @@ describe('cli', () => {
                 configFileName: "config.yml",
                 wsServer: {
                     forwardTopics: true,
+                    forwarderEvent: "fwd$",
                     port: 8002
                 },
                 wsPdmsGw: {

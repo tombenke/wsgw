@@ -439,10 +439,10 @@ topic<y:LabelModel>
             <node id="n2::n0::n3">
               <data key="d6">
                 <y:GenericNode configuration="com.yworks.flowchart.directData">
-                  <y:Geometry height="40.0" width="106.4274443359376" x="1638.9871392172042" y="396.79675140757115"/>
+                  <y:Geometry height="40.0" width="175.8956043359375" x="1602.6146592172042" y="396.79675140757115"/>
                   <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
                   <y:BorderStyle color="#000000" type="line" width="1.0"/>
-                  <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="4.0" x="51.213722167968854" y="18.0">
+                  <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="4.0" x="85.9478021679688" y="18.0">
                     <y:LabelModel>
                       <y:SmartNodeLabelModel distance="4.0"/>
                     </y:LabelModel>
@@ -450,7 +450,8 @@ topic<y:LabelModel>
                       <y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/>
                     </y:ModelParameter>
                   </y:NodeLabel>
-                  <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="17.96875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="68.96875" x="18.729347167968854" y="11.015625">"message"<y:LabelModel>
+                  <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="31.9375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="128.875" x="23.510302167968803" y="4.03125">&lt;forwardEvent&gt;
+default = "message"<y:LabelModel>
                       <y:SmartNodeLabelModel distance="4.0"/>
                     </y:LabelModel>
                     <y:ModelParameter>
@@ -648,9 +649,11 @@ topic<y:LabelModel>
                   <y:Geometry height="79.81915449654116" width="164.31439305297062" x="1875.0724234878671" y="376.88717415930057"/>
                   <y:Fill color="#FFFFFFE6" color2="#D4D4D4CC" transparent="false"/>
                   <y:BorderStyle color="#123EA2" type="line" width="1.0"/>
-                  <y:NodeLabel alignment="left" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="45.90625" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="141.80078125" x="11.256805901485222" y="16.95645224827058">wsPublish(
-    topic: "OUTBOUND",
-    payload)<y:LabelModel>
+                  <y:NodeLabel alignment="left" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="73.84375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="157.05859375" x="3.6278996514852224" y="2.9877022482705797">wsPublish(
+    "&lt;forwardEvent&gt;", {
+        topic: "OUTBOUND",
+        payload
+    })<y:LabelModel>
                       <y:SmartNodeLabelModel distance="4.0"/>
                     </y:LabelModel>
                     <y:ModelParameter>
@@ -805,7 +808,7 @@ topic<y:LabelModel>
     <edge id="n2::n0::e2" source="n2::n0::n3" target="n2::n0::n2">
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="-24.54441893517219" sy="-0.32861170757126956" tx="-24.54441893517196" ty="-1.8514509249999946"/>
+          <y:Path sx="-50.35406638517338" sy="-2.6313164075710347" tx="-51.9924663851732" ty="-3.0072756249997497"/>
           <y:LineStyle color="#FF0000" type="line" width="2.0"/>
           <y:Arrows source="none" target="standard"/>
           <y:BendStyle smoothed="false"/>
@@ -877,7 +880,7 @@ topic<y:LabelModel>
     <edge id="n2::n0::e3" source="n2::n0::n3" target="n2::n0::n2">
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="19.692381064827714" sy="0.9001882924287088" tx="19.69238106482794" ty="2.244549075000009"/>
+          <y:Path sx="58.43569361482673" sy="-0.009876407571027812" tx="56.79729361482691" ty="4.201684375000241"/>
           <y:LineStyle color="#008000" type="line" width="2.0"/>
           <y:Arrows source="none" target="standard"/>
           <y:BendStyle smoothed="false"/>
