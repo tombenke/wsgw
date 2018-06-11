@@ -1,47 +1,13 @@
 import _ from 'lodash'
-import fs from 'fs'
-import rimraf from 'rimraf'
-import path from 'path'
 import sinon from 'sinon'
-import { expect } from 'chai'
-import npac from 'npac'
-import * as pdms from 'npac-pdms-hemera-adapter'
-import appDefaults from './config'
-import wsServer from './adapters/wsServer/'
-import wsPdmsGw from './adapters/wsPdmsGw/'
-import commands from './commands/'
+//import { expect } from 'chai'
 import { start } from './index'
 import { setupNatsLoopbacks } from './examples/natsLoopback.js'
 import ioClient from 'socket.io-client'
 
-/*
-import {
-    loadJsonFileSync,
-    findFilesSync
-} from 'datafile'
-*/
-/*
-const testDirectory = path.resolve('./tmp')
-
-const destCleanup = function(cb) {
-    const dest = testDirectory
-    rimraf(dest, cb)
-}
-*/
 describe('app', () => {
     let sandbox
-/*
-    before(function(done) {
-        destCleanup(function() {
-            fs.mkdirSync(testDirectory)
-            done()
-        })
-    })
 
-    after(function(done) {
-        destCleanup(done)
-    })
-*/
     const removeSignalHandlers = () => {
         const signals = ['SIGTERM', 'SIGINT', 'SIGHUP', 'SIGUSR1', 'SIGUSR2']
         for(const signal in signals) {
