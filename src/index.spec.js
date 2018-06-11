@@ -9,6 +9,10 @@ import * as pdms from 'npac-pdms-hemera-adapter'
 import appDefaults from './config'
 import wsServer from './adapters/wsServer/'
 import wsPdmsGw from './adapters/wsPdmsGw/'
+import commands from './commands/'
+import { start } from './index'
+import { setupNatsLoopbacks } from './examples/natsLoopback.js'
+import ioClient from 'socket.io-client'
 
 /*
 import {
@@ -16,19 +20,17 @@ import {
     findFilesSync
 } from 'datafile'
 */
-
-//import { start } from './index'
-
+/*
 const testDirectory = path.resolve('./tmp')
 
 const destCleanup = function(cb) {
     const dest = testDirectory
     rimraf(dest, cb)
 }
-
+*/
 describe('app', () => {
     let sandbox
-
+/*
     before(function(done) {
         destCleanup(function() {
             fs.mkdirSync(testDirectory)
@@ -39,7 +41,7 @@ describe('app', () => {
     after(function(done) {
         destCleanup(done)
     })
-
+*/
     const removeSignalHandlers = () => {
         const signals = ['SIGTERM', 'SIGINT', 'SIGHUP', 'SIGUSR1', 'SIGUSR2']
         for(const signal in signals) {
@@ -59,47 +61,59 @@ describe('app', () => {
         done()
     })
 
-    it('#start, #stop', (done) => {
+    const executeCommand = (args) => {
+        return new Promise((resolve, reject) => {
+            start(_.concat(['node', 'src/index.js'], args), (err, res) => {
+                if (err) {
+                    reject(err)
+                } else {
+                    console.log('npac startup process and run jobs successfully finished')
+                    resolve(res)
+                }
+            })
+        })
+    }
+
+    const stopServer = () => {
+        console.log('Send SIGTERM signal')
+        process.kill(process.pid, 'SIGTERM')
+    }
+
+    it('#server, #producer - Loopback through NATS', (done) => {
 
         sandbox.stub(process, 'exit').callsFake((signal) => {
             console.log("process.exit", signal)
             done()
         })
 
-        const config = _.merge({}, appDefaults, pdms.defaults, { /* Add command specific config parameters */ })
-        /*
-        const processArgv = [
-            'node', 'src/index.js'
-        ]
-        */
-        const adapters = [
-            npac.mergeConfig(config),
-            npac.addLogger,
-            pdms.startup,
-            wsServer.startup,
-            wsPdmsGw.startup
-            // TODO: Add BL adapter
-        ]
+        //const natsUri = 'nats:localhost:4222'
+        const natsUri = "nats://demo.nats.io:4222"
+        const wsServerUri = 'http://localhost:8001'
 
-        const terminators = [
-            wsPdmsGw.shutdown,
-            wsServer.shutdown,
-            pdms.shutdown
-        ]
+        setupNatsLoopbacks(natsUri, [['OUT1', 'IN1'], ['OUT2', 'IN2'], ['OUT2', 'IN3']])
 
-        const testModule = (container, next) => {
-            container.logger.info(`Run job to test the module`)
-            // TODO: Implement endpoint testing
-            next(null, {})
-        }
+        console.log('will start server')
+        executeCommand([
+            'server',
+            '-f',
+            '-n', natsUri,
+            '-i', 'IN1,IN2,IN3', '-o', 'OUT1,OUT2'
+        ]).then(() => {
+            const wsClient = ioClient(wsServerUri)
+            wsClient.on('IN1', data => {
+                console.log(`[IN1] >> ${JSON.stringify(data)}`)
+                console.log('will stop server')
+                stopServer()
+            })
 
-        npac.start(adapters, [testModule], terminators, (err, res) => {
-            expect(err).to.equal(null)
-            expect(res).to.eql([{}])
-            console.log('npac startup process and run jobs successfully finished')
-
-            console.log('Send SIGTERM signal')
-            process.kill(process.pid, 'SIGTERM')
+            console.log('will execute producer')
+            executeCommand([
+                'producer',
+                '-m', '{"topic": "OUT1", "payload": "Some payload"}'
+                //'-s', 'src/commands/producer/fixtures/test_scenario.yml'
+            ]).then(() => {
+                console.log('Message sending completed')
+            })
         })
-    }).timeout(10000)
+    }).timeout(30000)
 })

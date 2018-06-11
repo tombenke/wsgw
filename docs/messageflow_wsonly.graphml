@@ -47,7 +47,7 @@
           <data key="d6">
             <y:GenericNode configuration="BevelNode3">
               <y:Geometry height="297.3932314110357" width="153.8128" x="1206.4160127786024" y="391.45737686608777"/>
-              <y:Fill color="#FF9900" transparent="false"/>
+              <y:Fill color="#C0C0C0" transparent="false"/>
               <y:BorderStyle hasColor="false" type="line" width="1.0"/>
               <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="59.875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="99.080078125" x="27.366360937500076" y="118.75911570551779">Business logic
 implementation
@@ -150,9 +150,9 @@ pipeline<y:LabelModel>
           <y:Realizers active="0">
             <y:GroupNode>
               <y:Geometry height="352.90590691782324" width="273.71037663335915" x="1576.9043030184948" y="350.9447013593003"/>
-              <y:Fill color="#F5F5F5" transparent="false"/>
-              <y:BorderStyle color="#000000" type="dashed" width="1.0"/>
-              <y:NodeLabel alignment="right" autoSizePolicy="node_width" backgroundColor="#EBEBEB" borderDistance="0.0" fontFamily="Dialog" fontSize="15" fontStyle="plain" hasLineColor="false" height="21.4609375" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="273.71037663335915" x="0.0" y="0.0">wsgw</y:NodeLabel>
+              <y:Fill color="#FF9900" transparent="false"/>
+              <y:BorderStyle color="#FF6600" type="dashed" width="1.0"/>
+              <y:NodeLabel alignment="right" autoSizePolicy="node_width" backgroundColor="#EBEBEB" borderDistance="0.0" fontFamily="Dialog" fontSize="15" fontStyle="bold" hasLineColor="false" height="21.4609375" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#FF6600" verticalTextPosition="bottom" visible="true" width="273.71037663335915" x="0.0" y="0.0">wsgw</y:NodeLabel>
               <y:Shape type="roundrectangle"/>
               <y:State closed="false" closedHeight="50.0" closedWidth="50.0" innerGraphDisplayEnabled="false"/>
               <y:Insets bottom="15" bottomF="15.0" left="15" leftF="15.0" right="15" rightF="15.0" top="15" topF="15.0"/>
@@ -336,7 +336,7 @@ default = "message"<y:LabelModel>
           <data key="d6">
             <y:GenericNode configuration="BevelNode3">
               <y:Geometry height="42.0" width="166.5978337335166" x="2106.02472726014" y="443.86263108643334"/>
-              <y:Fill color="#FF9900" transparent="false"/>
+              <y:Fill color="#C0C0C0" transparent="false"/>
               <y:BorderStyle hasColor="false" type="line" width="1.0"/>
               <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="17.96875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="150.912109375" x="7.842862179258191" y="12.015625">outboundReduxAction_2<y:LabelModel>
                   <y:SmartNodeLabelModel distance="4.0"/>
@@ -352,7 +352,7 @@ default = "message"<y:LabelModel>
           <data key="d6">
             <y:GenericNode configuration="BevelNode3">
               <y:Geometry height="42.0" width="166.59783373351638" x="2106.02472726014" y="599.0101663838005"/>
-              <y:Fill color="#FF9900" transparent="false"/>
+              <y:Fill color="#C0C0C0" transparent="false"/>
               <y:BorderStyle hasColor="false" type="line" width="1.0"/>
               <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="17.96875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="142.19921875" x="12.19930749175819" y="12.015625">inboundReduxAction_1<y:LabelModel>
                   <y:SmartNodeLabelModel distance="4.0"/>
@@ -368,7 +368,7 @@ default = "message"<y:LabelModel>
           <data key="d6">
             <y:GenericNode configuration="BevelNode3">
               <y:Geometry height="42.0" width="166.59783373351638" x="2106.02472726014" y="492.08893001280785"/>
-              <y:Fill color="#FF9900" transparent="false"/>
+              <y:Fill color="#C0C0C0" transparent="false"/>
               <y:BorderStyle hasColor="false" type="line" width="1.0"/>
               <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="17.96875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="150.912109375" x="7.842862179258191" y="12.015625">outboundReduxAction_3<y:LabelModel>
                   <y:SmartNodeLabelModel distance="4.0"/>
@@ -384,7 +384,7 @@ default = "message"<y:LabelModel>
           <data key="d6">
             <y:GenericNode configuration="BevelNode3">
               <y:Geometry height="42.0" width="166.59783373351638" x="2106.02472726014" y="646.8506082771236"/>
-              <y:Fill color="#FF9900" transparent="false"/>
+              <y:Fill color="#C0C0C0" transparent="false"/>
               <y:BorderStyle hasColor="false" type="line" width="1.0"/>
               <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="17.96875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="142.19921875" x="12.19930749175819" y="12.015625">inboundReduxAction_1<y:LabelModel>
                   <y:SmartNodeLabelModel distance="4.0"/>
@@ -400,7 +400,7 @@ default = "message"<y:LabelModel>
           <data key="d6">
             <y:GenericNode configuration="BevelNode3">
               <y:Geometry height="42.0" width="166.59783373351638" x="2106.02472726014" y="551.1697244904775"/>
-              <y:Fill color="#FF9900" transparent="false"/>
+              <y:Fill color="#C0C0C0" transparent="false"/>
               <y:BorderStyle hasColor="false" type="line" width="1.0"/>
               <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="17.96875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="142.19921875" x="12.19930749175819" y="12.015625">inboundReduxAction_1<y:LabelModel>
                   <y:SmartNodeLabelModel distance="4.0"/>
@@ -416,7 +416,7 @@ default = "message"<y:LabelModel>
           <data key="d6">
             <y:GenericNode configuration="BevelNode3">
               <y:Geometry height="42.0" width="166.5978337335166" x="2106.02472726014" y="395.6363321600588"/>
-              <y:Fill color="#FF9900" transparent="false"/>
+              <y:Fill color="#C0C0C0" transparent="false"/>
               <y:BorderStyle hasColor="false" type="line" width="1.0"/>
               <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="17.96875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="150.912109375" x="7.842862179258191" y="12.015625">outboundReduxAction_1<y:LabelModel>
                   <y:SmartNodeLabelModel distance="4.0"/>

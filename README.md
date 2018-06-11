@@ -244,9 +244,6 @@ you also have to change it in the `producer` as well. You can use the `-t` argum
 
 ---
 
-This project was generated from the [npac-pdms-be-archetype](https://github.com/tombenke/npac-pdms-be-archetype)
-project archetype, using the [kickoff](https://github.com/tombenke/kickoff) utility.
-
 [npm-badge]: https://badge.fury.io/js/wsgw.svg
 [npm-url]: https://badge.fury.io/js/
 [travis-badge]: https://api.travis-ci.org/tombenke/wsgw.svg
