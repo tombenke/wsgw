@@ -2,9 +2,8 @@ import _ from 'lodash'
 import { expect } from 'chai'
 import appDefaults from './config'
 import pdms from 'npac-pdms-hemera-adapter'
-import wsPdmsGw from './adapters/wsPdmsGw/'
+import { wsServer, wsPdmsGw } from 'npac-wsgw-adapters'
 import webServer from './adapters/webServer/'
-import wsServer from './adapters/wsServer/'
 import cli from './cli'
 
 before(done => {

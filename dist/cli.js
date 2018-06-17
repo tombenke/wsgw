@@ -26,7 +26,7 @@ var parse = function parse(defaults) {
             alias: "p",
             desc: "The webSocket server port",
             type: 'number',
-            default: defaults.wsServer.port
+            default: defaults.webServer.port
         }).option("forward", {
             alias: "f",
             desc: "Forwards messages among inbound and outbound topics",
@@ -63,7 +63,9 @@ var parse = function parse(defaults) {
                 configFileName: argv.config,
                 wsServer: {
                     forwardTopics: argv.forward,
-                    forwarderEvent: argv.forwarderEvent,
+                    forwarderEvent: argv.forwarderEvent
+                },
+                webServer: {
                     port: argv.port
                 },
                 wsPdmsGw: {

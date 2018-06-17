@@ -12,17 +12,15 @@ var _lodash = require('lodash');
 
 var _lodash2 = _interopRequireDefault(_lodash);
 
+var _npacWsgwAdapters = require('npac-wsgw-adapters');
+
 var _npacPdmsHemeraAdapter = require('npac-pdms-hemera-adapter');
 
 var _npacPdmsHemeraAdapter2 = _interopRequireDefault(_npacPdmsHemeraAdapter);
 
-var _wsServer = require('./adapters/wsServer/');
+var _webServer = require('./adapters/webServer/');
 
-var _wsServer2 = _interopRequireDefault(_wsServer);
-
-var _wsPdmsGw = require('./adapters/wsPdmsGw/');
-
-var _wsPdmsGw2 = _interopRequireDefault(_wsPdmsGw);
+var _webServer2 = _interopRequireDefault(_webServer);
 
 var _config = require('./config');
 
@@ -47,7 +45,7 @@ var start = exports.start = function start() {
     var cb = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
 
 
-    var defaults = _lodash2.default.merge({}, _config2.default, _npacPdmsHemeraAdapter2.default.defaults, _wsServer2.default.defaults, _wsPdmsGw2.default.defaults);
+    var defaults = _lodash2.default.merge({}, _config2.default, _npacPdmsHemeraAdapter2.default.defaults, _webServer2.default.defaults, _npacWsgwAdapters.wsServer.defaults, _npacWsgwAdapters.wsPdmsGw.defaults);
 
     // Use CLI to gain additional parameters, and command to execute
 
@@ -63,9 +61,9 @@ var start = exports.start = function start() {
     var jobs = [_npac2.default.makeCallSync(command)];
 
     // Define the adapters and executives to add to the container
-    var appAdapters = command.name === 'server' ? [_npac2.default.mergeConfig(config), _npac2.default.addLogger, _npacPdmsHemeraAdapter2.default.startup, _wsServer2.default.startup, _wsPdmsGw2.default.startup, _commands2.default] : [_npac2.default.mergeConfig(config), _npac2.default.addLogger, _commands2.default];
+    var appAdapters = command.name === 'server' ? [_npac2.default.mergeConfig(config), _npac2.default.addLogger, _npacPdmsHemeraAdapter2.default.startup, _webServer2.default.startup, _npacWsgwAdapters.wsServer.startup, _npacWsgwAdapters.wsPdmsGw.startup, _commands2.default] : [_npac2.default.mergeConfig(config), _npac2.default.addLogger, _commands2.default];
 
-    var appTerminators = command.name === 'server' ? [_wsPdmsGw2.default.shutdown, _wsServer2.default.shutdown, _npacPdmsHemeraAdapter2.default.shutdown] : [];
+    var appTerminators = command.name === 'server' ? [_npacWsgwAdapters.wsPdmsGw.shutdown, _npacWsgwAdapters.wsServer.shutdown, _webServer2.default.shutdown, _npacPdmsHemeraAdapter2.default.shutdown] : [];
 
     //Start the container
     _npac2.default.start(appAdapters, jobs, appTerminators, cb);

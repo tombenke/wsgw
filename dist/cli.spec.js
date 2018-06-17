@@ -14,13 +14,11 @@ var _npacPdmsHemeraAdapter = require('npac-pdms-hemera-adapter');
 
 var _npacPdmsHemeraAdapter2 = _interopRequireDefault(_npacPdmsHemeraAdapter);
 
-var _wsPdmsGw = require('./adapters/wsPdmsGw/');
+var _npacWsgwAdapters = require('npac-wsgw-adapters');
 
-var _wsPdmsGw2 = _interopRequireDefault(_wsPdmsGw);
+var _webServer = require('./adapters/webServer/');
 
-var _wsServer = require('./adapters/wsServer/');
-
-var _wsServer2 = _interopRequireDefault(_wsServer);
+var _webServer2 = _interopRequireDefault(_webServer);
 
 var _cli = require('./cli');
 
@@ -37,7 +35,7 @@ after(function (done) {
 });
 
 describe('cli', function () {
-    var defaults = _lodash2.default.merge({}, _config2.default, _npacPdmsHemeraAdapter2.default.defaults, _wsServer2.default.defaults, _wsPdmsGw2.default.defaults);
+    var defaults = _lodash2.default.merge({}, _config2.default, _npacPdmsHemeraAdapter2.default.defaults, _webServer2.default.defaults, _npacWsgwAdapters.wsServer.defaults, _npacWsgwAdapters.wsPdmsGw.defaults);
 
     it('#parse - server command with defaults', function (done) {
         var processArgv = ['node', 'src/index.js', 'server'];
@@ -50,7 +48,9 @@ describe('cli', function () {
                 configFileName: "config.yml",
                 wsServer: {
                     forwardTopics: false,
-                    forwarderEvent: "message",
+                    forwarderEvent: "message"
+                },
+                webServer: {
                     port: 8001
                 },
                 wsPdmsGw: {
@@ -80,7 +80,9 @@ describe('cli', function () {
                 configFileName: "config.yml",
                 wsServer: {
                     forwardTopics: true,
-                    forwarderEvent: "fwd$",
+                    forwarderEvent: "fwd$"
+                },
+                webServer: {
                     port: 8002
                 },
                 wsPdmsGw: {

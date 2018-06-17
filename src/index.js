@@ -3,10 +3,9 @@
 'use strict';
 
 import _ from 'lodash'
+import { wsServer, wsPdmsGw } from 'npac-wsgw-adapters'
 import pdms from 'npac-pdms-hemera-adapter'
 import webServer from './adapters/webServer/'
-import wsServer from './adapters/wsServer/'
-import wsPdmsGw from './adapters/wsPdmsGw/'
 import appDefaults from './config'
 import commands from './commands/'
 import cli from './cli'
