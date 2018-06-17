@@ -1,10 +1,11 @@
 import npac from 'npac'
 import { expect } from 'chai'
 import sinon from 'sinon'
-import * as _ from 'lodash'
+import _ from 'lodash'
 import defaults from './config'
-import * as pdms from 'npac-pdms-hemera-adapter'
-import * as wsServer from './index'
+import pdms from 'npac-pdms-hemera-adapter'
+import webServer from '../webServer/'
+import wsServer from './index'
 import { findFilesSync, mergeJsonFilesSync } from 'datafile'
 import { removeSignalHandlers, catchExitSignals, npacStart } from '../npacUtils'
 import io from 'socket.io-client'
@@ -14,7 +15,7 @@ describe('wsServer', () => {
 
     beforeEach(done => {
         removeSignalHandlers()
-        sandbox = sinon.sandbox.create({ /* useFakeTimers: false */  })
+        sandbox = sinon.sandbox.create({})
         done()
     })
 
@@ -24,17 +25,19 @@ describe('wsServer', () => {
         done()
     })
 
-    const config = _.merge({}, defaults, _.setWith({}, 'wsServer.forwardTopics', true))
+    const config = _.merge({}, defaults, webServer.defaults, _.setWith({}, 'wsServer.forwardTopics', true))
     console.log(config)
     const adapters = [
         npac.mergeConfig(config),
         npac.addLogger,
         pdms.startup,
+        webServer.startup,
         wsServer.startup
     ]
 
     const terminators = [
         wsServer.shutdown,
+        webServer.shutdown,
         pdms.shutdown
     ]
 
@@ -43,7 +46,7 @@ describe('wsServer', () => {
         catchExitSignals(sandbox, done)
 
         const testJob = (container, next) => {
-            const serverUri = `http://localhost:${config.wsServer.port}`
+            const serverUri = `http://localhost:${config.webServer.port}`
             const message = { topic: 'XYZ', data: 'data' }
             const clientProducer = io(serverUri)
             const clientConsumer = io(serverUri)

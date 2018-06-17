@@ -25,9 +25,10 @@ const startup = (container, next) => {
     const forwarderEvent = serviceConfig.wsServer.forwarderEvent
     container.logger.info('Start up wsServer adapter')
     container.logger.info(`wsServer.config: ${JSON.stringify(serviceConfig)}`)
-
-    const httpServer = http.createServer()
-    const io = SocketIo(httpServer)
+    //const httpServer = http.createServer()
+    //httpServer.listen(serviceConfig.webServer.port)
+    //const io = SocketIo(httpServer)
+    const io = SocketIo(container.webServer.server)
 
     io.on('connection', function (socket) {
         container.logger.info('Client connected')
@@ -47,7 +48,6 @@ const startup = (container, next) => {
         container.logger.info('Server DISCONNECTION:', reason)
     })
 
-    httpServer.listen(serviceConfig.wsServer.port)
     // Call next setup function with the context extension
     next(null, {
         config: serviceConfig,

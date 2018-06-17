@@ -4,77 +4,22 @@ var _lodash = require('lodash');
 
 var _lodash2 = _interopRequireDefault(_lodash);
 
-var _fs = require('fs');
-
-var _fs2 = _interopRequireDefault(_fs);
-
-var _rimraf = require('rimraf');
-
-var _rimraf2 = _interopRequireDefault(_rimraf);
-
-var _path = require('path');
-
-var _path2 = _interopRequireDefault(_path);
-
 var _sinon = require('sinon');
 
 var _sinon2 = _interopRequireDefault(_sinon);
 
-var _chai = require('chai');
+var _index = require('./index');
 
-var _npac = require('npac');
+var _natsLoopback = require('./examples/natsLoopback.js');
 
-var _npac2 = _interopRequireDefault(_npac);
+var _socket = require('socket.io-client');
 
-var _npacPdmsHemeraAdapter = require('npac-pdms-hemera-adapter');
-
-var pdms = _interopRequireWildcard(_npacPdmsHemeraAdapter);
-
-var _config = require('./config');
-
-var _config2 = _interopRequireDefault(_config);
-
-var _wsServer = require('./adapters/wsServer/');
-
-var _wsServer2 = _interopRequireDefault(_wsServer);
-
-var _wsPdmsGw = require('./adapters/wsPdmsGw/');
-
-var _wsPdmsGw2 = _interopRequireDefault(_wsPdmsGw);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+var _socket2 = _interopRequireDefault(_socket);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/*
-import {
-    loadJsonFileSync,
-    findFilesSync
-} from 'datafile'
-*/
-
-//import { start } from './index'
-
-var testDirectory = _path2.default.resolve('./tmp');
-
-var destCleanup = function destCleanup(cb) {
-    var dest = testDirectory;
-    (0, _rimraf2.default)(dest, cb);
-};
-
 describe('app', function () {
     var sandbox = void 0;
-
-    before(function (done) {
-        destCleanup(function () {
-            _fs2.default.mkdirSync(testDirectory);
-            done();
-        });
-    });
-
-    after(function (done) {
-        destCleanup(done);
-    });
 
     var removeSignalHandlers = function removeSignalHandlers() {
         var signals = ['SIGTERM', 'SIGINT', 'SIGHUP', 'SIGUSR1', 'SIGUSR2'];
@@ -95,38 +40,53 @@ describe('app', function () {
         done();
     });
 
-    it('#start, #stop', function (done) {
+    var executeCommand = function executeCommand(args) {
+        return new Promise(function (resolve, reject) {
+            (0, _index.start)(_lodash2.default.concat(['node', 'src/index.js'], args), function (err, res) {
+                if (err) {
+                    reject(err);
+                } else {
+                    console.log('npac startup process and run jobs successfully finished');
+                    resolve(res);
+                }
+            });
+        });
+    };
+
+    var stopServer = function stopServer() {
+        console.log('Send SIGTERM signal');
+        process.kill(process.pid, 'SIGTERM');
+    };
+
+    it('#server, #producer - Loopback through NATS', function (done) {
 
         sandbox.stub(process, 'exit').callsFake(function (signal) {
             console.log("process.exit", signal);
             done();
         });
 
-        var config = _lodash2.default.merge({}, _config2.default, pdms.defaults, {/* Add command specific config parameters */});
-        /*
-        const processArgv = [
-            'node', 'src/index.js'
-        ]
-        */
-        var adapters = [_npac2.default.mergeConfig(config), _npac2.default.addLogger, pdms.startup, _wsServer2.default.startup, _wsPdmsGw2.default.startup
-        // TODO: Add BL adapter
-        ];
+        //const natsUri = 'nats:localhost:4222'
+        var natsUri = "nats://demo.nats.io:4222";
+        var wsServerUri = 'http://localhost:8001';
 
-        var terminators = [_wsPdmsGw2.default.shutdown, _wsServer2.default.shutdown, pdms.shutdown];
+        (0, _natsLoopback.setupNatsLoopbacks)(natsUri, [['OUT1', 'IN1'], ['OUT2', 'IN2'], ['OUT2', 'IN3']]);
 
-        var testModule = function testModule(container, next) {
-            container.logger.info('Run job to test the module');
-            // TODO: Implement endpoint testing
-            next(null, {});
-        };
+        console.log('will start server');
+        executeCommand(['server', '-f', '-n', natsUri, '-i', 'IN1,IN2,IN3', '-o', 'OUT1,OUT2']).then(function () {
+            var wsClient = (0, _socket2.default)(wsServerUri);
+            wsClient.on('IN1', function (data) {
+                console.log('[IN1] >> ' + JSON.stringify(data));
+                console.log('will stop server');
+                stopServer();
+            });
 
-        _npac2.default.start(adapters, [testModule], terminators, function (err, res) {
-            (0, _chai.expect)(err).to.equal(null);
-            (0, _chai.expect)(res).to.eql([{}]);
-            console.log('npac startup process and run jobs successfully finished');
-
-            console.log('Send SIGTERM signal');
-            process.kill(process.pid, 'SIGTERM');
+            console.log('will execute producer');
+            executeCommand(['producer', '-m', '{"topic": "OUT1", "payload": "Some payload"}'
+            //'-s', 'src/commands/producer/fixtures/test_scenario.yml'
+            ]).then(function () {
+                console.log('Message sending completed');
+            });
         });
-    }).timeout(10000);
+    }).timeout(30000);
 });
+//import { expect } from 'chai'

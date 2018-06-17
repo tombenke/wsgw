@@ -4,6 +4,7 @@
 
 import _ from 'lodash'
 import pdms from 'npac-pdms-hemera-adapter'
+import webServer from './adapters/webServer/'
 import wsServer from './adapters/wsServer/'
 import wsPdmsGw from './adapters/wsPdmsGw/'
 import appDefaults from './config'
@@ -13,7 +14,7 @@ import npac from 'npac'
 
 export const start = (argv=process.argv, cb=null) => {
 
-    const defaults = _.merge({}, appDefaults, pdms.defaults, wsServer.defaults, wsPdmsGw.defaults)
+    const defaults = _.merge({}, appDefaults, pdms.defaults, webServer.defaults, wsServer.defaults, wsPdmsGw.defaults)
 
     // Use CLI to gain additional parameters, and command to execute
     const { cliConfig, command } = cli.parse(defaults, argv)
@@ -28,6 +29,7 @@ export const start = (argv=process.argv, cb=null) => {
         npac.mergeConfig(config),
         npac.addLogger,
         pdms.startup,
+        webServer.startup,
         wsServer.startup,
         wsPdmsGw.startup,
         commands
@@ -40,6 +42,7 @@ export const start = (argv=process.argv, cb=null) => {
     const appTerminators = command.name === 'server' ? [
         wsPdmsGw.shutdown,
         wsServer.shutdown,
+        webServer.shutdown,
         pdms.shutdown
     ] : []
 

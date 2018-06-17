@@ -3,6 +3,7 @@ import { expect } from 'chai'
 import appDefaults from './config'
 import pdms from 'npac-pdms-hemera-adapter'
 import wsPdmsGw from './adapters/wsPdmsGw/'
+import webServer from './adapters/webServer/'
 import wsServer from './adapters/wsServer/'
 import cli from './cli'
 
@@ -15,7 +16,7 @@ after(done => {
 })
 
 describe('cli', () => {
-    const defaults = _.merge({}, appDefaults, pdms.defaults, wsServer.defaults, wsPdmsGw.defaults)
+    const defaults = _.merge({}, appDefaults, pdms.defaults, webServer.defaults, wsServer.defaults, wsPdmsGw.defaults)
 
     it('#parse - server command with defaults', done => {
         const processArgv = [
@@ -30,7 +31,9 @@ describe('cli', () => {
                 configFileName: "config.yml",
                 wsServer: {
                     forwardTopics: false,
-                    forwarderEvent: "message",
+                    forwarderEvent: "message"
+                },
+                webServer: {
                     port: 8001
                 },
                 wsPdmsGw: {
@@ -70,7 +73,9 @@ describe('cli', () => {
                 configFileName: "config.yml",
                 wsServer: {
                     forwardTopics: true,
-                    forwarderEvent: "fwd$",
+                    forwarderEvent: "fwd$"
+                },
+                webServer: {
                     port: 8002
                 },
                 wsPdmsGw: {

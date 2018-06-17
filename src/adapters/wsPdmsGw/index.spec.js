@@ -1,12 +1,13 @@
 import npac from 'npac'
 import { expect } from 'chai'
 import sinon from 'sinon'
-import * as _ from 'lodash'
+import _ from 'lodash'
 import defaults from './config'
-import * as pdms from 'npac-pdms-hemera-adapter'
-import * as wsServer from '../wsServer/'
+import pdms from 'npac-pdms-hemera-adapter'
+import webServer from '../webServer/'
+import wsServer from '../wsServer/'
 import wsServerConfig from '../wsServer/config'
-import * as wsPdmsGw from './index'
+import wsPdmsGw from './index'
 import { findFilesSync, mergeJsonFilesSync } from 'datafile'
 import { removeSignalHandlers, catchExitSignals, npacStart } from '../npacUtils'
 import io from 'socket.io-client'
@@ -16,7 +17,7 @@ describe('wsPdmsGw', () => {
 
     beforeEach(done => {
         removeSignalHandlers()
-        sandbox = sinon.sandbox.create({ /* useFakeTimers: false */  })
+        sandbox = sinon.sandbox.create({})
         done()
     })
 
@@ -26,7 +27,7 @@ describe('wsPdmsGw', () => {
         done()
     })
 
-    const config = _.merge({}, defaults, wsServerConfig,
+    const config = _.merge({}, defaults, webServer.defaults, wsServerConfig,
         _.setWith({}, 'wsServer.forwardTopics', true),
         _.setWith({}, 'wsPdmsGw.topics.inbound', ['IN']),
         _.setWith({}, 'wsPdmsGw.topics.outbound', ['OUT']))
@@ -35,6 +36,7 @@ describe('wsPdmsGw', () => {
         npac.mergeConfig(config),
         npac.addLogger,
         pdms.startup,
+        webServer.startup,
         wsServer.startup,
         wsPdmsGw.startup
     ]
@@ -42,6 +44,7 @@ describe('wsPdmsGw', () => {
     const terminators = [
         wsPdmsGw.shutdown,
         wsServer.shutdown,
+        webServer.shutdown,
         pdms.shutdown
     ]
 
@@ -59,7 +62,7 @@ describe('wsPdmsGw', () => {
         catchExitSignals(sandbox, done)
 
         const testJob = (container, next) => {
-            const serverUri = `http://localhost:${config.wsServer.port}`
+            const serverUri = `http://localhost:${config.webServer.port}`
             const inMessage = { topic: 'IN', data: 'data' }
             const outMessage = { topic: 'OUT', data: 'data' }
             const producerClient = io(serverUri, { reconnection: false })

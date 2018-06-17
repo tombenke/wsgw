@@ -4,7 +4,6 @@
 module.exports = {
     wsServer: {
         forwarderEvent: process.env.WSGW_SERVER_FORWARDER_EVENT || 'message',
-        forwardTopics: process.env.WSGW_SERVER_FORWARD_TOPICS || false,
-        port: process.env.WSGW_SERVER_PORT || 8001
+        forwardTopics: process.env.WSGW_SERVER_FORWARD_TOPICS || false
     }
 }

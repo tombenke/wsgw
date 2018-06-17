@@ -131,9 +131,8 @@ as well as by using the `-p` parameter.
 This is an other example of using inbound and outbound NATS topics:
 
 ```bash
-    server -f -n nats:localhost:4222 -i "IN1,IN2,IN3" -o "OUT1,OUT2"
+    wsgw server -f -n nats:localhost:4222 -i "IN1,IN2,IN3" -o "OUT1,OUT2"
 ```
-
 
 ### Run in client mode
 

@@ -2,8 +2,6 @@
 /*jshint node: true */
 'use strict';
 
-//import http from 'http'
-//import SocketIo from 'socket.io'
 import ioClient from 'socket.io-client'
 import defaults from './config'
 import _ from 'lodash'
@@ -22,8 +20,6 @@ const setupInboundTopic = (container, wsClient) => topic => {
         container.logger.info(`Setup observer to inbound NATS "${topic}" topic.`)
         container.pdms.add({ pubsub$: true, topic: topic }, data => {
             container.logger.info(`Forward from NATS(${topic}) data: ${JSON.stringify(data)} to WS(${topic})`)
-//            const serverUri = `http://localhost:${container.config.wsServer.port}`
-//            const wsClient = ioClient(serverUri, { reconnection: false })
             wsClient.emit('message', data)
         })
     }
@@ -44,8 +40,6 @@ const setupOutboundTopic = (container, wsClient) => topic => {
     // TODO: implement shutdown and enable reconnect.
     if (_.isString(topic) && topic != "") {
         container.logger.info(`Setup producer of outbound NATS "${topic}" topic.`)
-//        const serverUri = `http://localhost:${container.config.wsServer.port}`
-//        const wsClient = ioClient(serverUri, { reconnection: false })
         wsClient.on(topic, function (data) {
                 const msgToForward = _.merge({}, data, {'pubsub$': true, topic: topic})
                 container.logger.info(`Forward from WS(${topic}) data: ${JSON.stringify(msgToForward)} to NATS(${topic})`)
@@ -96,7 +90,7 @@ const startup = (container, next) => {
     container.logger.info('Start up wsPdmsGw adapter')
     container.logger.info(`wsPdmsGw.config: ${JSON.stringify(serviceConfig)}`)
 
-    const serverUri = `http://localhost:${container.config.wsServer.port}`
+    const serverUri = `http://localhost:${container.config.webServer.port}`
     const wsClient = ioClient(serverUri)
 
     setupTopics(container, wsClient, serviceConfig.wsPdmsGw.topics)

@@ -18,7 +18,7 @@ const parse = (defaults, processArgv=process.argv) => {
                     alias: "p",
                     desc: "The webSocket server port",
                     type: 'number',
-                    default: defaults.wsServer.port
+                    default: defaults.webServer.port
                 })
                 .option("forward", {
                     alias: "f",
@@ -61,7 +61,9 @@ const parse = (defaults, processArgv=process.argv) => {
                         configFileName: argv.config,
                         wsServer: {
                             forwardTopics: argv.forward,
-                            forwarderEvent: argv.forwarderEvent,
+                            forwarderEvent: argv.forwarderEvent
+                        },
+                        webServer: {
                             port: argv.port
                         },
                         wsPdmsGw: {
