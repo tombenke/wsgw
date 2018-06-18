@@ -134,6 +134,12 @@ This is an other example of using inbound and outbound NATS topics:
     wsgw server -f -n nats:localhost:4222 -i "IN1,IN2,IN3" -o "OUT1,OUT2"
 ```
 
+__Note:__ The `wsgw server` mode is useful for having a standalone WebSocket server mostly during development.
+If you need a fully functional web server, with content service, authentication, and so on,
+then use [easer](https://www.npmjs.com/package/easer) that delivers all these features to you,
+including the `wsgw server` mode features as well.
+
+
 ### Run in client mode
 
 #### Run as a message consumer
