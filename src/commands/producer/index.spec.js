@@ -1,9 +1,14 @@
 import npac from 'npac'
 import { expect } from 'chai'
-import { testScenario, testScenarioMixed } from './fixtures/'
+import { testSingleMessage, testScenario, testScenarioMixed } from './fixtures/'
 import { loadMessagesFromFile } from './index'
 
 describe('commands/producer', () => {
+
+    it('#loadMessagesFromFile -  single message', () => {
+        expect(loadMessagesFromFile(__dirname + '/fixtures/message1.yml'))
+            .to.eql(testSingleMessage)
+    })
 
     it('#loadMessagesFromFile -  messages only', () => {
         expect(loadMessagesFromFile(__dirname + '/fixtures/test_scenario.yml'))

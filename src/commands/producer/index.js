@@ -8,13 +8,24 @@ import { loadJsonFileSync } from 'datafile'
 const loadMessageFile = (hostFileName, messageFileName) =>
     loadJsonFileSync(path.resolve(path.dirname(hostFileName), messageFileName))
 
-export const loadMessagesFromFile = fileName =>
-    _.chain(loadJsonFileSync(fileName, false))
+export const loadMessagesFromFile = fileName => {
+    let messages = []
+    const content = loadJsonFileSync(fileName, false)
+
+    // If this is a single message, then make a messages array from it
+    if (_.isArray(content)) {
+        messages = content
+    } else if (_.isObject(content) && _.has(content, ['topic']) && _.has(content, ['payload'])) {
+        messages = [{ delay: 0, message: content }]
+    }
+
+    return _.chain(messages)
         .flatMap(item =>
             _.chain(_.concat(_.get(item, 'message', []), _.has(item, 'file') ? loadMessageFile(fileName, item.file) : []))
                 .map(message => ({ delay: _.get(item, 'delay', 0), message: message}))
                 .value())
         .value()
+}
 
 /**
  * 'producer' command implementation
