@@ -14,11 +14,24 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 describe('commands/producer', function () {
 
+    it('#loadMessagesFromFile -  single message', function () {
+        var fileName = __dirname + '/fixtures/message1.yml';
+        (0, _chai.expect)((0, _index.loadMessagesFromFile)(fileName, fileName, 0)).to.eql(_fixtures.testSingleMessage);
+    });
+
     it('#loadMessagesFromFile -  messages only', function () {
-        (0, _chai.expect)((0, _index.loadMessagesFromFile)(__dirname + '/fixtures/test_scenario.yml')).to.eql(_fixtures.testScenario);
+        var fileName = __dirname + '/fixtures/test_scenario.yml';
+        (0, _chai.expect)((0, _index.loadMessagesFromFile)(fileName, fileName, 0)).to.eql(_fixtures.testScenario);
     });
 
     it('#loadMessagesFromFile -  messages and files mixed', function () {
-        (0, _chai.expect)((0, _index.loadMessagesFromFile)(__dirname + '/fixtures/test_scenario_mixed.yml')).to.eql(_fixtures.testScenarioMixed);
+        var fileName = __dirname + '/fixtures/test_scenario_mixed.yml';
+        (0, _chai.expect)((0, _index.loadMessagesFromFile)(fileName, fileName, 0)).to.eql(_fixtures.testScenarioMixed);
+    });
+
+    it('#loadMessagesFromFile -  messages and files mixed with embedded scenario', function () {
+        var fileName = __dirname + '/fixtures/test_scenario_embedded.yml';
+        //        console.log(JSON.stringify(loadMessagesFromFile(fileName, fileName, 0), null, '  '))
+        (0, _chai.expect)((0, _index.loadMessagesFromFile)(fileName, fileName, 0)).to.eql(_fixtures.embeddedResults);
     });
 });

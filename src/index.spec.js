@@ -76,7 +76,7 @@ describe('app', () => {
             executeCommand([
                 'producer',
                 '-m', '{"topic": "OUT1", "payload": "Some payload"}'
-                //'-s', 'src/commands/producer/fixtures/test_scenario.yml'
+                // '-s', 'src/commands/producer/fixtures/test_scenario.yml'
             ]).then(() => {
                 console.log('Message sending completed')
             })

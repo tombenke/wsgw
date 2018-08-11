@@ -25,15 +25,30 @@ var _datafile = require('datafile');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var loadMessageFile = function loadMessageFile(hostFileName, messageFileName) {
-    return (0, _datafile.loadJsonFileSync)(_path2.default.resolve(_path2.default.dirname(hostFileName), messageFileName));
-};
+//const loadMessageFile = (hostFileName, messageFileName) =>
+//    loadJsonFileSync(path.resolve(path.dirname(hostFileName), messageFileName))
 
-var loadMessagesFromFile = exports.loadMessagesFromFile = function loadMessagesFromFile(fileName) {
-    return _lodash2.default.chain((0, _datafile.loadJsonFileSync)(fileName, false)).flatMap(function (item) {
-        return _lodash2.default.chain(_lodash2.default.concat(_lodash2.default.get(item, 'message', []), _lodash2.default.has(item, 'file') ? loadMessageFile(fileName, item.file) : [])).map(function (message) {
-            return { delay: _lodash2.default.get(item, 'delay', 0), message: message };
-        }).value();
+var loadMessagesFromFile = exports.loadMessagesFromFile = function loadMessagesFromFile(hostFileName, messageFileName) {
+    var delay = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+
+    console.log('loadMessagesFromFile(' + hostFileName + ',' + messageFileName + ',' + delay + ')');
+    var messages = [];
+    var content = (0, _datafile.loadJsonFileSync)(_path2.default.resolve(_path2.default.dirname(hostFileName), _path2.default.basename(messageFileName)), false);
+
+    // If this is a single message, then make a messages array from it
+    if (_lodash2.default.isArray(content)) {
+        messages = content;
+    } else if (_lodash2.default.isObject(content) && _lodash2.default.has(content, ['topic']) && _lodash2.default.has(content, ['payload'])) {
+        messages = [{ delay: delay, message: content }];
+    }
+
+    return _lodash2.default.chain(messages).flatMap(function (item) {
+        return (
+            //            _.chain(_.concat(_.get(item, 'message', []), _.has(item, 'file') ? loadMessagesFromFile(hostFileName, item.file, _.get(item, 'delay', 0)) : []))
+            //                .map(message => ({ delay: _.get(item, 'delay', 0), message: message }))
+            //                .value())
+            _lodash2.default.has(item, 'file') ? loadMessagesFromFile(hostFileName, item.file, _lodash2.default.get(item, 'delay', 0)) : item
+        );
     }).value();
 };
 
@@ -51,7 +66,7 @@ exports.execute = function (container, args) {
     var wsClient = (0, _socket2.default)(serverUri);
 
     var directMessage = args.message != null ? [{ delay: 0, message: args.message }] : [];
-    var messagesToPublish = _lodash2.default.concat(directMessage, loadMessagesFromFile(args.source));
+    var messagesToPublish = _lodash2.default.concat(directMessage, loadMessagesFromFile(args.source, args.source, 0));
     var finishWithSuccess = function finishWithSuccess() {
         container.logger.info('Successfully completed.');
         wsClient.close();
