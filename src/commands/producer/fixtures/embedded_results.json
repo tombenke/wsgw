@@ -2,11 +2,93 @@
   {
     "delay": 0,
     "message": {
+      "topic": "NESTED",
+      "payload": "L2"
+    }
+  },
+  {
+    "delay": 1000,
+    "message": {
       "topic": "TMA",
       "payload": {
-        "id": "some-unique-id-1",
-        "text": "some plain text 1"
+        "id": "message1",
+        "content": {
+          "textField": "Some text",
+          "numberField": 42,
+          "arrayField": [
+            1,
+            2,
+            3,
+            4
+          ]
+        }
       }
+    }
+  },
+  {
+    "delay": 567,
+    "message": {
+      "topic": "NESTED",
+      "payload": "L1_1"
+    }
+  },
+  {
+    "delay": 333,
+    "message": {
+      "topic": "TMA",
+      "payload": {
+        "id": "message1",
+        "content": {
+          "textField": "Some text",
+          "numberField": 42,
+          "arrayField": [
+            1,
+            2,
+            3,
+            4
+          ]
+        }
+      }
+    }
+  },
+  {
+    "delay": 3000,
+    "message": {
+      "topic": "NESTED",
+      "payload": "L1_2"
+    }
+  },
+  {
+    "delay": 22,
+    "message": {
+      "topic": "NESTED",
+      "payload": "L2"
+    }
+  },
+  {
+    "delay": 1000,
+    "message": {
+      "topic": "TMA",
+      "payload": {
+        "id": "message1",
+        "content": {
+          "textField": "Some text",
+          "numberField": 42,
+          "arrayField": [
+            1,
+            2,
+            3,
+            4
+          ]
+        }
+      }
+    }
+  },
+  {
+    "delay": 0,
+    "message": {
+      "topic": "NESTED",
+      "payload": "L0_1"
     }
   },
   {
@@ -31,30 +113,8 @@
   {
     "delay": 3000,
     "message": {
-      "topic": "TMA",
-      "payload": {
-        "id": "some-unique-id-3",
-        "text": "some plain text 3"
-      }
-    }
-  },
-  {
-    "delay": 0,
-    "message": {
-      "topic": "TMA",
-      "payload": {
-        "id": "message1",
-        "content": {
-          "textField": "Some text",
-          "numberField": 42,
-          "arrayField": [
-            1,
-            2,
-            3,
-            4
-          ]
-        }
-      }
+      "topic": "NESTED",
+      "payload": "L0_2"
     }
   },
   {

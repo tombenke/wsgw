@@ -111,6 +111,12 @@ const parse = (defaults, processArgv=process.argv) => {
                     type: 'String',
                     default: null
                 })
+                .option("dumpMessages", {
+                    alias: "d",
+                    desc: "Dump the complete messages list to send after loading",
+                    type: 'Bool',
+                    default: false
+                })
                 .demandOption([]),
             argv => {
                 results = {
@@ -120,7 +126,8 @@ const parse = (defaults, processArgv=process.argv) => {
                             uri: argv.uri,
                             topic: argv.topic,
                             message: (argv.message != null && _.isString(argv.message)) ? JSON.parse(argv.message) : null,
-                            source: (argv.source != null && _.isString(argv.source)) ? path.resolve(argv.source) : null
+                            source: (argv.source != null && _.isString(argv.source)) ? path.resolve(argv.source) : null,
+                            dumpMessages: argv.dumpMessages
                         },
                     },
                     cliConfig: {

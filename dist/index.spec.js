@@ -81,7 +81,9 @@ describe('app', function () {
             });
 
             console.log('will execute producer');
-            executeCommand(['producer', '-m', '{"topic": "OUT1", "payload": "Some payload"}', '-s', 'src/commands/producer/fixtures/test_scenario.yml']).then(function () {
+            executeCommand(['producer', '-m', '{"topic": "OUT1", "payload": "Some payload"}'
+            // '-s', 'src/commands/producer/fixtures/test_scenario.yml'
+            ]).then(function () {
                 console.log('Message sending completed');
             });
         });

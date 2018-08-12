@@ -1,0 +1,15 @@
+---
+- file: test_scenario_nested_L2.yml
+- delay: 567
+  message:
+      topic: NESTED
+      payload: L1_1
+- delay: 333
+  file: message1.yml
+- delay: 3000
+  message:
+      topic: NESTED
+      payload: L1_2
+- delay: 22
+  file: test_scenario_nested_L2.yml
+

@@ -5,8 +5,8 @@ import { interval, from, pipe } from 'rxjs'
 import { tap, map, mergeMap, delayWhen, scan } from 'rxjs/operators'
 import { loadJsonFileSync } from 'datafile'
 
-export const loadMessagesFromFile = (hostFileName, messageFileName, delay = 0) => {
-    console.log(`loadMessagesFromFile(${hostFileName},${messageFileName},${delay})`)
+export const loadMessagesFromFile = (container, hostFileName, messageFileName, delay = 0) => {
+    container.logger.info(`loadMessagesFromFile("${hostFileName}", "${messageFileName}", delay=${delay})`)
     let messages = []
     if (! _.isString(hostFileName) || ! _.isString(messageFileName)) {
         return messages
@@ -15,15 +15,24 @@ export const loadMessagesFromFile = (hostFileName, messageFileName, delay = 0) =
 
     // If this is a single message, then make a messages array from it
     if (_.isArray(content)) {
-        messages = content
+        const firstItem = _.head(content)
+//        console.log('HEAD: ', JSON.stringify(firstItem))
+        if (_.has(firstItem, 'message')) {
+            const firstMessage = { ...firstItem, delay: delay + _.get(firstItem, 'delay', 0) }
+//            console.log('FIRST MESSAGE: ', firstMessage)
+            messages = _.concat(firstMessage, _.tail(content))
+        } else {
+            messages = content
+        }
     } else if (_.isObject(content) && _.has(content, ['topic']) && _.has(content, ['payload'])) {
         messages = [{ delay: delay, message: content }]
     }
 
     return _.chain(messages)
         .flatMap(item =>
-                _.has(item, 'file') ? loadMessagesFromFile(hostFileName, item.file, _.get(item, 'delay', 0)) : item)
+            _.has(item, 'file') ? loadMessagesFromFile(container, hostFileName, item.file, _.get(item, 'delay', 0)) : item)
         .value()
+        .map(item => ({ delay: _.get(item, 'delay', 0), message: _.get(item, 'message', {})}))
 }
 
 /**
@@ -40,7 +49,11 @@ exports.execute = (container, args) => {
     const wsClient = ioClient(serverUri)
 
     const directMessage = args.message != null ? [{ delay: 0, message: args.message }] : []
-    const messagesToPublish = _.concat(directMessage, loadMessagesFromFile(args.source, args.source, 0))
+    const messagesToPublish = _.concat(directMessage, loadMessagesFromFile(container, args.source, args.source, 0))
+    if (args.dumpMessages) {
+        container.logger.info(`${JSON.stringify(messagesToPublish, null, '  ')}`)
+    }
+
     const finishWithSuccess = () => {
         container.logger.info(`Successfully completed.`)
         wsClient.close()

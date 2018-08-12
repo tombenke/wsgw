@@ -151,7 +151,8 @@ describe('cli', () => {
                     topic: "message",
                     uri: "http://localhost:8001",
                     message: null,
-                    source: null
+                    source: null,
+                    dumpMessages: false
                 }
             },
             cliConfig: {
@@ -159,6 +160,7 @@ describe('cli', () => {
             }
         }
 
+        console.log(cli.parse(defaults, processArgv))
         expect(cli.parse(defaults, processArgv)).to.eql(expected)
         done()
     })
@@ -171,7 +173,8 @@ describe('cli', () => {
             '-u', 'wss://ws.mydomain.com:1234',
             '-t', 'MY_TOPIC',
             '-m', '{ "topic": "MY_TOPIC", "payload": "Some payload..."}',
-            '-s', '/fixtures/test_scenario.yml'
+            '-s', '/fixtures/test_scenario.yml',
+            '-d'
         ]
         const expected = {
             command: {
@@ -180,7 +183,8 @@ describe('cli', () => {
                     topic: "MY_TOPIC",
                     uri: "wss://ws.mydomain.com:1234",
                     message: { topic: "MY_TOPIC", payload: "Some payload..." },
-                    source: '/fixtures/test_scenario.yml'
+                    source: '/fixtures/test_scenario.yml',
+                    dumpMessages: true
                 }
             },
             cliConfig: {

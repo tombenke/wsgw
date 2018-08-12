@@ -5,6 +5,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.loadMessagesFromFile = undefined;
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _lodash = require('lodash');
 
 var _lodash2 = _interopRequireDefault(_lodash);
@@ -25,31 +27,36 @@ var _datafile = require('datafile');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-//const loadMessageFile = (hostFileName, messageFileName) =>
-//    loadJsonFileSync(path.resolve(path.dirname(hostFileName), messageFileName))
+var loadMessagesFromFile = exports.loadMessagesFromFile = function loadMessagesFromFile(container, hostFileName, messageFileName) {
+    var delay = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0;
 
-var loadMessagesFromFile = exports.loadMessagesFromFile = function loadMessagesFromFile(hostFileName, messageFileName) {
-    var delay = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
-
-    console.log('loadMessagesFromFile(' + hostFileName + ',' + messageFileName + ',' + delay + ')');
+    container.logger.info('loadMessagesFromFile("' + hostFileName + '/' + messageFileName + '", delay=' + delay + ')');
     var messages = [];
+    if (!_lodash2.default.isString(hostFileName) || !_lodash2.default.isString(messageFileName)) {
+        return messages;
+    }
     var content = (0, _datafile.loadJsonFileSync)(_path2.default.resolve(_path2.default.dirname(hostFileName), _path2.default.basename(messageFileName)), false);
 
     // If this is a single message, then make a messages array from it
     if (_lodash2.default.isArray(content)) {
-        messages = content;
+        var firstItem = _lodash2.default.head(content);
+        //        console.log('HEAD: ', JSON.stringify(firstItem))
+        if (_lodash2.default.has(firstItem, 'message')) {
+            var firstMessage = _extends({}, firstItem, { delay: delay + _lodash2.default.get(firstItem, 'delay', 0)
+                //            console.log('FIRST MESSAGE: ', firstMessage)
+            });messages = _lodash2.default.concat(firstMessage, _lodash2.default.tail(content));
+        } else {
+            messages = content;
+        }
     } else if (_lodash2.default.isObject(content) && _lodash2.default.has(content, ['topic']) && _lodash2.default.has(content, ['payload'])) {
         messages = [{ delay: delay, message: content }];
     }
 
     return _lodash2.default.chain(messages).flatMap(function (item) {
-        return (
-            //            _.chain(_.concat(_.get(item, 'message', []), _.has(item, 'file') ? loadMessagesFromFile(hostFileName, item.file, _.get(item, 'delay', 0)) : []))
-            //                .map(message => ({ delay: _.get(item, 'delay', 0), message: message }))
-            //                .value())
-            _lodash2.default.has(item, 'file') ? loadMessagesFromFile(hostFileName, item.file, _lodash2.default.get(item, 'delay', 0)) : item
-        );
-    }).value();
+        return _lodash2.default.has(item, 'file') ? loadMessagesFromFile(container, hostFileName, item.file, _lodash2.default.get(item, 'delay', 0)) : item;
+    }).value().map(function (item) {
+        return { delay: _lodash2.default.get(item, 'delay', 0), message: _lodash2.default.get(item, 'message', {}) };
+    });
 };
 
 /**
@@ -66,7 +73,11 @@ exports.execute = function (container, args) {
     var wsClient = (0, _socket2.default)(serverUri);
 
     var directMessage = args.message != null ? [{ delay: 0, message: args.message }] : [];
-    var messagesToPublish = _lodash2.default.concat(directMessage, loadMessagesFromFile(args.source, args.source, 0));
+    var messagesToPublish = _lodash2.default.concat(directMessage, loadMessagesFromFile(container, args.source, args.source, 0));
+    if (true /*args.dumpMessages*/) {
+            container.logger.info('' + JSON.stringify(messagesToPublish, null, '  '));
+        }
+
     var finishWithSuccess = function finishWithSuccess() {
         container.logger.info('Successfully completed.');
         wsClient.close();
