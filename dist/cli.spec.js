@@ -42,6 +42,7 @@ describe('cli', function () {
         var expected = {
             command: {
                 name: 'server',
+                type: 'sync',
                 args: {}
             },
             cliConfig: {
@@ -74,6 +75,7 @@ describe('cli', function () {
         var expected = {
             command: {
                 name: 'server',
+                type: 'sync',
                 args: {}
             },
             cliConfig: {
@@ -106,6 +108,7 @@ describe('cli', function () {
         var expected = {
             command: {
                 name: 'consumer',
+                type: 'async',
                 args: {
                     topic: "message",
                     uri: "http://localhost:8001"
@@ -125,6 +128,7 @@ describe('cli', function () {
         var expected = {
             command: {
                 name: 'consumer',
+                type: 'async',
                 args: {
                     topic: "MY_TOPIC",
                     uri: "wss://ws.mydomain.com:1234"
@@ -144,6 +148,7 @@ describe('cli', function () {
         var expected = {
             command: {
                 name: 'producer',
+                type: 'async',
                 args: {
                     topic: "message",
                     uri: "http://localhost:8001",
@@ -167,6 +172,7 @@ describe('cli', function () {
         var expected = {
             command: {
                 name: 'producer',
+                type: 'async',
                 args: {
                     topic: "MY_TOPIC",
                     uri: "wss://ws.mydomain.com:1234",

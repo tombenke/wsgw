@@ -5,6 +5,7 @@ const yargs = require('yargs')
 
 const parse = (defaults, processArgv=process.argv) => {
     let results = {}
+    const getChannelType = serverUri => serverUri.match(/^nats:.*/) ? 'NATS' : 'WS'
 
     yargs(processArgv.slice(2))
         .command('server', 'Run in server mode', yargs =>
@@ -55,6 +56,7 @@ const parse = (defaults, processArgv=process.argv) => {
                 results = {
                     command: {
                         name: 'server',
+                        type: 'sync',
                         args: {},
                     },
                     cliConfig: {
@@ -119,10 +121,13 @@ const parse = (defaults, processArgv=process.argv) => {
                 })
                 .demandOption([]),
             argv => {
+                const channelType = getChannelType(argv.uri)
                 results = {
                     command: {
                         name: 'producer',
+                        type: 'async',
                         args: {
+                            channelType: channelType,
                             uri: argv.uri,
                             topic: argv.topic,
                             message: (argv.message != null && _.isString(argv.message)) ? JSON.parse(argv.message) : null,
@@ -130,8 +135,13 @@ const parse = (defaults, processArgv=process.argv) => {
                             dumpMessages: argv.dumpMessages
                         },
                     },
-                    cliConfig: {
-                        configFileName: argv.config
+                    cliConfig: channelType === 'NATS' ? {
+                        configFileName: argv.config,
+                        pdms: {
+                            natsUri: argv.uri
+                        }
+                    } : {
+                        configFileName: argv.config,
                     }
                 }
             }
@@ -161,6 +171,7 @@ const parse = (defaults, processArgv=process.argv) => {
                 results = {
                     command: {
                         name: 'consumer',
+                        type: 'async',
                         args: {
                             uri: argv.uri,
                             topic: argv.topic

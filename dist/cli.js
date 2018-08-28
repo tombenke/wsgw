@@ -16,6 +16,9 @@ var parse = function parse(defaults) {
     var processArgv = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : process.argv;
 
     var results = {};
+    var getChannelType = function getChannelType(serverUri) {
+        return serverUri.match(/^nats:.*/) ? 'NATS' : 'WS';
+    };
 
     yargs(processArgv.slice(2)).command('server', 'Run in server mode', function (yargs) {
         return yargs.option("config", {
@@ -57,6 +60,7 @@ var parse = function parse(defaults) {
         results = {
             command: {
                 name: 'server',
+                type: 'sync',
                 args: {}
             },
             cliConfig: {
@@ -115,10 +119,13 @@ var parse = function parse(defaults) {
             default: false
         }).demandOption([]);
     }, function (argv) {
+        var channelType = getChannelType(argv.uri);
         results = {
             command: {
                 name: 'producer',
+                type: 'async',
                 args: {
+                    channelType: channelType,
                     uri: argv.uri,
                     topic: argv.topic,
                     message: argv.message != null && _lodash2.default.isString(argv.message) ? JSON.parse(argv.message) : null,
@@ -126,7 +133,12 @@ var parse = function parse(defaults) {
                     dumpMessages: argv.dumpMessages
                 }
             },
-            cliConfig: {
+            cliConfig: channelType === 'NATS' ? {
+                configFileName: argv.config,
+                pdms: {
+                    natsUri: argv.uri
+                }
+            } : {
                 configFileName: argv.config
             }
         };
@@ -150,6 +162,7 @@ var parse = function parse(defaults) {
         results = {
             command: {
                 name: 'consumer',
+                type: 'async',
                 args: {
                     uri: argv.uri,
                     topic: argv.topic

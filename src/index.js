@@ -11,6 +11,9 @@ import commands from './commands/'
 import cli from './cli'
 import npac from 'npac'
 
+const callCommand = (command) => command.type === 'sync' ? npac.makeCallSync(command) : npac.makeCall(command)
+const getChannelType = (serverUri) => serverUri.match(/^nats:.*/) ? 'NATS' : 'WS'
+
 export const start = (argv=process.argv, cb=null) => {
 
     const defaults = _.merge({}, appDefaults, pdms.defaults, webServer.defaults, wsServer.defaults, wsPdmsGw.defaults)
@@ -21,8 +24,7 @@ export const start = (argv=process.argv, cb=null) => {
     const config = npac.makeConfig(defaults, cliConfig, 'configFileName')
 
     // Define the jobs to execute: hand over the command got by the CLI.
-    const jobs = [npac.makeCallSync(command)]
-
+    const jobs = [callCommand(command)]
     // Define the adapters and executives to add to the container
     const appAdapters = command.name === 'server' ? [
         npac.mergeConfig(config),
@@ -32,19 +34,31 @@ export const start = (argv=process.argv, cb=null) => {
         wsServer.startup,
         wsPdmsGw.startup,
         commands
+    ] : (command.args.channelType === 'NATS' ? [
+        npac.mergeConfig(config),
+        npac.addLogger,
+        pdms.startup,
+        commands
     ] : [
         npac.mergeConfig(config),
         npac.addLogger,
         commands
-    ]
+    ])
 
     const appTerminators = command.name === 'server' ? [
         wsPdmsGw.shutdown,
         wsServer.shutdown,
         webServer.shutdown,
         pdms.shutdown
-    ] : []
+    ] : (command.args.channelType === 'NATS' ? [
+        pdms.shutdown
+    ] : [])
 
     //Start the container
-    npac.start(appAdapters, jobs, appTerminators, cb)
+    console.log(command, appTerminators, jobs)
+    npac.start(appAdapters, jobs, appTerminators, (err, res) => {
+        if (command.name !== 'server') {
+            process.kill(process.pid, 'SIGTERM')
+        }
+    })
 }

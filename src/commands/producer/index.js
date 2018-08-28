@@ -1,9 +1,10 @@
 import _ from 'lodash'
 import path from 'path'
-import ioClient from 'socket.io-client'
 import { interval, from, pipe } from 'rxjs'
 import { tap, map, mergeMap, delayWhen, scan } from 'rxjs/operators'
 import { loadJsonFileSync } from 'datafile'
+import { getWsClient, emitMessageWs, finishWithErrorWs, finishWithSuccessWs } from './ws'
+import { emitMessageNats, finishWithErrorNats, finishWithSuccessNats } from './nats'
 
 export const loadMessagesFromFile = (container, hostFileName, messageFileName, delay = 0) => {
     container.logger.info(`loadMessagesFromFile("${hostFileName}", "${messageFileName}", delay=${delay})`)
@@ -16,10 +17,8 @@ export const loadMessagesFromFile = (container, hostFileName, messageFileName, d
     // If this is a single message, then make a messages array from it
     if (_.isArray(content)) {
         const firstItem = _.head(content)
-//        console.log('HEAD: ', JSON.stringify(firstItem))
         if (_.has(firstItem, 'message')) {
             const firstMessage = { ...firstItem, delay: delay + _.get(firstItem, 'delay', 0) }
-//            console.log('FIRST MESSAGE: ', firstMessage)
             messages = _.concat(firstMessage, _.tail(content))
         } else {
             messages = content
@@ -35,6 +34,24 @@ export const loadMessagesFromFile = (container, hostFileName, messageFileName, d
         .map(item => ({ delay: _.get(item, 'delay', 0), message: _.get(item, 'message', {})}))
 }
 
+const getMessagesToPublish = (container, args) => {
+    const directMessage = args.message != null ? [{ delay: 0, message: args.message }] : []
+    const messagesToPublish = _.concat(directMessage, loadMessagesFromFile(container, args.source, args.source, 0))
+    if (args.dumpMessages) {
+        container.logger.info(`${JSON.stringify(messagesToPublish, null, '  ')}`)
+    }
+
+    return messagesToPublish
+}
+
+const publishMessages = (messages, topic, emitMessageFun) => new Promise((resolve, reject) => {
+    from(messages).pipe(
+        scan((accu, message) => _.merge({}, message, { delay: accu.delay + message.delay }), { delay: 0 }),
+        delayWhen(message => interval(message.delay)),
+        mergeMap(message => emitMessageFun(topic, message.message))
+    ).subscribe((message) => { console.log(message)}, err => reject(err), () => resolve())
+})
+
 /**
  * 'producer' command implementation
  *
@@ -43,37 +60,21 @@ export const loadMessagesFromFile = (container, hostFileName, messageFileName, d
  *
  * @function
  */
-exports.execute = (container, args) => {
+exports.execute = (container, args, endCb) => {
     container.logger.info(`${container.config.app.name} client ${JSON.stringify(args)}`)
     const serverUri = args.uri || `http://localhost:${container.config.wsServer.port}`
-    const wsClient = ioClient(serverUri)
+    const messagesToPublish = getMessagesToPublish(container, args)
 
-    const directMessage = args.message != null ? [{ delay: 0, message: args.message }] : []
-    const messagesToPublish = _.concat(directMessage, loadMessagesFromFile(container, args.source, args.source, 0))
-    if (args.dumpMessages) {
-        container.logger.info(`${JSON.stringify(messagesToPublish, null, '  ')}`)
+    if (args.channelType === 'NATS') {
+        container.logger.info('It sends messages through NATS')
+        publishMessages(messagesToPublish, args.topic, emitMessageNats(container))
+            .then(finishWithSuccessNats(container, endCb))
+            .catch(finishWithErrorNats(container, endCb))
+    } else {
+        container.logger.info('It sends messages through websocket')
+        const wsClient = getWsClient(serverUri)
+        publishMessages(messagesToPublish, args.topic, emitMessageWs(container, wsClient))
+            .then(finishWithSuccessWs(container, wsClient, endCb))
+            .catch(finishWithErrorWs(container, wsClient, endCb))
     }
-
-    const finishWithSuccess = () => {
-        container.logger.info(`Successfully completed.`)
-        wsClient.close()
-    }
-    const finishWithError = err => {
-        container.logger.error(`ERROR: ${err}!`)
-        wsClient.close()
-    }
-
-    from(messagesToPublish).pipe(
-        scan((accu, message) => _.merge({}, message, { delay: accu.delay + message.delay }), { delay: 0 }),
-        delayWhen(message => interval(message.delay)),
-        mergeMap(message => {
-            return new Promise((resolve, reject) => {
-                wsClient.emit(args.topic, message.message, confirmation => {
-                    container.logger.debug(`Got confirmation: ${confirmation}`)
-                    container.logger.info(`${JSON.stringify(message.message)} >> [${args.topic}]`)
-                    resolve(message)
-                })
-            })
-        })
-    ).subscribe((message) => { console.log(message)}, finishWithError, finishWithSuccess)
 }

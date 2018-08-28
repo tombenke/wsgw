@@ -1,0 +1,23 @@
+import _ from 'lodash'
+import ioClient from 'socket.io-client'
+
+export const finishWithSuccessNats = (container, endCb) => () => {
+    container.logger.info(`Successfully completed.`)
+    endCb(null, null)
+    // NATS will be closed by the container
+}
+export const finishWithErrorNats = (container, endCb) => err => {
+    container.logger.error(`ERROR: ${err}!`)
+    endCb(err, null)
+    // NATS will be closed by the container
+}
+
+export const emitMessageNats = (container) => (topic, message) => {
+    return new Promise((resolve, reject) => {
+        // Send to the message specific topic if defined, otherwise sent to the globally defined topic
+        const topicToSend = _.get(message, 'topic', topic)
+        container.pdms.act(_.merge({}, message, {'pubsub$': true, topic: topicToSend }))
+        container.logger.info(`${JSON.stringify(message)} >> [${topicToSend}]`)
+        resolve(message)
+    })
+}

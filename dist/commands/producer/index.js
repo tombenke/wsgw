@@ -15,15 +15,15 @@ var _path = require('path');
 
 var _path2 = _interopRequireDefault(_path);
 
-var _socket = require('socket.io-client');
-
-var _socket2 = _interopRequireDefault(_socket);
-
 var _rxjs = require('rxjs');
 
 var _operators = require('rxjs/operators');
 
 var _datafile = require('datafile');
+
+var _ws = require('./ws');
+
+var _nats = require('./nats');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -40,11 +40,9 @@ var loadMessagesFromFile = exports.loadMessagesFromFile = function loadMessagesF
     // If this is a single message, then make a messages array from it
     if (_lodash2.default.isArray(content)) {
         var firstItem = _lodash2.default.head(content);
-        //        console.log('HEAD: ', JSON.stringify(firstItem))
         if (_lodash2.default.has(firstItem, 'message')) {
-            var firstMessage = _extends({}, firstItem, { delay: delay + _lodash2.default.get(firstItem, 'delay', 0)
-                //            console.log('FIRST MESSAGE: ', firstMessage)
-            });messages = _lodash2.default.concat(firstMessage, _lodash2.default.tail(content));
+            var firstMessage = _extends({}, firstItem, { delay: delay + _lodash2.default.get(firstItem, 'delay', 0) });
+            messages = _lodash2.default.concat(firstMessage, _lodash2.default.tail(content));
         } else {
             messages = content;
         }
@@ -59,6 +57,34 @@ var loadMessagesFromFile = exports.loadMessagesFromFile = function loadMessagesF
     });
 };
 
+var getMessagesToPublish = function getMessagesToPublish(container, args) {
+    var directMessage = args.message != null ? [{ delay: 0, message: args.message }] : [];
+    var messagesToPublish = _lodash2.default.concat(directMessage, loadMessagesFromFile(container, args.source, args.source, 0));
+    if (args.dumpMessages) {
+        container.logger.info('' + JSON.stringify(messagesToPublish, null, '  '));
+    }
+
+    return messagesToPublish;
+};
+
+var publishMessages = function publishMessages(messages, topic, emitMessageFun) {
+    return new Promise(function (resolve, reject) {
+        (0, _rxjs.from)(messages).pipe((0, _operators.scan)(function (accu, message) {
+            return _lodash2.default.merge({}, message, { delay: accu.delay + message.delay });
+        }, { delay: 0 }), (0, _operators.delayWhen)(function (message) {
+            return (0, _rxjs.interval)(message.delay);
+        }), (0, _operators.mergeMap)(function (message) {
+            return emitMessageFun(topic, message.message);
+        })).subscribe(function (message) {
+            console.log(message);
+        }, function (err) {
+            return reject(err);
+        }, function () {
+            return resolve();
+        });
+    });
+};
+
 /**
  * 'producer' command implementation
  *
@@ -67,39 +93,17 @@ var loadMessagesFromFile = exports.loadMessagesFromFile = function loadMessagesF
  *
  * @function
  */
-exports.execute = function (container, args) {
+exports.execute = function (container, args, endCb) {
     container.logger.info(container.config.app.name + ' client ' + JSON.stringify(args));
     var serverUri = args.uri || 'http://localhost:' + container.config.wsServer.port;
-    var wsClient = (0, _socket2.default)(serverUri);
+    var messagesToPublish = getMessagesToPublish(container, args);
 
-    var directMessage = args.message != null ? [{ delay: 0, message: args.message }] : [];
-    var messagesToPublish = _lodash2.default.concat(directMessage, loadMessagesFromFile(container, args.source, args.source, 0));
-    if (args.dumpMessages) {
-        container.logger.info('' + JSON.stringify(messagesToPublish, null, '  '));
+    if (args.channelType === 'NATS') {
+        container.logger.info('It sends messages through NATS');
+        publishMessages(messagesToPublish, args.topic, (0, _nats.emitMessageNats)(container)).then((0, _nats.finishWithSuccessNats)(container, endCb)).catch((0, _nats.finishWithErrorNats)(container, endCb));
+    } else {
+        container.logger.info('It sends messages through websocket');
+        var wsClient = (0, _ws.getWsClient)(serverUri);
+        publishMessages(messagesToPublish, args.topic, (0, _ws.emitMessageWs)(container, wsClient)).then((0, _ws.finishWithSuccessWs)(container, wsClient, endCb)).catch((0, _ws.finishWithErrorWs)(container, wsClient, endCb));
     }
-
-    var finishWithSuccess = function finishWithSuccess() {
-        container.logger.info('Successfully completed.');
-        wsClient.close();
-    };
-    var finishWithError = function finishWithError(err) {
-        container.logger.error('ERROR: ' + err + '!');
-        wsClient.close();
-    };
-
-    (0, _rxjs.from)(messagesToPublish).pipe((0, _operators.scan)(function (accu, message) {
-        return _lodash2.default.merge({}, message, { delay: accu.delay + message.delay });
-    }, { delay: 0 }), (0, _operators.delayWhen)(function (message) {
-        return (0, _rxjs.interval)(message.delay);
-    }), (0, _operators.mergeMap)(function (message) {
-        return new Promise(function (resolve, reject) {
-            wsClient.emit(args.topic, message.message, function (confirmation) {
-                container.logger.debug('Got confirmation: ' + confirmation);
-                container.logger.info(JSON.stringify(message.message) + ' >> [' + args.topic + ']');
-                resolve(message);
-            });
-        });
-    })).subscribe(function (message) {
-        console.log(message);
-    }, finishWithError, finishWithSuccess);
 };

@@ -40,6 +40,13 @@ var _npac2 = _interopRequireDefault(_npac);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var callCommand = function callCommand(command) {
+    return command.type === 'sync' ? _npac2.default.makeCallSync(command) : _npac2.default.makeCall(command);
+};
+var getChannelType = function getChannelType(serverUri) {
+    return serverUri.match(/^nats:.*/) ? 'NATS' : 'WS';
+};
+
 var start = exports.start = function start() {
     var argv = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : process.argv;
     var cb = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
@@ -58,13 +65,17 @@ var start = exports.start = function start() {
     var config = _npac2.default.makeConfig(defaults, cliConfig, 'configFileName');
 
     // Define the jobs to execute: hand over the command got by the CLI.
-    var jobs = [_npac2.default.makeCallSync(command)];
-
+    var jobs = [callCommand(command)];
     // Define the adapters and executives to add to the container
-    var appAdapters = command.name === 'server' ? [_npac2.default.mergeConfig(config), _npac2.default.addLogger, _npacPdmsHemeraAdapter2.default.startup, _webServer2.default.startup, _npacWsgwAdapters.wsServer.startup, _npacWsgwAdapters.wsPdmsGw.startup, _commands2.default] : [_npac2.default.mergeConfig(config), _npac2.default.addLogger, _commands2.default];
+    var appAdapters = command.name === 'server' ? [_npac2.default.mergeConfig(config), _npac2.default.addLogger, _npacPdmsHemeraAdapter2.default.startup, _webServer2.default.startup, _npacWsgwAdapters.wsServer.startup, _npacWsgwAdapters.wsPdmsGw.startup, _commands2.default] : command.args.channelType === 'NATS' ? [_npac2.default.mergeConfig(config), _npac2.default.addLogger, _npacPdmsHemeraAdapter2.default.startup, _commands2.default] : [_npac2.default.mergeConfig(config), _npac2.default.addLogger, _commands2.default];
 
-    var appTerminators = command.name === 'server' ? [_npacWsgwAdapters.wsPdmsGw.shutdown, _npacWsgwAdapters.wsServer.shutdown, _webServer2.default.shutdown, _npacPdmsHemeraAdapter2.default.shutdown] : [];
+    var appTerminators = command.name === 'server' ? [_npacWsgwAdapters.wsPdmsGw.shutdown, _npacWsgwAdapters.wsServer.shutdown, _webServer2.default.shutdown, _npacPdmsHemeraAdapter2.default.shutdown] : command.args.channelType === 'NATS' ? [_npacPdmsHemeraAdapter2.default.shutdown] : [];
 
     //Start the container
-    _npac2.default.start(appAdapters, jobs, appTerminators, cb);
+    console.log(command, appTerminators, jobs);
+    _npac2.default.start(appAdapters, jobs, appTerminators, function (err, res) {
+        if (command.name !== 'server') {
+            process.kill(process.pid, 'SIGTERM');
+        }
+    });
 };

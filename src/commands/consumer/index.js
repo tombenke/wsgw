@@ -11,7 +11,7 @@ import ioClient from 'socket.io-client'
  *
  * @function
  */
-exports.execute = (container, args) => {
+exports.execute = (container, args, responseCb) => {
     container.logger.info(`${container.config.app.name} client ${JSON.stringify(args)}`)
     const serverUri = args.uri || `http://localhost:${container.config.wsServer.port}`
     const wsClient = ioClient(serverUri)

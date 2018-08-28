@@ -17,7 +17,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  *
  * @function
  */
-exports.execute = function (container, args) {
+exports.execute = function (container, args, responseCb) {
     container.logger.info(container.config.app.name + ' client ' + JSON.stringify(args));
     var serverUri = args.uri || 'http://localhost:' + container.config.wsServer.port;
     var wsClient = (0, _socket2.default)(serverUri);
