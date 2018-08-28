@@ -10,6 +10,7 @@
  *
  * @function
  */
-exports.execute = (container, args) => {
+exports.execute = (container, args, next) => {
     container.logger.info(`${container.config.app.name} server ${JSON.stringify(args)}`)
+    next(null, null)
 }

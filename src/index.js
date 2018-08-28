@@ -12,7 +12,6 @@ import cli from './cli'
 import npac from 'npac'
 
 const callCommand = (command) => command.type === 'sync' ? npac.makeCallSync(command) : npac.makeCall(command)
-const getChannelType = (serverUri) => serverUri.match(/^nats:.*/) ? 'NATS' : 'WS'
 
 export const start = (argv=process.argv, cb=null) => {
 
@@ -57,8 +56,8 @@ export const start = (argv=process.argv, cb=null) => {
     //Start the container
     console.log(command, appTerminators, jobs)
     npac.start(appAdapters, jobs, appTerminators, (err, res) => {
-        if (command.name !== 'server') {
+//        if (command.name !== 'server') {
             process.kill(process.pid, 'SIGTERM')
-        }
+//        }
     })
 }

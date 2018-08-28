@@ -14,9 +14,18 @@ import ioClient from 'socket.io-client'
 exports.execute = (container, args, responseCb) => {
     container.logger.info(`${container.config.app.name} client ${JSON.stringify(args)}`)
     const serverUri = args.uri || `http://localhost:${container.config.wsServer.port}`
-    const wsClient = ioClient(serverUri)
 
-    wsClient.on(args.topic, data => {
-        container.logger.info(`[${args.topic}] >> ${JSON.stringify(data)}`)
-    })
+    if (args.channelType === 'NATS') {
+        container.logger.info(`Start listening to messages on NATS "${args.topic}" topic`)
+        container.pdms.add({ pubsub$: true, topic: args.topic }, (data) => {
+            container.logger.info(`[${args.topic}] >> ${JSON.stringify(data)}\n`)
+        })
+    } else {
+        container.logger.info(`Start listening to messages on WebSocket "${args.topic}" topic`)
+        const wsClient = ioClient(serverUri)
+
+        wsClient.on(args.topic, data => {
+            container.logger.info(`[${args.topic}] >> ${JSON.stringify(data)}\n`)
+        })
+    }
 }

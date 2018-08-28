@@ -56,7 +56,7 @@ const parse = (defaults, processArgv=process.argv) => {
                 results = {
                     command: {
                         name: 'server',
-                        type: 'sync',
+                        type: 'async',
                         args: {},
                     },
                     cliConfig: {
@@ -168,17 +168,24 @@ const parse = (defaults, processArgv=process.argv) => {
                 })
                 .demandOption([]),
             argv => {
+                const channelType = getChannelType(argv.uri)
                 results = {
                     command: {
                         name: 'consumer',
                         type: 'async',
                         args: {
+                            channelType: channelType,
                             uri: argv.uri,
                             topic: argv.topic
                         },
                     },
-                    cliConfig: {
-                        configFileName: argv.config
+                    cliConfig: channelType === 'NATS' ? {
+                        configFileName: argv.config,
+                        pdms: {
+                            natsUri: argv.uri
+                        }
+                    } : {
+                        configFileName: argv.config,
                     }
                 }
             }

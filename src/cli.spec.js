@@ -24,7 +24,7 @@ describe('cli', () => {
         const expected = {
             command: {
                 name: 'server',
-                type: 'sync',
+                type: 'async',
                 args: {}
             },
             cliConfig: {
@@ -67,7 +67,7 @@ describe('cli', () => {
         const expected = {
             command: {
                 name: 'server',
-                type: 'sync',
+                type: 'async',
                 args: {}
             },
             cliConfig: {
@@ -104,6 +104,7 @@ describe('cli', () => {
                 name: 'consumer',
                 type: 'async',
                 args: {
+                    channelType: "WS",
                     topic: "message",
                     uri: "http://localhost:8001"
                 }
@@ -130,6 +131,7 @@ describe('cli', () => {
                 name: 'consumer',
                 type: 'async',
                 args: {
+                    channelType: "WS",
                     topic: "MY_TOPIC",
                     uri: "wss://ws.mydomain.com:1234"
                 }
@@ -153,6 +155,7 @@ describe('cli', () => {
                 name: 'producer',
                 type: 'async',
                 args: {
+                    channelType: "WS",
                     topic: "message",
                     uri: "http://localhost:8001",
                     message: null,
@@ -186,6 +189,7 @@ describe('cli', () => {
                 name: 'producer',
                 type: 'async',
                 args: {
+                    channelType: "WS",
                     topic: "MY_TOPIC",
                     uri: "wss://ws.mydomain.com:1234",
                     message: { topic: "MY_TOPIC", payload: "Some payload..." },

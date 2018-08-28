@@ -159,16 +159,23 @@ var parse = function parse(defaults) {
             default: "message"
         }).demandOption([]);
     }, function (argv) {
+        var channelType = getChannelType(argv.uri);
         results = {
             command: {
                 name: 'consumer',
                 type: 'async',
                 args: {
+                    channelType: channelType,
                     uri: argv.uri,
                     topic: argv.topic
                 }
             },
-            cliConfig: {
+            cliConfig: channelType === 'NATS' ? {
+                configFileName: argv.config,
+                pdms: {
+                    natsUri: argv.uri
+                }
+            } : {
                 configFileName: argv.config
             }
         };

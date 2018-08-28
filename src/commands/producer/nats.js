@@ -1,5 +1,4 @@
 import _ from 'lodash'
-import ioClient from 'socket.io-client'
 
 export const finishWithSuccessNats = (container, endCb) => () => {
     container.logger.info(`Successfully completed.`)
