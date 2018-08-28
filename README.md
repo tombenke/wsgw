@@ -14,7 +14,7 @@ This application can act in the following roles:
 
 - a plain WebSocket server,
 - a websocket client consuming messages from a topic,
-- a websocket client producing individual and/or bulk messages from file to a topic,
+- a websocket and NATS client producing individual and/or bulk messages from file to a topic,
 - a gateway that forwards messages among Websocket and NATS topics.
 
 The main purpose of this gateway is to connect web frontend applications to backend services
@@ -241,6 +241,24 @@ Note: The messages you want to send to a specific topic should contain the name 
 in the message as a `topic` property, but the event name you have to send is the `<forwardEvent>` of the server,
 that is "message" by default. If you change the name of the `forwardEvent` on the server,
 you also have to change it in the `producer` as well. You can use the `-t` argument for this, that is by default set to "message".
+
+The producer command can be used to send messages to websocket server as well as to NATS.
+It depends on the protocol part of the server URI.
+If the URI starts with `nats://` (for example: `nats://localhost:4222`),
+then the messages will be sent through the NATS middleware,
+if it starts with `http:` (for example: `http://localhost:8001`), then it uses the websocket protocol.
+
+The inbound/outbound message forwarding automatically happens in case of the websocket mode.
+The topic should be `message` (this is the default value) in this case.
+
+__Note:__
+The topic handling works differently in case of the `nats:` URIs.
+If we sent the messages to a NATS server, the topic should be the one you really want to send the message.
+If the message itself contain the topic, it will be automatically sent to that topic, if not defined,
+then the topic argument will determine it that you can define with the `-t` or `--topic` switch.
+Its default value is `message`.
+In case of NATS, the messages will automatically get a `$pubsub: true` property as well,
+to properly forward the message to a NATS topic.
 
 ## References
 
