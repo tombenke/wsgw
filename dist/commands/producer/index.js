@@ -30,7 +30,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var loadMessagesFromFile = exports.loadMessagesFromFile = function loadMessagesFromFile(container, hostFileName, messageFileName) {
     var delay = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0;
 
-    container.logger.info('loadMessagesFromFile("' + hostFileName + '/' + messageFileName + '", delay=' + delay + ')');
+    container.logger.info('loadMessagesFromFile("' + hostFileName + '", "' + messageFileName + '", delay=' + delay + ')');
     var messages = [];
     if (!_lodash2.default.isString(hostFileName) || !_lodash2.default.isString(messageFileName)) {
         return messages;
@@ -74,9 +74,9 @@ exports.execute = function (container, args) {
 
     var directMessage = args.message != null ? [{ delay: 0, message: args.message }] : [];
     var messagesToPublish = _lodash2.default.concat(directMessage, loadMessagesFromFile(container, args.source, args.source, 0));
-    if (true /*args.dumpMessages*/) {
-            container.logger.info('' + JSON.stringify(messagesToPublish, null, '  '));
-        }
+    if (args.dumpMessages) {
+        container.logger.info('' + JSON.stringify(messagesToPublish, null, '  '));
+    }
 
     var finishWithSuccess = function finishWithSuccess() {
         container.logger.info('Successfully completed.');

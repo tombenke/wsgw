@@ -108,6 +108,11 @@ var parse = function parse(defaults) {
             desc: "The name of the YAML or JSON format source file that holds the messages to send",
             type: 'String',
             default: null
+        }).option("dumpMessages", {
+            alias: "d",
+            desc: "Dump the complete messages list to send after loading",
+            type: 'Bool',
+            default: false
         }).demandOption([]);
     }, function (argv) {
         results = {
@@ -117,7 +122,8 @@ var parse = function parse(defaults) {
                     uri: argv.uri,
                     topic: argv.topic,
                     message: argv.message != null && _lodash2.default.isString(argv.message) ? JSON.parse(argv.message) : null,
-                    source: argv.source != null && _lodash2.default.isString(argv.source) ? _path2.default.resolve(argv.source) : null
+                    source: argv.source != null && _lodash2.default.isString(argv.source) ? _path2.default.resolve(argv.source) : null,
+                    dumpMessages: argv.dumpMessages
                 }
             },
             cliConfig: {

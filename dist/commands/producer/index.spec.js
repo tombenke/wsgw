@@ -32,7 +32,7 @@ describe('commands/producer', function () {
 
     it('#loadMessagesFromFile -  messages and files mixed with embedded scenario', function () {
         var fileName = __dirname + '/fixtures/test_scenario_nested_L0.yml';
-        console.log(JSON.stringify((0, _index.loadMessagesFromFile)(container, fileName, fileName, 0), null, '  '));
-        //        expect(loadMessagesFromFile(fileName, fileName, 0)).to.eql(embeddedResults)
+        //        console.log(JSON.stringify(loadMessagesFromFile(container, fileName, fileName, 0), null, '  '))
+        (0, _chai.expect)((0, _index.loadMessagesFromFile)(container, fileName, fileName, 0)).to.eql(_fixtures.embeddedResults);
     });
 });

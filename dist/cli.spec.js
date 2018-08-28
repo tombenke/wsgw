@@ -148,7 +148,8 @@ describe('cli', function () {
                     topic: "message",
                     uri: "http://localhost:8001",
                     message: null,
-                    source: null
+                    source: null,
+                    dumpMessages: false
                 }
             },
             cliConfig: {
@@ -156,12 +157,13 @@ describe('cli', function () {
             }
         };
 
+        console.log(_cli2.default.parse(defaults, processArgv));
         (0, _chai.expect)(_cli2.default.parse(defaults, processArgv)).to.eql(expected);
         done();
     });
 
     it('#parse producer command with full list of args', function (done) {
-        var processArgv = ['node', 'src/index.js', 'producer', '-c', 'config.yml', '-u', 'wss://ws.mydomain.com:1234', '-t', 'MY_TOPIC', '-m', '{ "topic": "MY_TOPIC", "payload": "Some payload..."}', '-s', '/fixtures/test_scenario.yml'];
+        var processArgv = ['node', 'src/index.js', 'producer', '-c', 'config.yml', '-u', 'wss://ws.mydomain.com:1234', '-t', 'MY_TOPIC', '-m', '{ "topic": "MY_TOPIC", "payload": "Some payload..."}', '-s', '/fixtures/test_scenario.yml', '-d'];
         var expected = {
             command: {
                 name: 'producer',
@@ -169,7 +171,8 @@ describe('cli', function () {
                     topic: "MY_TOPIC",
                     uri: "wss://ws.mydomain.com:1234",
                     message: { topic: "MY_TOPIC", payload: "Some payload..." },
-                    source: '/fixtures/test_scenario.yml'
+                    source: '/fixtures/test_scenario.yml',
+                    dumpMessages: true
                 }
             },
             cliConfig: {
