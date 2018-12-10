@@ -42,7 +42,7 @@ describe('cli', function () {
         var expected = {
             command: {
                 name: 'server',
-                type: 'sync',
+                type: 'async',
                 args: {}
             },
             cliConfig: {
@@ -75,7 +75,7 @@ describe('cli', function () {
         var expected = {
             command: {
                 name: 'server',
-                type: 'sync',
+                type: 'async',
                 args: {}
             },
             cliConfig: {
@@ -110,6 +110,7 @@ describe('cli', function () {
                 name: 'consumer',
                 type: 'async',
                 args: {
+                    channelType: "WS",
                     topic: "message",
                     uri: "http://localhost:8001"
                 }
@@ -130,6 +131,7 @@ describe('cli', function () {
                 name: 'consumer',
                 type: 'async',
                 args: {
+                    channelType: "WS",
                     topic: "MY_TOPIC",
                     uri: "wss://ws.mydomain.com:1234"
                 }
@@ -150,11 +152,13 @@ describe('cli', function () {
                 name: 'producer',
                 type: 'async',
                 args: {
+                    channelType: "WS",
                     topic: "message",
                     uri: "http://localhost:8001",
                     message: null,
                     source: null,
-                    dumpMessages: false
+                    dumpMessages: false,
+                    rpc: false
                 }
             },
             cliConfig: {
@@ -168,17 +172,19 @@ describe('cli', function () {
     });
 
     it('#parse producer command with full list of args', function (done) {
-        var processArgv = ['node', 'src/index.js', 'producer', '-c', 'config.yml', '-u', 'wss://ws.mydomain.com:1234', '-t', 'MY_TOPIC', '-m', '{ "topic": "MY_TOPIC", "payload": "Some payload..."}', '-s', '/fixtures/test_scenario.yml', '-d'];
+        var processArgv = ['node', 'src/index.js', 'producer', '-c', 'config.yml', '-u', 'wss://ws.mydomain.com:1234', '-t', 'MY_TOPIC', '-m', '{ "topic": "MY_TOPIC", "payload": "Some payload..."}', '-s', '/fixtures/test_scenario.yml', '-d', '-r'];
         var expected = {
             command: {
                 name: 'producer',
                 type: 'async',
                 args: {
+                    channelType: "WS",
                     topic: "MY_TOPIC",
                     uri: "wss://ws.mydomain.com:1234",
                     message: { topic: "MY_TOPIC", payload: "Some payload..." },
                     source: '/fixtures/test_scenario.yml',
-                    dumpMessages: true
+                    dumpMessages: true,
+                    rpc: true
                 }
             },
             cliConfig: {

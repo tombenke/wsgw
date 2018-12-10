@@ -60,7 +60,7 @@ var parse = function parse(defaults) {
         results = {
             command: {
                 name: 'server',
-                type: 'sync',
+                type: 'async',
                 args: {}
             },
             cliConfig: {
@@ -117,6 +117,11 @@ var parse = function parse(defaults) {
             desc: "Dump the complete messages list to send after loading",
             type: 'Bool',
             default: false
+        }).option("rpc", {
+            alias: "r",
+            desc: "Do RPC-like, synchronous call through NATS",
+            type: 'Bool',
+            default: false
         }).demandOption([]);
     }, function (argv) {
         var channelType = getChannelType(argv.uri);
@@ -130,7 +135,8 @@ var parse = function parse(defaults) {
                     topic: argv.topic,
                     message: argv.message != null && _lodash2.default.isString(argv.message) ? JSON.parse(argv.message) : null,
                     source: argv.source != null && _lodash2.default.isString(argv.source) ? _path2.default.resolve(argv.source) : null,
-                    dumpMessages: argv.dumpMessages
+                    dumpMessages: argv.dumpMessages,
+                    rpc: argv.rpc
                 }
             },
             cliConfig: channelType === 'NATS' ? {

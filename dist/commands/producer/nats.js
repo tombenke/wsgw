@@ -26,14 +26,28 @@ var finishWithErrorNats = exports.finishWithErrorNats = function finishWithError
     };
 };
 
-var emitMessageNats = exports.emitMessageNats = function emitMessageNats(container) {
+var emitMessageNats = exports.emitMessageNats = function emitMessageNats(container, rpc) {
     return function (topic, message) {
         return new Promise(function (resolve, reject) {
             // Send to the message specific topic if defined, otherwise sent to the globally defined topic
             var topicToSend = _lodash2.default.get(message, 'topic', topic);
-            container.pdms.act(_lodash2.default.merge({}, message, { 'pubsub$': true, topic: topicToSend }));
-            container.logger.info(JSON.stringify(message) + ' >> [' + topicToSend + ']');
-            resolve(message);
+            if (rpc) {
+                var fullMsgToSend = _lodash2.default.merge({}, message, { 'pubsub$': false, topic: topicToSend });
+                container.logger.info(JSON.stringify(message) + ' >> [' + topicToSend + ']');
+                container.pdms.act(fullMsgToSend, function (err, res) {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        console.log(JSON.stringify(res, null, '  '));
+                        resolve(res);
+                    }
+                });
+            } else {
+                var _fullMsgToSend = _lodash2.default.merge({}, message, { 'pubsub$': true, topic: topicToSend });
+                container.pdms.act(_fullMsgToSend);
+                container.logger.info(JSON.stringify(message) + ' >> [' + topicToSend + ']');
+                resolve(message);
+            }
         });
     };
 };

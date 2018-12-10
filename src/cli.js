@@ -119,6 +119,12 @@ const parse = (defaults, processArgv=process.argv) => {
                     type: 'Bool',
                     default: false
                 })
+                .option("rpc", {
+                    alias: "r",
+                    desc: "Do RPC-like, synchronous call through NATS",
+                    type: 'Bool',
+                    default: false
+                })
                 .demandOption([]),
             argv => {
                 const channelType = getChannelType(argv.uri)
@@ -132,7 +138,8 @@ const parse = (defaults, processArgv=process.argv) => {
                             topic: argv.topic,
                             message: (argv.message != null && _.isString(argv.message)) ? JSON.parse(argv.message) : null,
                             source: (argv.source != null && _.isString(argv.source)) ? path.resolve(argv.source) : null,
-                            dumpMessages: argv.dumpMessages
+                            dumpMessages: argv.dumpMessages,
+                            rpc: argv.rpc
                         },
                     },
                     cliConfig: channelType === 'NATS' ? {

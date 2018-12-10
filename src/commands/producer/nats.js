@@ -11,12 +11,26 @@ export const finishWithErrorNats = (container, endCb) => err => {
     // NATS will be closed by the container
 }
 
-export const emitMessageNats = (container) => (topic, message) => {
+export const emitMessageNats = (container, rpc) => (topic, message) => {
     return new Promise((resolve, reject) => {
         // Send to the message specific topic if defined, otherwise sent to the globally defined topic
         const topicToSend = _.get(message, 'topic', topic)
-        container.pdms.act(_.merge({}, message, {'pubsub$': true, topic: topicToSend }))
-        container.logger.info(`${JSON.stringify(message)} >> [${topicToSend}]`)
-        resolve(message)
+        if (rpc) {
+            const fullMsgToSend = _.merge({}, message, {'pubsub$': false, topic: topicToSend })
+            container.logger.info(`${JSON.stringify(message)} >> [${topicToSend}]`)
+            container.pdms.act(fullMsgToSend, (err, res) => {
+                if (err) {
+                    reject(err)
+                } else {
+                    console.log(JSON.stringify(res, null, '  '))
+                    resolve(res)
+                }
+            })
+        } else {
+            const fullMsgToSend = _.merge({}, message, {'pubsub$': true, topic: topicToSend })
+            container.pdms.act(fullMsgToSend)
+            container.logger.info(`${JSON.stringify(message)} >> [${topicToSend}]`)
+            resolve(message)
+        }
     })
 }

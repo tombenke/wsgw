@@ -12,7 +12,7 @@ export const loadMessagesFromFile = (container, hostFileName, messageFileName, d
     if (! _.isString(hostFileName) || ! _.isString(messageFileName)) {
         return messages
     }
-    const content = loadJsonFileSync(path.resolve(path.dirname(hostFileName), path.basename(messageFileName)), false)
+    const content = loadJsonFileSync(path.resolve(path.dirname(hostFileName), path.basename(messageFileName)))
 
     // If this is a single message, then make a messages array from it
     if (_.isArray(content)) {
@@ -23,7 +23,7 @@ export const loadMessagesFromFile = (container, hostFileName, messageFileName, d
         } else {
             messages = content
         }
-    } else if (_.isObject(content) && _.has(content, ['topic']) && _.has(content, ['payload'])) {
+    } else if (_.isObject(content) && _.has(content, ['topic'])/* && _.has(content, ['payload'])*/) {
         messages = [{ delay: delay, message: content }]
     }
 
@@ -38,18 +38,19 @@ const getMessagesToPublish = (container, args) => {
     const directMessage = args.message != null ? [{ delay: 0, message: args.message }] : []
     const messagesToPublish = _.concat(directMessage, loadMessagesFromFile(container, args.source, args.source, 0))
     if (args.dumpMessages) {
-        container.logger.info(`${JSON.stringify(messagesToPublish, null, '  ')}`)
+        container.logger.info(`Messages to publish: ${JSON.stringify(messagesToPublish, null, '  ')}`)
     }
 
     return messagesToPublish
 }
 
 const publishMessages = (messages, topic, emitMessageFun) => new Promise((resolve, reject) => {
+    //console.log('publishMessages: ', JSON.stringify(messages, null, '  '))
     from(messages).pipe(
         scan((accu, message) => _.merge({}, message, { delay: accu.delay + message.delay }), { delay: 0 }),
         delayWhen(message => interval(message.delay)),
         mergeMap(message => emitMessageFun(topic, message.message))
-    ).subscribe((message) => { console.log(message)}, err => reject(err), () => resolve())
+    ).subscribe((message) => { /*console.log(message)*/ }, err => reject(err), () => resolve())
 })
 
 /**
@@ -67,7 +68,7 @@ exports.execute = (container, args, endCb) => {
 
     if (args.channelType === 'NATS') {
         container.logger.info('It sends messages through NATS')
-        publishMessages(messagesToPublish, args.topic, emitMessageNats(container))
+        publishMessages(messagesToPublish, args.topic, emitMessageNats(container, args.rpc))
             .then(finishWithSuccessNats(container, endCb))
             .catch(finishWithErrorNats(container, endCb))
     } else {

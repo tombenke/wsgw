@@ -43,9 +43,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var callCommand = function callCommand(command) {
     return command.type === 'sync' ? _npac2.default.makeCallSync(command) : _npac2.default.makeCall(command);
 };
-var getChannelType = function getChannelType(serverUri) {
-    return serverUri.match(/^nats:.*/) ? 'NATS' : 'WS';
-};
 
 var start = exports.start = function start() {
     var argv = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : process.argv;
@@ -74,8 +71,8 @@ var start = exports.start = function start() {
     //Start the container
     console.log(command, appTerminators, jobs);
     _npac2.default.start(appAdapters, jobs, appTerminators, function (err, res) {
-        if (command.name !== 'server') {
-            process.kill(process.pid, 'SIGTERM');
-        }
+        //        if (command.name !== 'server') {
+        process.kill(process.pid, 'SIGTERM');
+        //        }
     });
 };

@@ -160,7 +160,8 @@ describe('cli', () => {
                     uri: "http://localhost:8001",
                     message: null,
                     source: null,
-                    dumpMessages: false
+                    dumpMessages: false,
+                    rpc: false
                 }
             },
             cliConfig: {
@@ -182,7 +183,8 @@ describe('cli', () => {
             '-t', 'MY_TOPIC',
             '-m', '{ "topic": "MY_TOPIC", "payload": "Some payload..."}',
             '-s', '/fixtures/test_scenario.yml',
-            '-d'
+            '-d',
+            '-r'
         ]
         const expected = {
             command: {
@@ -194,7 +196,8 @@ describe('cli', () => {
                     uri: "wss://ws.mydomain.com:1234",
                     message: { topic: "MY_TOPIC", payload: "Some payload..." },
                     source: '/fixtures/test_scenario.yml',
-                    dumpMessages: true
+                    dumpMessages: true,
+                    rpc: true
                 }
             },
             cliConfig: {
