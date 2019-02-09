@@ -58,9 +58,9 @@ var startup = function startup(container, next) {
  * @function
  */
 var shutdown = function shutdown(container, next) {
-    container.logger.info("Shut down webServer adapter");
+    container.logger.info('Shut down webServer adapter');
     container.webServer.server.close(function (err, res) {
-        container.logger.info("webServer closed");
+        container.logger.info('webServer closed');
         next(null, null);
     });
 };

@@ -1,7 +1,7 @@
 import ioClient from 'socket.io-client'
 
 export const getWsClient = serverUri => ioClient(serverUri)
-    
+
 export const finishWithSuccessWs = (container, wsClient, endCb) => () => {
     container.logger.info(`Successfully completed.`)
     wsClient.close()

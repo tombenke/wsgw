@@ -21,38 +21,38 @@ var parse = function parse(defaults) {
     };
 
     yargs(processArgv.slice(2)).command('server', 'Run in server mode', function (yargs) {
-        return yargs.option("config", {
-            alias: "c",
-            desc: "The name of the configuration file",
+        return yargs.option('config', {
+            alias: 'c',
+            desc: 'The name of the configuration file',
             default: defaults.configFileName
-        }).option("port", {
-            alias: "p",
-            desc: "The webSocket server port",
+        }).option('port', {
+            alias: 'p',
+            desc: 'The webSocket server port',
             type: 'number',
             default: defaults.webServer.port
-        }).option("forward", {
-            alias: "f",
-            desc: "Forwards messages among inbound and outbound topics",
+        }).option('forward', {
+            alias: 'f',
+            desc: 'Forwards messages among inbound and outbound topics',
             type: 'boolean',
             default: defaults.wsServer.forwardTopics
-        }).option("forwarderEvent", {
-            alias: "e",
-            desc: "The name of the event the server is listen to forward the incoming messages",
+        }).option('forwarderEvent', {
+            alias: 'e',
+            desc: 'The name of the event the server is listen to forward the incoming messages',
             type: 'string',
             default: defaults.wsServer.forwarderEvent
-        }).option("inbound", {
-            alias: "i",
-            desc: "Comma separated list of inbound NATS topics to forward through websocket",
+        }).option('inbound', {
+            alias: 'i',
+            desc: 'Comma separated list of inbound NATS topics to forward through websocket',
             type: 'string',
-            default: ""
-        }).option("outbound", {
-            alias: "o",
-            desc: "Comma separated list of outbound NATS topics to forward towards from websocket",
+            default: ''
+        }).option('outbound', {
+            alias: 'o',
+            desc: 'Comma separated list of outbound NATS topics to forward towards from websocket',
             type: 'string',
-            default: ""
-        }).option("natsUri", {
-            alias: "n",
-            desc: "NATS server URI used by the pdms adapter.",
+            default: ''
+        }).option('natsUri', {
+            alias: 'n',
+            desc: 'NATS server URI used by the pdms adapter.',
             type: 'string',
             default: defaults.pdms.natsUri
         }).demandOption([]);
@@ -74,10 +74,10 @@ var parse = function parse(defaults) {
                 },
                 wsPdmsGw: {
                     topics: {
-                        inbound: argv.inbound != "" ? _lodash2.default.map(argv.inbound.split(','), function (t) {
+                        inbound: argv.inbound != '' ? _lodash2.default.map(argv.inbound.split(','), function (t) {
                             return t.trim();
                         }) : [],
-                        outbound: argv.outbound != "" ? _lodash2.default.map(argv.outbound.split(','), function (t) {
+                        outbound: argv.outbound != '' ? _lodash2.default.map(argv.outbound.split(','), function (t) {
                             return t.trim();
                         }) : []
                     }
@@ -88,38 +88,38 @@ var parse = function parse(defaults) {
             }
         };
     }).command('producer', 'Run as a producer client', function (yargs) {
-        return yargs.option("config", {
-            alias: "c",
-            desc: "The name of the configuration file",
+        return yargs.option('config', {
+            alias: 'c',
+            desc: 'The name of the configuration file',
             default: defaults.configFileName
-        }).option("uri", {
-            alias: "u",
-            desc: "The URI of the WebSocket server",
+        }).option('uri', {
+            alias: 'u',
+            desc: 'The URI of the WebSocket server',
             type: 'string',
-            default: "http://localhost:8001"
-        }).option("topic", {
-            alias: "t",
-            desc: "The topic (event name) the message will be sent",
+            default: 'http://localhost:8001'
+        }).option('topic', {
+            alias: 't',
+            desc: 'The topic (event name) the message will be sent',
             type: 'string',
-            default: "message"
-        }).option("message", {
-            alias: "m",
-            desc: "The JSON-format message string to send",
+            default: 'message'
+        }).option('message', {
+            alias: 'm',
+            desc: 'The JSON-format message string to send',
             type: 'String',
             default: null
-        }).option("source", {
-            alias: "s",
-            desc: "The name of the YAML or JSON format source file that holds the messages to send",
+        }).option('source', {
+            alias: 's',
+            desc: 'The name of the YAML or JSON format source file that holds the messages to send',
             type: 'String',
             default: null
-        }).option("dumpMessages", {
-            alias: "d",
-            desc: "Dump the complete messages list to send after loading",
+        }).option('dumpMessages', {
+            alias: 'd',
+            desc: 'Dump the complete messages list to send after loading',
             type: 'Bool',
             default: false
-        }).option("rpc", {
-            alias: "r",
-            desc: "Do RPC-like, synchronous call through NATS",
+        }).option('rpc', {
+            alias: 'r',
+            desc: 'Do RPC-like, synchronous call through NATS',
             type: 'Bool',
             default: false
         }).demandOption([]);
@@ -149,20 +149,20 @@ var parse = function parse(defaults) {
             }
         };
     }).command('consumer', 'Run as a consumer client', function (yargs) {
-        return yargs.option("config", {
-            alias: "c",
-            desc: "The name of the configuration file",
+        return yargs.option('config', {
+            alias: 'c',
+            desc: 'The name of the configuration file',
             default: defaults.configFileName
-        }).option("uri", {
-            alias: "u",
-            desc: "The URI of the WebSocket server",
+        }).option('uri', {
+            alias: 'u',
+            desc: 'The URI of the WebSocket server',
             type: 'string',
-            default: "http://localhost:8001"
-        }).option("topic", {
-            alias: "t",
-            desc: "The topic (event name) the message will be sent",
+            default: 'http://localhost:8001'
+        }).option('topic', {
+            alias: 't',
+            desc: 'The topic (event name) the message will be sent',
             type: 'string',
-            default: "message"
+            default: 'message'
         }).demandOption([]);
     }, function (argv) {
         var channelType = getChannelType(argv.uri);

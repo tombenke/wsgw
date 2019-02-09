@@ -48,7 +48,6 @@ var start = exports.start = function start() {
     var argv = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : process.argv;
     var cb = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
 
-
     var defaults = _lodash2.default.merge({}, _config2.default, _npacPdmsHemeraAdapter2.default.defaults, _webServer2.default.defaults, _npacWsgwAdapters.wsServer.defaults, _npacWsgwAdapters.wsPdmsGw.defaults);
 
     // Use CLI to gain additional parameters, and command to execute

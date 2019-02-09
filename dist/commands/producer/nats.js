@@ -32,7 +32,7 @@ var emitMessageNats = exports.emitMessageNats = function emitMessageNats(contain
             // Send to the message specific topic if defined, otherwise sent to the globally defined topic
             var topicToSend = _lodash2.default.get(message, 'topic', topic);
             if (rpc) {
-                var fullMsgToSend = _lodash2.default.merge({}, message, { 'pubsub$': false, topic: topicToSend });
+                var fullMsgToSend = _lodash2.default.merge({}, message, { pubsub$: false, topic: topicToSend });
                 container.logger.info(JSON.stringify(message) + ' >> [' + topicToSend + ']');
                 container.pdms.act(fullMsgToSend, function (err, res) {
                     if (err) {
@@ -43,7 +43,7 @@ var emitMessageNats = exports.emitMessageNats = function emitMessageNats(contain
                     }
                 });
             } else {
-                var _fullMsgToSend = _lodash2.default.merge({}, message, { 'pubsub$': true, topic: topicToSend });
+                var _fullMsgToSend = _lodash2.default.merge({}, message, { pubsub$: true, topic: topicToSend });
                 container.pdms.act(_fullMsgToSend);
                 container.logger.info(JSON.stringify(message) + ' >> [' + topicToSend + ']');
                 resolve(message);

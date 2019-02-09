@@ -18,9 +18,7 @@ describe('cli', () => {
     const defaults = _.merge({}, appDefaults, pdms.defaults, webServer.defaults, wsServer.defaults, wsPdmsGw.defaults)
 
     it('#parse - server command with defaults', done => {
-        const processArgv = [
-            'node', 'src/index.js', 'server'
-        ]
+        const processArgv = ['node', 'src/index.js', 'server']
         const expected = {
             command: {
                 name: 'server',
@@ -28,10 +26,10 @@ describe('cli', () => {
                 args: {}
             },
             cliConfig: {
-                configFileName: "config.yml",
+                configFileName: 'config.yml',
                 wsServer: {
                     forwardTopics: false,
-                    forwarderEvent: "message"
+                    forwarderEvent: 'message'
                 },
                 webServer: {
                     port: 8001
@@ -43,7 +41,7 @@ describe('cli', () => {
                     }
                 },
                 pdms: {
-                    natsUri: "nats://demo.nats.io:4222"
+                    natsUri: 'nats://demo.nats.io:4222'
                 }
             }
         }
@@ -54,15 +52,22 @@ describe('cli', () => {
 
     it('#parse - server command with full list of args', done => {
         const processArgv = [
-            'node', 'src/index.js',
+            'node',
+            'src/index.js',
             'server',
-            '-c', 'config.yml',
+            '-c',
+            'config.yml',
             '-f',
-            '-e', 'fwd$',
-            '-i', 'IN1,IN2, IN3',
-            '-o', 'OUT1, OUT2 ,OUT3',
-            '-n', 'nats://localhost:4222',
-            '-p', '8002'
+            '-e',
+            'fwd$',
+            '-i',
+            'IN1,IN2, IN3',
+            '-o',
+            'OUT1, OUT2 ,OUT3',
+            '-n',
+            'nats://localhost:4222',
+            '-p',
+            '8002'
         ]
         const expected = {
             command: {
@@ -71,10 +76,10 @@ describe('cli', () => {
                 args: {}
             },
             cliConfig: {
-                configFileName: "config.yml",
+                configFileName: 'config.yml',
                 wsServer: {
                     forwardTopics: true,
-                    forwarderEvent: "fwd$"
+                    forwarderEvent: 'fwd$'
                 },
                 webServer: {
                     port: 8002
@@ -86,7 +91,7 @@ describe('cli', () => {
                     }
                 },
                 pdms: {
-                    natsUri: "nats://localhost:4222"
+                    natsUri: 'nats://localhost:4222'
                 }
             }
         }
@@ -96,21 +101,19 @@ describe('cli', () => {
     })
 
     it('#parse consumer command with defaults', done => {
-        const processArgv = [
-            'node', 'src/index.js', 'consumer'
-        ]
+        const processArgv = ['node', 'src/index.js', 'consumer']
         const expected = {
             command: {
                 name: 'consumer',
                 type: 'async',
                 args: {
-                    channelType: "WS",
-                    topic: "message",
-                    uri: "http://localhost:8001"
+                    channelType: 'WS',
+                    topic: 'message',
+                    uri: 'http://localhost:8001'
                 }
             },
             cliConfig: {
-                configFileName: "config.yml"
+                configFileName: 'config.yml'
             }
         }
 
@@ -120,24 +123,28 @@ describe('cli', () => {
 
     it('#parse consumer command with full list of args', done => {
         const processArgv = [
-            'node', 'src/index.js',
+            'node',
+            'src/index.js',
             'consumer',
-            '-c', 'config.yml',
-            '-u', 'wss://ws.mydomain.com:1234',
-            '-t', 'MY_TOPIC'
+            '-c',
+            'config.yml',
+            '-u',
+            'wss://ws.mydomain.com:1234',
+            '-t',
+            'MY_TOPIC'
         ]
         const expected = {
             command: {
                 name: 'consumer',
                 type: 'async',
                 args: {
-                    channelType: "WS",
-                    topic: "MY_TOPIC",
-                    uri: "wss://ws.mydomain.com:1234"
+                    channelType: 'WS',
+                    topic: 'MY_TOPIC',
+                    uri: 'wss://ws.mydomain.com:1234'
                 }
             },
             cliConfig: {
-                configFileName: "config.yml"
+                configFileName: 'config.yml'
             }
         }
 
@@ -145,19 +152,16 @@ describe('cli', () => {
         done()
     })
 
-
     it('#parse producer command with defaults', done => {
-        const processArgv = [
-            'node', 'src/index.js', 'producer'
-        ]
+        const processArgv = ['node', 'src/index.js', 'producer']
         const expected = {
             command: {
                 name: 'producer',
                 type: 'async',
                 args: {
-                    channelType: "WS",
-                    topic: "message",
-                    uri: "http://localhost:8001",
+                    channelType: 'WS',
+                    topic: 'message',
+                    uri: 'http://localhost:8001',
                     message: null,
                     source: null,
                     dumpMessages: false,
@@ -165,7 +169,7 @@ describe('cli', () => {
                 }
             },
             cliConfig: {
-                configFileName: "config.yml"
+                configFileName: 'config.yml'
             }
         }
 
@@ -176,13 +180,19 @@ describe('cli', () => {
 
     it('#parse producer command with full list of args', done => {
         const processArgv = [
-            'node', 'src/index.js',
+            'node',
+            'src/index.js',
             'producer',
-            '-c', 'config.yml',
-            '-u', 'wss://ws.mydomain.com:1234',
-            '-t', 'MY_TOPIC',
-            '-m', '{ "topic": "MY_TOPIC", "payload": "Some payload..."}',
-            '-s', '/fixtures/test_scenario.yml',
+            '-c',
+            'config.yml',
+            '-u',
+            'wss://ws.mydomain.com:1234',
+            '-t',
+            'MY_TOPIC',
+            '-m',
+            '{ "topic": "MY_TOPIC", "payload": "Some payload..."}',
+            '-s',
+            '/fixtures/test_scenario.yml',
             '-d',
             '-r'
         ]
@@ -191,22 +201,21 @@ describe('cli', () => {
                 name: 'producer',
                 type: 'async',
                 args: {
-                    channelType: "WS",
-                    topic: "MY_TOPIC",
-                    uri: "wss://ws.mydomain.com:1234",
-                    message: { topic: "MY_TOPIC", payload: "Some payload..." },
+                    channelType: 'WS',
+                    topic: 'MY_TOPIC',
+                    uri: 'wss://ws.mydomain.com:1234',
+                    message: { topic: 'MY_TOPIC', payload: 'Some payload...' },
                     source: '/fixtures/test_scenario.yml',
                     dumpMessages: true,
                     rpc: true
                 }
             },
             cliConfig: {
-                configFileName: "config.yml"
+                configFileName: 'config.yml'
             }
         }
 
         expect(cli.parse(defaults, processArgv)).to.eql(expected)
         done()
     })
-
 })

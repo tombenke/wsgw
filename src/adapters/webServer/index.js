@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /*jshint node: true */
-'use strict';
+'use strict'
 
 import http from 'http'
 import defaults from './config'
@@ -47,9 +47,9 @@ const startup = (container, next) => {
  * @function
  */
 const shutdown = (container, next) => {
-    container.logger.info("Shut down webServer adapter")
+    container.logger.info('Shut down webServer adapter')
     container.webServer.server.close((err, res) => {
-        container.logger.info("webServer closed")
+        container.logger.info('webServer closed')
         next(null, null)
     })
 }

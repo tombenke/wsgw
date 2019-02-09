@@ -4,7 +4,6 @@ import { testSingleMessage, testScenario, testScenarioMixed, embeddedResults } f
 import { loadMessagesFromFile } from './index'
 
 describe('commands/producer', () => {
-
     const container = { logger: console }
     it('#loadMessagesFromFile -  single message', () => {
         const fileName = __dirname + '/fixtures/message1.yml'
@@ -23,7 +22,7 @@ describe('commands/producer', () => {
 
     it('#loadMessagesFromFile -  messages and files mixed with embedded scenario', () => {
         const fileName = __dirname + '/fixtures/test_scenario_nested_L0.yml'
-//        console.log(JSON.stringify(loadMessagesFromFile(container, fileName, fileName, 0), null, '  '))
+        //        console.log(JSON.stringify(loadMessagesFromFile(container, fileName, fileName, 0), null, '  '))
         expect(loadMessagesFromFile(container, fileName, fileName, 0)).to.eql(embeddedResults)
     })
 })

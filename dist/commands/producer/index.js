@@ -76,7 +76,9 @@ var publishMessages = function publishMessages(messages, topic, emitMessageFun) 
             return (0, _rxjs.interval)(message.delay);
         }), (0, _operators.mergeMap)(function (message) {
             return emitMessageFun(topic, message.message);
-        })).subscribe(function (message) {/*console.log(message)*/}, function (err) {
+        })).subscribe(function (message) {
+            /*console.log(message)*/
+        }, function (err) {
             return reject(err);
         }, function () {
             return resolve();

@@ -13,7 +13,6 @@ var _index = require('./index');
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 describe('commands/producer', function () {
-
     var container = { logger: console };
     it('#loadMessagesFromFile -  single message', function () {
         var fileName = __dirname + '/fixtures/message1.yml';

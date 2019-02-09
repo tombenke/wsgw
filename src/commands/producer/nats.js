@@ -16,7 +16,7 @@ export const emitMessageNats = (container, rpc) => (topic, message) => {
         // Send to the message specific topic if defined, otherwise sent to the globally defined topic
         const topicToSend = _.get(message, 'topic', topic)
         if (rpc) {
-            const fullMsgToSend = _.merge({}, message, {'pubsub$': false, topic: topicToSend })
+            const fullMsgToSend = _.merge({}, message, { pubsub$: false, topic: topicToSend })
             container.logger.info(`${JSON.stringify(message)} >> [${topicToSend}]`)
             container.pdms.act(fullMsgToSend, (err, res) => {
                 if (err) {
@@ -27,7 +27,7 @@ export const emitMessageNats = (container, rpc) => (topic, message) => {
                 }
             })
         } else {
-            const fullMsgToSend = _.merge({}, message, {'pubsub$': true, topic: topicToSend })
+            const fullMsgToSend = _.merge({}, message, { pubsub$: true, topic: topicToSend })
             container.pdms.act(fullMsgToSend)
             container.logger.info(`${JSON.stringify(message)} >> [${topicToSend}]`)
             resolve(message)

@@ -9,7 +9,7 @@ describe('app', () => {
 
     const removeSignalHandlers = () => {
         const signals = ['SIGTERM', 'SIGINT', 'SIGHUP', 'SIGUSR1', 'SIGUSR2']
-        for(const signal in signals) {
+        for (const signal in signals) {
             process.removeAllListeners(signals[signal])
         }
     }
@@ -25,7 +25,7 @@ describe('app', () => {
         sandbox.restore()
         done()
     })
-/*
+    /*
     const executeCommand = (args) => {
         console.log(`executeCommand(${args})`)
         return new Promise((resolve, reject) => {

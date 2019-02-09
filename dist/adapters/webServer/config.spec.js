@@ -9,7 +9,6 @@ var _config2 = _interopRequireDefault(_config);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 describe('wsServer.config', function () {
-
     it('#defaults', function (done) {
         var expected = {
             webServer: {

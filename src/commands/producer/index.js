@@ -9,7 +9,7 @@ import { emitMessageNats, finishWithErrorNats, finishWithSuccessNats } from './n
 export const loadMessagesFromFile = (container, hostFileName, messageFileName, delay = 0) => {
     container.logger.info(`loadMessagesFromFile("${hostFileName}", "${messageFileName}", delay=${delay})`)
     let messages = []
-    if (! _.isString(hostFileName) || ! _.isString(messageFileName)) {
+    if (!_.isString(hostFileName) || !_.isString(messageFileName)) {
         return messages
     }
     const content = loadJsonFileSync(path.resolve(path.dirname(hostFileName), path.basename(messageFileName)))
@@ -23,15 +23,18 @@ export const loadMessagesFromFile = (container, hostFileName, messageFileName, d
         } else {
             messages = content
         }
-    } else if (_.isObject(content) && _.has(content, ['topic'])/* && _.has(content, ['payload'])*/) {
+    } else if (_.isObject(content) && _.has(content, ['topic']) /* && _.has(content, ['payload'])*/) {
         messages = [{ delay: delay, message: content }]
     }
 
     return _.chain(messages)
         .flatMap(item =>
-            _.has(item, 'file') ? loadMessagesFromFile(container, hostFileName, item.file, _.get(item, 'delay', 0)) : item)
+            _.has(item, 'file')
+                ? loadMessagesFromFile(container, hostFileName, item.file, _.get(item, 'delay', 0))
+                : item
+        )
         .value()
-        .map(item => ({ delay: _.get(item, 'delay', 0), message: _.get(item, 'message', {})}))
+        .map(item => ({ delay: _.get(item, 'delay', 0), message: _.get(item, 'message', {}) }))
 }
 
 const getMessagesToPublish = (container, args) => {
@@ -44,14 +47,23 @@ const getMessagesToPublish = (container, args) => {
     return messagesToPublish
 }
 
-const publishMessages = (messages, topic, emitMessageFun) => new Promise((resolve, reject) => {
-    //console.log('publishMessages: ', JSON.stringify(messages, null, '  '))
-    from(messages).pipe(
-        scan((accu, message) => _.merge({}, message, { delay: accu.delay + message.delay }), { delay: 0 }),
-        delayWhen(message => interval(message.delay)),
-        mergeMap(message => emitMessageFun(topic, message.message))
-    ).subscribe((message) => { /*console.log(message)*/ }, err => reject(err), () => resolve())
-})
+const publishMessages = (messages, topic, emitMessageFun) =>
+    new Promise((resolve, reject) => {
+        //console.log('publishMessages: ', JSON.stringify(messages, null, '  '))
+        from(messages)
+            .pipe(
+                scan((accu, message) => _.merge({}, message, { delay: accu.delay + message.delay }), { delay: 0 }),
+                delayWhen(message => interval(message.delay)),
+                mergeMap(message => emitMessageFun(topic, message.message))
+            )
+            .subscribe(
+                message => {
+                    /*console.log(message)*/
+                },
+                err => reject(err),
+                () => resolve()
+            )
+    })
 
 /**
  * 'producer' command implementation

@@ -46,10 +46,10 @@ describe('cli', function () {
                 args: {}
             },
             cliConfig: {
-                configFileName: "config.yml",
+                configFileName: 'config.yml',
                 wsServer: {
                     forwardTopics: false,
-                    forwarderEvent: "message"
+                    forwarderEvent: 'message'
                 },
                 webServer: {
                     port: 8001
@@ -61,7 +61,7 @@ describe('cli', function () {
                     }
                 },
                 pdms: {
-                    natsUri: "nats://demo.nats.io:4222"
+                    natsUri: 'nats://demo.nats.io:4222'
                 }
             }
         };
@@ -79,10 +79,10 @@ describe('cli', function () {
                 args: {}
             },
             cliConfig: {
-                configFileName: "config.yml",
+                configFileName: 'config.yml',
                 wsServer: {
                     forwardTopics: true,
-                    forwarderEvent: "fwd$"
+                    forwarderEvent: 'fwd$'
                 },
                 webServer: {
                     port: 8002
@@ -94,7 +94,7 @@ describe('cli', function () {
                     }
                 },
                 pdms: {
-                    natsUri: "nats://localhost:4222"
+                    natsUri: 'nats://localhost:4222'
                 }
             }
         };
@@ -110,13 +110,13 @@ describe('cli', function () {
                 name: 'consumer',
                 type: 'async',
                 args: {
-                    channelType: "WS",
-                    topic: "message",
-                    uri: "http://localhost:8001"
+                    channelType: 'WS',
+                    topic: 'message',
+                    uri: 'http://localhost:8001'
                 }
             },
             cliConfig: {
-                configFileName: "config.yml"
+                configFileName: 'config.yml'
             }
         };
 
@@ -131,13 +131,13 @@ describe('cli', function () {
                 name: 'consumer',
                 type: 'async',
                 args: {
-                    channelType: "WS",
-                    topic: "MY_TOPIC",
-                    uri: "wss://ws.mydomain.com:1234"
+                    channelType: 'WS',
+                    topic: 'MY_TOPIC',
+                    uri: 'wss://ws.mydomain.com:1234'
                 }
             },
             cliConfig: {
-                configFileName: "config.yml"
+                configFileName: 'config.yml'
             }
         };
 
@@ -152,9 +152,9 @@ describe('cli', function () {
                 name: 'producer',
                 type: 'async',
                 args: {
-                    channelType: "WS",
-                    topic: "message",
-                    uri: "http://localhost:8001",
+                    channelType: 'WS',
+                    topic: 'message',
+                    uri: 'http://localhost:8001',
                     message: null,
                     source: null,
                     dumpMessages: false,
@@ -162,7 +162,7 @@ describe('cli', function () {
                 }
             },
             cliConfig: {
-                configFileName: "config.yml"
+                configFileName: 'config.yml'
             }
         };
 
@@ -178,17 +178,17 @@ describe('cli', function () {
                 name: 'producer',
                 type: 'async',
                 args: {
-                    channelType: "WS",
-                    topic: "MY_TOPIC",
-                    uri: "wss://ws.mydomain.com:1234",
-                    message: { topic: "MY_TOPIC", payload: "Some payload..." },
+                    channelType: 'WS',
+                    topic: 'MY_TOPIC',
+                    uri: 'wss://ws.mydomain.com:1234',
+                    message: { topic: 'MY_TOPIC', payload: 'Some payload...' },
                     source: '/fixtures/test_scenario.yml',
                     dumpMessages: true,
                     rpc: true
                 }
             },
             cliConfig: {
-                configFileName: "config.yml"
+                configFileName: 'config.yml'
             }
         };
 
