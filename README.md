@@ -3,8 +3,6 @@ wsgw
 
 [![stable](http://badges.github.io/stability-badges/dist/stable.svg)](http://github.com/badges/stability-badges)
 [![npm version][npm-badge]][npm-url]
-[![Build Status][travis-badge]][travis-url]
-[![Coveralls][BadgeCoveralls]][Coveralls]
 
 ## About
 
@@ -269,7 +267,3 @@ to properly forward the message to a NATS topic.
 
 [npm-badge]: https://badge.fury.io/js/wsgw.svg
 [npm-url]: https://badge.fury.io/js/
-[travis-badge]: https://api.travis-ci.org/tombenke/wsgw.svg
-[travis-url]: https://travis-ci.org/tombenke/wsgw
-[Coveralls]: https://coveralls.io/github/tombenke/wsgw?branch=master
-[BadgeCoveralls]: https://coveralls.io/repos/github/tombenke/wsgw/badge.svg?branch=master

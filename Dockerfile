@@ -7,7 +7,7 @@ FROM node:6.11.2
 #LABEL Description=" server image" Vendor="Tamás Benke" Version="1.0"
 
 # Set the environment to the application server
-ENV PDMS_NATS_URI="nats://demo.nats.io:4222"
+ENV PDMS_NATS_URI="nats://localhost:4222"
 
 COPY . /
 RUN npm install && npm run build

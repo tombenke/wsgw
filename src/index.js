@@ -49,8 +49,8 @@ export const start = (argv = process.argv, cb = null) => {
     //Start the container
     console.log(command, appTerminators, jobs)
     npac.start(appAdapters, jobs, appTerminators, (err, res) => {
-        //        if (command.name !== 'server') {
-        process.kill(process.pid, 'SIGTERM')
-        //        }
+        if (command.name !== 'server') {
+            process.kill(process.pid, 'SIGTERM')
+        }
     })
 }

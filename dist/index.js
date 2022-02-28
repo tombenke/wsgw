@@ -70,8 +70,8 @@ var start = exports.start = function start() {
     //Start the container
     console.log(command, appTerminators, jobs);
     _npac2.default.start(appAdapters, jobs, appTerminators, function (err, res) {
-        //        if (command.name !== 'server') {
-        process.kill(process.pid, 'SIGTERM');
-        //        }
+        if (command.name !== 'server') {
+            process.kill(process.pid, 'SIGTERM');
+        }
     });
 };

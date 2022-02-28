@@ -30,7 +30,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var loadMessagesFromFile = exports.loadMessagesFromFile = function loadMessagesFromFile(container, hostFileName, messageFileName) {
     var delay = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0;
 
-    container.logger.info('loadMessagesFromFile("' + hostFileName + '", "' + messageFileName + '", delay=' + delay + ')');
+    //container.logger.info(`loadMessagesFromFile("${hostFileName}", "${messageFileName}", delay=${delay})`)
     var messages = [];
     if (!_lodash2.default.isString(hostFileName) || !_lodash2.default.isString(messageFileName)) {
         return messages;

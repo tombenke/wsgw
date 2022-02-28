@@ -134,7 +134,6 @@ const parse = (defaults, processArgv = process.argv) => {
                     .demandOption([]),
             (argv) => {
                 const channelType = getChannelType(argv.uri)
-                console.log('argv: ', argv)
                 results = {
                     command: {
                         name: 'producer',

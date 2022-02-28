@@ -115,12 +115,12 @@ var parse = function parse(defaults) {
         }).option('dumpMessages', {
             alias: 'd',
             desc: 'Dump the complete messages list to send after loading',
-            type: 'Bool',
+            type: 'boolean',
             default: false
         }).option('rpc', {
             alias: 'r',
             desc: 'Do RPC-like, synchronous call through NATS',
-            type: 'Bool',
+            type: 'boolean',
             default: false
         }).demandOption([]);
     }, function (argv) {

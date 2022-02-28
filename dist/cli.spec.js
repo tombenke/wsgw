@@ -61,7 +61,7 @@ describe('cli', function () {
                     }
                 },
                 pdms: {
-                    natsUri: 'nats://demo.nats.io:4222'
+                    natsUri: 'nats://localhost:4222'
                 }
             }
         };
@@ -166,7 +166,6 @@ describe('cli', function () {
             }
         };
 
-        console.log(_cli2.default.parse(defaults, processArgv));
         (0, _chai.expect)(_cli2.default.parse(defaults, processArgv)).to.eql(expected);
         done();
     });

@@ -7,7 +7,7 @@ import { getWsClient, emitMessageWs, finishWithErrorWs, finishWithSuccessWs } fr
 import { emitMessageNats, finishWithErrorNats, finishWithSuccessNats } from './nats'
 
 export const loadMessagesFromFile = (container, hostFileName, messageFileName, delay = 0) => {
-    container.logger.info(`loadMessagesFromFile("${hostFileName}", "${messageFileName}", delay=${delay})`)
+    //container.logger.info(`loadMessagesFromFile("${hostFileName}", "${messageFileName}", delay=${delay})`)
     let messages = []
     if (!_.isString(hostFileName) || !_.isString(messageFileName)) {
         return messages
