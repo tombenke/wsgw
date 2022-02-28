@@ -17,14 +17,14 @@ exports.execute = (container, args, responseCb) => {
 
     if (args.channelType === 'NATS') {
         container.logger.info(`Start listening to messages on NATS "${args.topic}" topic`)
-        container.pdms.add({ pubsub$: true, topic: args.topic }, data => {
+        container.pdms.add({ pubsub$: true, topic: args.topic }, (data) => {
             container.logger.info(`[${args.topic}] >> ${JSON.stringify(data)}\n`)
         })
     } else {
         container.logger.info(`Start listening to messages on WebSocket "${args.topic}" topic`)
         const wsClient = ioClient(serverUri)
 
-        wsClient.on(args.topic, data => {
+        wsClient.on(args.topic, (data) => {
             container.logger.info(`[${args.topic}] >> ${JSON.stringify(data)}\n`)
         })
     }

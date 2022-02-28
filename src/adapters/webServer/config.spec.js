@@ -2,7 +2,7 @@ import { expect } from 'chai'
 import config from './config'
 
 describe('wsServer.config', () => {
-    it('#defaults', done => {
+    it('#defaults', (done) => {
         const expected = {
             webServer: {
                 port: 8001

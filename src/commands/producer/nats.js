@@ -5,7 +5,7 @@ export const finishWithSuccessNats = (container, endCb) => () => {
     endCb(null, null)
     // NATS will be closed by the container
 }
-export const finishWithErrorNats = (container, endCb) => err => {
+export const finishWithErrorNats = (container, endCb) => (err) => {
     container.logger.error(`ERROR: ${err}!`)
     endCb(err, null)
     // NATS will be closed by the container

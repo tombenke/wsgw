@@ -5,13 +5,13 @@ const yargs = require('yargs')
 
 const parse = (defaults, processArgv = process.argv) => {
     let results = {}
-    const getChannelType = serverUri => (serverUri.match(/^nats:.*/) ? 'NATS' : 'WS')
+    const getChannelType = (serverUri) => (serverUri.match(/^nats:.*/) ? 'NATS' : 'WS')
 
     yargs(processArgv.slice(2))
         .command(
             'server',
             'Run in server mode',
-            yargs =>
+            (yargs) =>
                 yargs
                     .option('config', {
                         alias: 'c',
@@ -55,7 +55,7 @@ const parse = (defaults, processArgv = process.argv) => {
                         default: defaults.pdms.natsUri
                     })
                     .demandOption([]),
-            argv => {
+            (argv) => {
                 results = {
                     command: {
                         name: 'server',
@@ -73,8 +73,8 @@ const parse = (defaults, processArgv = process.argv) => {
                         },
                         wsPdmsGw: {
                             topics: {
-                                inbound: argv.inbound != '' ? _.map(argv.inbound.split(','), t => t.trim()) : [],
-                                outbound: argv.outbound != '' ? _.map(argv.outbound.split(','), t => t.trim()) : []
+                                inbound: argv.inbound != '' ? _.map(argv.inbound.split(','), (t) => t.trim()) : [],
+                                outbound: argv.outbound != '' ? _.map(argv.outbound.split(','), (t) => t.trim()) : []
                             }
                         },
                         pdms: {
@@ -88,7 +88,7 @@ const parse = (defaults, processArgv = process.argv) => {
         .command(
             'producer',
             'Run as a producer client',
-            yargs =>
+            (yargs) =>
                 yargs
                     .option('config', {
                         alias: 'c',
@@ -122,18 +122,19 @@ const parse = (defaults, processArgv = process.argv) => {
                     .option('dumpMessages', {
                         alias: 'd',
                         desc: 'Dump the complete messages list to send after loading',
-                        type: 'Bool',
+                        type: 'boolean',
                         default: false
                     })
                     .option('rpc', {
                         alias: 'r',
                         desc: 'Do RPC-like, synchronous call through NATS',
-                        type: 'Bool',
+                        type: 'boolean',
                         default: false
                     })
                     .demandOption([]),
-            argv => {
+            (argv) => {
                 const channelType = getChannelType(argv.uri)
+                console.log('argv: ', argv)
                 results = {
                     command: {
                         name: 'producer',
@@ -166,7 +167,7 @@ const parse = (defaults, processArgv = process.argv) => {
         .command(
             'consumer',
             'Run as a consumer client',
-            yargs =>
+            (yargs) =>
                 yargs
                     .option('config', {
                         alias: 'c',
@@ -186,7 +187,7 @@ const parse = (defaults, processArgv = process.argv) => {
                         default: 'message'
                     })
                     .demandOption([]),
-            argv => {
+            (argv) => {
                 const channelType = getChannelType(argv.uri)
                 results = {
                     command: {

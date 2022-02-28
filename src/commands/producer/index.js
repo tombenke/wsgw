@@ -28,13 +28,13 @@ export const loadMessagesFromFile = (container, hostFileName, messageFileName, d
     }
 
     return _.chain(messages)
-        .flatMap(item =>
+        .flatMap((item) =>
             _.has(item, 'file')
                 ? loadMessagesFromFile(container, hostFileName, item.file, _.get(item, 'delay', 0))
                 : item
         )
         .value()
-        .map(item => ({ delay: _.get(item, 'delay', 0), message: _.get(item, 'message', {}) }))
+        .map((item) => ({ delay: _.get(item, 'delay', 0), message: _.get(item, 'message', {}) }))
 }
 
 const getMessagesToPublish = (container, args) => {
@@ -53,14 +53,14 @@ const publishMessages = (messages, topic, emitMessageFun) =>
         from(messages)
             .pipe(
                 scan((accu, message) => _.merge({}, message, { delay: accu.delay + message.delay }), { delay: 0 }),
-                delayWhen(message => interval(message.delay)),
-                mergeMap(message => emitMessageFun(topic, message.message))
+                delayWhen((message) => interval(message.delay)),
+                mergeMap((message) => emitMessageFun(topic, message.message))
             )
             .subscribe(
-                message => {
+                (message) => {
                     /*console.log(message)*/
                 },
-                err => reject(err),
+                (err) => reject(err),
                 () => resolve()
             )
     })

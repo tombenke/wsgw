@@ -6,18 +6,18 @@ import { wsServer, wsPdmsGw } from 'npac-wsgw-adapters'
 import webServer from './adapters/webServer/'
 import cli from './cli'
 
-before(done => {
+before((done) => {
     done()
 })
 
-after(done => {
+after((done) => {
     done()
 })
 
 describe('cli', () => {
     const defaults = _.merge({}, appDefaults, pdms.defaults, webServer.defaults, wsServer.defaults, wsPdmsGw.defaults)
 
-    it('#parse - server command with defaults', done => {
+    it('#parse - server command with defaults', (done) => {
         const processArgv = ['node', 'src/index.js', 'server']
         const expected = {
             command: {
@@ -41,7 +41,7 @@ describe('cli', () => {
                     }
                 },
                 pdms: {
-                    natsUri: 'nats://demo.nats.io:4222'
+                    natsUri: 'nats://localhost:4222'
                 }
             }
         }
@@ -50,7 +50,7 @@ describe('cli', () => {
         done()
     })
 
-    it('#parse - server command with full list of args', done => {
+    it('#parse - server command with full list of args', (done) => {
         const processArgv = [
             'node',
             'src/index.js',
@@ -100,7 +100,7 @@ describe('cli', () => {
         done()
     })
 
-    it('#parse consumer command with defaults', done => {
+    it('#parse consumer command with defaults', (done) => {
         const processArgv = ['node', 'src/index.js', 'consumer']
         const expected = {
             command: {
@@ -121,7 +121,7 @@ describe('cli', () => {
         done()
     })
 
-    it('#parse consumer command with full list of args', done => {
+    it('#parse consumer command with full list of args', (done) => {
         const processArgv = [
             'node',
             'src/index.js',
@@ -152,7 +152,7 @@ describe('cli', () => {
         done()
     })
 
-    it('#parse producer command with defaults', done => {
+    it('#parse producer command with defaults', (done) => {
         const processArgv = ['node', 'src/index.js', 'producer']
         const expected = {
             command: {
@@ -173,12 +173,11 @@ describe('cli', () => {
             }
         }
 
-        console.log(cli.parse(defaults, processArgv))
         expect(cli.parse(defaults, processArgv)).to.eql(expected)
         done()
     })
 
-    it('#parse producer command with full list of args', done => {
+    it('#parse producer command with full list of args', (done) => {
         const processArgv = [
             'node',
             'src/index.js',

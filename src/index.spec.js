@@ -14,13 +14,13 @@ describe('app', () => {
         }
     }
 
-    beforeEach(done => {
+    beforeEach((done) => {
         removeSignalHandlers()
         sandbox = sinon.sandbox.create({ useFakeTimers: false })
         done()
     })
 
-    afterEach(done => {
+    afterEach((done) => {
         removeSignalHandlers()
         sandbox.restore()
         done()

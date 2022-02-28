@@ -11,7 +11,7 @@ import commands from './commands/'
 import cli from './cli'
 import npac from 'npac'
 
-const callCommand = command => (command.type === 'sync' ? npac.makeCallSync(command) : npac.makeCall(command))
+const callCommand = (command) => (command.type === 'sync' ? npac.makeCallSync(command) : npac.makeCall(command))
 
 export const start = (argv = process.argv, cb = null) => {
     const defaults = _.merge({}, appDefaults, pdms.defaults, webServer.defaults, wsServer.defaults, wsPdmsGw.defaults)
