@@ -2,7 +2,7 @@ import _ from 'lodash'
 import { expect } from 'chai'
 import appDefaults from './config'
 import pdms from 'npac-pdms-hemera-adapter'
-import { wsServer, wsPdmsGw } from 'npac-wsgw-adapters'
+import wsServer from 'npac-wsgw-adapters'
 import webServer from './adapters/webServer/'
 import cli from './cli'
 
@@ -15,7 +15,8 @@ after((done) => {
 })
 
 describe('cli', () => {
-    const defaults = _.merge({}, appDefaults, pdms.defaults, webServer.defaults, wsServer.defaults, wsPdmsGw.defaults)
+    console.log(`wsServer: ${wsServer}`)
+    const defaults = _.merge({}, appDefaults, pdms.defaults, webServer.defaults, wsServer.defaults)
 
     it('#parse - server command with defaults', (done) => {
         const processArgv = ['node', 'src/index.js', 'server']
@@ -28,17 +29,13 @@ describe('cli', () => {
             cliConfig: {
                 configFileName: 'config.yml',
                 wsServer: {
-                    forwardTopics: false,
-                    forwarderEvent: 'message'
-                },
-                webServer: {
-                    port: 8001
-                },
-                wsPdmsGw: {
                     topics: {
                         inbound: [],
                         outbound: []
                     }
+                },
+                webServer: {
+                    port: 8001
                 },
                 pdms: {
                     natsUri: 'nats://localhost:4222'
@@ -78,17 +75,13 @@ describe('cli', () => {
             cliConfig: {
                 configFileName: 'config.yml',
                 wsServer: {
-                    forwardTopics: true,
-                    forwarderEvent: 'fwd$'
-                },
-                webServer: {
-                    port: 8002
-                },
-                wsPdmsGw: {
                     topics: {
                         inbound: ['IN1', 'IN2', 'IN3'],
                         outbound: ['OUT1', 'OUT2', 'OUT3']
                     }
+                },
+                webServer: {
+                    port: 8002
                 },
                 pdms: {
                     natsUri: 'nats://localhost:4222'

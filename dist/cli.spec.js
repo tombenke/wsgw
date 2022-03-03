@@ -16,6 +16,8 @@ var _npacPdmsHemeraAdapter2 = _interopRequireDefault(_npacPdmsHemeraAdapter);
 
 var _npacWsgwAdapters = require('npac-wsgw-adapters');
 
+var _npacWsgwAdapters2 = _interopRequireDefault(_npacWsgwAdapters);
+
 var _webServer = require('./adapters/webServer/');
 
 var _webServer2 = _interopRequireDefault(_webServer);
@@ -35,7 +37,8 @@ after(function (done) {
 });
 
 describe('cli', function () {
-    var defaults = _lodash2.default.merge({}, _config2.default, _npacPdmsHemeraAdapter2.default.defaults, _webServer2.default.defaults, _npacWsgwAdapters.wsServer.defaults, _npacWsgwAdapters.wsPdmsGw.defaults);
+    console.log('wsServer: ' + _npacWsgwAdapters2.default);
+    var defaults = _lodash2.default.merge({}, _config2.default, _npacPdmsHemeraAdapter2.default.defaults, _webServer2.default.defaults, _npacWsgwAdapters2.default.defaults);
 
     it('#parse - server command with defaults', function (done) {
         var processArgv = ['node', 'src/index.js', 'server'];
@@ -48,17 +51,13 @@ describe('cli', function () {
             cliConfig: {
                 configFileName: 'config.yml',
                 wsServer: {
-                    forwardTopics: false,
-                    forwarderEvent: 'message'
-                },
-                webServer: {
-                    port: 8001
-                },
-                wsPdmsGw: {
                     topics: {
                         inbound: [],
                         outbound: []
                     }
+                },
+                webServer: {
+                    port: 8001
                 },
                 pdms: {
                     natsUri: 'nats://localhost:4222'
@@ -81,17 +80,13 @@ describe('cli', function () {
             cliConfig: {
                 configFileName: 'config.yml',
                 wsServer: {
-                    forwardTopics: true,
-                    forwarderEvent: 'fwd$'
-                },
-                webServer: {
-                    port: 8002
-                },
-                wsPdmsGw: {
                     topics: {
                         inbound: ['IN1', 'IN2', 'IN3'],
                         outbound: ['OUT1', 'OUT2', 'OUT3']
                     }
+                },
+                webServer: {
+                    port: 8002
                 },
                 pdms: {
                     natsUri: 'nats://localhost:4222'
