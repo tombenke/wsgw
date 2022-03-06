@@ -18,6 +18,17 @@ const parse = (defaults, processArgv = process.argv) => {
                         desc: 'The name of the configuration file',
                         default: defaults.configFileName
                     })
+                    .option('logLevel', {
+                        alias: 'l',
+                        desc: 'The log level',
+                        default: defaults.logger.level
+                    })
+                    .option('logFormat', {
+                        alias: 'f',
+                        desc: 'The log (`plainText` or `json`)',
+                        type: 'string',
+                        default: defaults.logger.transports.console.format
+                    })
                     .option('port', {
                         alias: 'p',
                         desc: 'The webSocket server port',
@@ -52,6 +63,14 @@ const parse = (defaults, processArgv = process.argv) => {
                     },
                     cliConfig: {
                         configFileName: argv.config,
+                        logger: {
+                            level: argv.logLevel,
+                            transports: {
+                                console: {
+                                    format: argv.logFormat
+                                }
+                            }
+                        },
                         wsServer: {
                             topics: {
                                 inbound: argv.inbound != '' ? _.map(argv.inbound.split(','), (t) => t.trim()) : [],
@@ -78,6 +97,17 @@ const parse = (defaults, processArgv = process.argv) => {
                         alias: 'c',
                         desc: 'The name of the configuration file',
                         default: defaults.configFileName
+                    })
+                    .option('logLevel', {
+                        alias: 'l',
+                        desc: 'The log level',
+                        default: defaults.logger.level
+                    })
+                    .option('logFormat', {
+                        alias: 'f',
+                        desc: 'The log (`plainText` or `json`)',
+                        type: 'string',
+                        default: defaults.logger.transports.console.format
                     })
                     .option('uri', {
                         alias: 'u',
@@ -138,10 +168,26 @@ const parse = (defaults, processArgv = process.argv) => {
                                   configFileName: argv.config,
                                   pdms: {
                                       natsUri: argv.uri
+                                  },
+                                  logger: {
+                                      level: argv.logLevel,
+                                      transports: {
+                                          console: {
+                                              format: argv.logFormat
+                                          }
+                                      }
                                   }
                               }
                             : {
-                                  configFileName: argv.config
+                                  configFileName: argv.config,
+                                  logger: {
+                                      level: argv.logLevel,
+                                      transports: {
+                                          console: {
+                                              format: argv.logFormat
+                                          }
+                                      }
+                                  }
                               }
                 }
             }
@@ -156,6 +202,17 @@ const parse = (defaults, processArgv = process.argv) => {
                         alias: 'c',
                         desc: 'The name of the configuration file',
                         default: defaults.configFileName
+                    })
+                    .option('logLevel', {
+                        alias: 'l',
+                        desc: 'The log level',
+                        default: defaults.logger.level
+                    })
+                    .option('logFormat', {
+                        alias: 'f',
+                        desc: 'The log (`plainText` or `json`)',
+                        type: 'string',
+                        default: defaults.logger.transports.console.format
                     })
                     .option('uri', {
                         alias: 'u',
@@ -188,10 +245,26 @@ const parse = (defaults, processArgv = process.argv) => {
                                   configFileName: argv.config,
                                   pdms: {
                                       natsUri: argv.uri
+                                  },
+                                  logger: {
+                                      level: argv.logLevel,
+                                      transports: {
+                                          console: {
+                                              format: argv.logFormat
+                                          }
+                                      }
                                   }
                               }
                             : {
-                                  configFileName: argv.config
+                                  configFileName: argv.config,
+                                  logger: {
+                                      level: argv.logLevel,
+                                      transports: {
+                                          console: {
+                                              format: argv.logFormat
+                                          }
+                                      }
+                                  }
                               }
                 }
             }

@@ -31,20 +31,32 @@ var emitMessageNats = exports.emitMessageNats = function emitMessageNats(contain
         return new Promise(function (resolve, reject) {
             // Send to the message specific topic if defined, otherwise sent to the globally defined topic
             var topicToSend = _lodash2.default.get(message, 'topic', topic);
+            /*
             if (rpc) {
-                var fullMsgToSend = _lodash2.default.merge({}, message, { pubsub$: false, topic: topicToSend });
-                container.logger.info(JSON.stringify(message) + ' >> [' + topicToSend + ']');
-                container.pdms.act(fullMsgToSend, function (err, res) {
+                const fullMsgToSend = _.merge({}, message, { pubsub$: false, topic: topicToSend })
+                container.logger.info(`${JSON.stringify(message)} >> [${topicToSend}]`)
+                container.pdms.act(fullMsgToSend, (err, res) => {
                     if (err) {
-                        reject(err);
+                        reject(err)
                     } else {
-                        console.log(JSON.stringify(res, null, '  '));
-                        resolve(res);
+                        console.log(JSON.stringify(res, null, '  '))
+                        resolve(res)
                     }
+                })
+            } else {
+                const fullMsgToSend = _.merge({}, message, { pubsub$: true, topic: topicToSend })
+                container.pdms.act(fullMsgToSend)
+                container.logger.info(`${JSON.stringify(message)} >> [${topicToSend}]`)
+                resolve(message)
+            }
+            */
+            if (rpc) {
+                container.pdms.request(topic, JSON.stringify(message), function (response) {
+                    console.log(JSON.stringify(response, null, '  '));
+                    resolve(response);
                 });
             } else {
-                var _fullMsgToSend = _lodash2.default.merge({}, message, { pubsub$: true, topic: topicToSend });
-                container.pdms.act(_fullMsgToSend);
+                container.pdms.publish(topic, JSON.stringify(message));
                 container.logger.info(JSON.stringify(message) + ' >> [' + topicToSend + ']');
                 resolve(message);
             }

@@ -17,7 +17,8 @@ exports.execute = (container, args, responseCb) => {
 
     if (args.channelType === 'NATS') {
         container.logger.info(`Start listening to messages on NATS "${args.topic}" topic`)
-        container.pdms.add({ pubsub$: true, topic: args.topic }, (data) => {
+        //container.pdms.add({ pubsub$: true, topic: args.topic }, (data) => {
+        container.pdms.subscribe(topic, (data) => {
             container.logger.info(`NATS[${args.topic}] >> ${JSON.stringify(data)}\n`)
         })
     } else {

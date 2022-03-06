@@ -31,7 +31,14 @@ describe('config', function () {
                 version: _package2.default.version
             },
             configFileName: 'config.yml',
-            logLevel: 'info',
+            logger: {
+                level: 'info',
+                transports: {
+                    console: {
+                        format: 'plainText'
+                    }
+                }
+            },
             installDir: _path2.default.resolve('./')
         };
 

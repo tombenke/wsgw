@@ -17,10 +17,13 @@ module.exports = {
         version: thisPackage.version
     },
     configFileName: 'config.yml',
-    logLevel: process.env.WSS_NATS_GW_LOG_LEVEL || 'info',
+    logger: {
+        level: process.env.WSGW_LOG_LEVEL || 'info',
+        transports: {
+            console: {
+                format: process.env.WSGW_LOG_FORMAT || 'plainText' // 'plainText' or 'json'
+            }
+        }
+    },
     installDir: path.resolve('./')
-    // Use values from environment variables if there is any needed
-    // for example:
-    // logLevel: process.env.REST_TOOL_LOG_LEVEL || defaults.logLevel
-    // ...
 }

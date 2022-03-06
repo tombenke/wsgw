@@ -50,6 +50,14 @@ describe('cli', function () {
             },
             cliConfig: {
                 configFileName: 'config.yml',
+                logger: {
+                    level: 'info',
+                    transports: {
+                        console: {
+                            format: 'plainText'
+                        }
+                    }
+                },
                 wsServer: {
                     topics: {
                         inbound: [],
@@ -79,6 +87,14 @@ describe('cli', function () {
             },
             cliConfig: {
                 configFileName: 'config.yml',
+                logger: {
+                    level: 'info',
+                    transports: {
+                        console: {
+                            format: 'plainText'
+                        }
+                    }
+                },
                 wsServer: {
                     topics: {
                         inbound: ['IN1', 'IN2', 'IN3'],
@@ -111,7 +127,15 @@ describe('cli', function () {
                 }
             },
             cliConfig: {
-                configFileName: 'config.yml'
+                configFileName: 'config.yml',
+                logger: {
+                    level: 'info',
+                    transports: {
+                        console: {
+                            format: 'plainText'
+                        }
+                    }
+                }
             }
         };
 
@@ -132,7 +156,15 @@ describe('cli', function () {
                 }
             },
             cliConfig: {
-                configFileName: 'config.yml'
+                configFileName: 'config.yml',
+                logger: {
+                    level: 'info',
+                    transports: {
+                        console: {
+                            format: 'plainText'
+                        }
+                    }
+                }
             }
         };
 
@@ -157,7 +189,15 @@ describe('cli', function () {
                 }
             },
             cliConfig: {
-                configFileName: 'config.yml'
+                configFileName: 'config.yml',
+                logger: {
+                    level: 'info',
+                    transports: {
+                        console: {
+                            format: 'plainText'
+                        }
+                    }
+                }
             }
         };
 
@@ -182,7 +222,15 @@ describe('cli', function () {
                 }
             },
             cliConfig: {
-                configFileName: 'config.yml'
+                configFileName: 'config.yml',
+                logger: {
+                    level: 'info',
+                    transports: {
+                        console: {
+                            format: 'plainText'
+                        }
+                    }
+                }
             }
         };
 

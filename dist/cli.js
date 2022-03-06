@@ -25,6 +25,15 @@ var parse = function parse(defaults) {
             alias: 'c',
             desc: 'The name of the configuration file',
             default: defaults.configFileName
+        }).option('logLevel', {
+            alias: 'l',
+            desc: 'The log level',
+            default: defaults.logger.level
+        }).option('logFormat', {
+            alias: 'f',
+            desc: 'The log (`plainText` or `json`)',
+            type: 'string',
+            default: defaults.logger.transports.console.format
         }).option('port', {
             alias: 'p',
             desc: 'The webSocket server port',
@@ -55,6 +64,14 @@ var parse = function parse(defaults) {
             },
             cliConfig: {
                 configFileName: argv.config,
+                logger: {
+                    level: argv.logLevel,
+                    transports: {
+                        console: {
+                            format: argv.logFormat
+                        }
+                    }
+                },
                 wsServer: {
                     topics: {
                         inbound: argv.inbound != '' ? _lodash2.default.map(argv.inbound.split(','), function (t) {
@@ -78,6 +95,15 @@ var parse = function parse(defaults) {
             alias: 'c',
             desc: 'The name of the configuration file',
             default: defaults.configFileName
+        }).option('logLevel', {
+            alias: 'l',
+            desc: 'The log level',
+            default: defaults.logger.level
+        }).option('logFormat', {
+            alias: 'f',
+            desc: 'The log (`plainText` or `json`)',
+            type: 'string',
+            default: defaults.logger.transports.console.format
         }).option('uri', {
             alias: 'u',
             desc: 'The URI of the WebSocket server',
@@ -129,9 +155,25 @@ var parse = function parse(defaults) {
                 configFileName: argv.config,
                 pdms: {
                     natsUri: argv.uri
+                },
+                logger: {
+                    level: argv.logLevel,
+                    transports: {
+                        console: {
+                            format: argv.logFormat
+                        }
+                    }
                 }
             } : {
-                configFileName: argv.config
+                configFileName: argv.config,
+                logger: {
+                    level: argv.logLevel,
+                    transports: {
+                        console: {
+                            format: argv.logFormat
+                        }
+                    }
+                }
             }
         };
     }).command('consumer', 'Run as a consumer client', function (yargs) {
@@ -139,6 +181,15 @@ var parse = function parse(defaults) {
             alias: 'c',
             desc: 'The name of the configuration file',
             default: defaults.configFileName
+        }).option('logLevel', {
+            alias: 'l',
+            desc: 'The log level',
+            default: defaults.logger.level
+        }).option('logFormat', {
+            alias: 'f',
+            desc: 'The log (`plainText` or `json`)',
+            type: 'string',
+            default: defaults.logger.transports.console.format
         }).option('uri', {
             alias: 'u',
             desc: 'The URI of the WebSocket server',
@@ -166,9 +217,25 @@ var parse = function parse(defaults) {
                 configFileName: argv.config,
                 pdms: {
                     natsUri: argv.uri
+                },
+                logger: {
+                    level: argv.logLevel,
+                    transports: {
+                        console: {
+                            format: argv.logFormat
+                        }
+                    }
                 }
             } : {
-                configFileName: argv.config
+                configFileName: argv.config,
+                logger: {
+                    level: argv.logLevel,
+                    transports: {
+                        console: {
+                            format: argv.logFormat
+                        }
+                    }
+                }
             }
         };
     }).showHelpOnFail(false, 'Specify --help for available options').help().parse();
