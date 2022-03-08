@@ -118,18 +118,109 @@ __Note__: In each modes the `wsgw` provides the following config parameters:
 The following sections shows the typical use-cases of the wsgw in different working modes.
 The detaled description of the specific wsgw working modes can be found below, in dedicated sections.
 
+We can connect to the server with a websocket client built-in to a frontend application running in a browser,
+but it is also possible to test the configuration without having a frontend.
+
+We can test the working of the gateway with the [wsgw](https://github.com/tombenke/wsgw) tool,
+using its `wsgw producer` command to send messages from one side,
+and the `wsgw consumer` command to consume at the other side of the server.
+
+__Important Note:__
+Be careful, and pay attention on the URLs used within the commands!
+We use the same command to consume, and/or publish messages to the gateway, only the URL makes difference 
+to determine which side the client will communicate with:
+- When we want to connect to the websocket side, we use the `-u http://localhost:3007 ` argument,
+- when we want to connect to the NATS side, we use the  `-u nats://localhost:4222 ` argument.
+
+## Communication patterns
 
 ### WS-to-NATS messaging
 
+The next figure shows the message flow when a WebSocket client sends messages to a NATS client through the gateway:
+
 ![The WS-to-NATS message flow](docs/messageflow_ws_to_nats.png)
+
+In one terminal window start receiving messages at the NATS side with the consumer:
+```bash
+    wsgw consumer -u nats://localhost:4222 -t "OUT"
+
+    2022-03-08T09:38:30.367Z [wsgw@1.8.6] info: pdms: Start up
+    2022-03-08T09:38:30.380Z [wsgw@1.8.6] info: hemera: ["Connected!"]
+    2022-03-08T09:38:30.381Z [wsgw@1.8.6] info: pdms: Connected to NATS
+    2022-03-08T09:38:30.382Z [wsgw@1.8.6] info: App runs the jobs...
+    2022-03-08T09:38:30.382Z [wsgw@1.8.6] info: wsgw client {"channelType":"NATS","uri":"nats://localhost:4222","topic":"OUT"}
+    2022-03-08T09:38:30.382Z [wsgw@1.8.6] info: Start listening to messages on NATS "OUT" topic
+```
+
+Then send some message from the websocket with the producer in another terminal:
+```bash
+    $ wsgw producer -u http://localhost:3007 -t "OUT" -m '{"notes":"Some content..."}'
+
+    2022-03-08T09:39:30.325Z [wsgw@1.8.6] info: App runs the jobs...
+    2022-03-08T09:39:30.334Z [wsgw@1.8.6] info: {"notes":"Some content..."} >> [OUT]
+    2022-03-08T09:39:30.355Z [wsgw@1.8.6] info: Successfully completed.
+    2022-03-08T09:39:30.356Z [wsgw@1.8.6] info: App starts the shutdown process...
+    2022-03-08T09:39:30.357Z [wsgw@1.8.6] info: Shutdown process successfully finished
+```
+
+on the console, running the consumer, you should see something like this as a result:
+```bash
+    ...
+    2022-03-08T09:39:30.355Z [wsgw@1.8.6] info: NATS[OUT] >> "{\"notes\":\"Some content...\"}"
+```
 
 ### NATS-to-WS messaging
 
+The next figure shows the message flow when a NATS client sends messages to a WebSocket client through the gateway:
+
 ![The NATS-to-WS message flow](docs/messageflow_nats_to_ws.png)
+
+In one terminal window start receiving messages at the websocket side with the consumer:
+```bash
+    wsgw consumer -u http://localhost:3007 -t "IN"
+
+    2022-03-08T09:15:19.704Z [wsgw@1.8.6] info: App runs the jobs...
+    2022-03-08T09:15:19.705Z [wsgw@1.8.6] info: wsgw client {"channelType":"WS","uri":"http://localhost:3007","topic":"IN"}
+    2022-03-08T09:15:19.705Z [wsgw@1.8.6] info: Start listening to messages on WebSocket "IN" topic
+```
+
+Then send some message from the NATS side with the producer in another terminal:
+```bash
+    $ wsgw producer -u nats://localhost:4222 -t "IN" -m '{"notes":"Some content..."}'
+
+    2022-03-08T09:16:16.292Z [wsgw@1.8.6] info: pdms: Start up
+    2022-03-08T09:16:16.305Z [wsgw@1.8.6] info: hemera: ["Connected!"]
+    2022-03-08T09:16:16.306Z [wsgw@1.8.6] info: pdms: Connected to NATS
+    2022-03-08T09:16:16.306Z [wsgw@1.8.6] info: App runs the jobs...
+    2022-03-08T09:16:16.309Z [wsgw@1.8.6] info: {"notes":"Some content..."} >> [IN]
+    2022-03-08T09:16:16.310Z [wsgw@1.8.6] info: Successfully completed.
+    2022-03-08T09:16:16.310Z [wsgw@1.8.6] info: App starts the shutdown process...
+    2022-03-08T09:16:16.311Z [wsgw@1.8.6] info: pdms: Shutting down
+    2022-03-08T09:16:16.311Z [wsgw@1.8.6] info: Shutdown process successfully finished
+```
+
+on the console, running the consumer, you should see something like this as a result:
+```bash
+    ...
+    2022-03-08T09:16:16.312Z [wsgw@1.8.6] info: WS[IN] >> "{\"notes\":\"Some content...\"}"
+```
 
 ### NATS-to-NATS messaging
 
+It is even possible to use the `wsgw` commands to communicate between two NATS clients or between two websocket clients.
+
+In these cases we only need to set `-u` parameter  either to the websocket server,
+or to the NATS server for both the producer and consumer clients.
+
+In case of connecting two WebSocket clients, we need the gateway running,
+however between two NATS clients we only need a NATS server.
+
+The following figure shows the NATS-to-NATS communication pattern:
+
 ![The NATS-to-NATS message flow](docs/messageflow_nats_to_nats.png)
+
+
+## The usage of the `wsgw` commands
 
 ### The `wsgw server`
 
@@ -306,8 +397,9 @@ to properly forward the message to a NATS topic.
 
 ## References
 
+- [easer](https://www.npmjs.com/package/easer)
+- [npac-wsgw-adapters](https://github.com/tombenke/npac-wsgw-adapters).
 - [npac](http://tombenke.github.io/npac).
-- [npac-example-cli](http://tombenke.github.io/npac-example-cli).
 
 ---
 
