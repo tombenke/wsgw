@@ -256,14 +256,12 @@ The server will listen on `http://localhost:8001` by default.
 You can change the port by setting the `WSGW_SERVER_PORT` environment value
 as well as by using the `-p` parameter.
 
-This is an other example of using inbound and outbound NATS topics:
+We have to define the inbound (`-i`, `--inbound`) and outbound (`-o`, `--outbound`) event channels.
+We can define zero to many inbound and outbound names, separated by comma:
 
 ```bash
-    wsgw server -n nats:localhost:4222 -i "IN1,IN2,IN3" -o "OUT1,OUT2"
+    wsgw server -n nats:localhost:4222 -i "update,data,notification" -o "feedback,accept"
 ```
-We have to define the inbound (`-i`, `--inbound`) and outbound (`-o`, `--outbound`) event channels.
-We can define zero to many inbound and outbound names, separated by comma, for example: `-i "update,data,notification",
-or `-o "feedback,accept"`, etc..
 
 The following command makes the `wsgw server` using the `IN` inbound and `OUT` outbound channels:
 
