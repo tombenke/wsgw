@@ -15,6 +15,16 @@ The typical use-cases are demonstrated by the following figure:
 
 ![The overview of the message flow of a complete WS-NATS messaging system](docs/messageflow_overview.png)
 
+__Important Note:__
+In the followings we will use the terms of inbound and outbound topics.
+It refers to the grouping of event channels and topics to which the messages will be send of received from.
+__They meant to be inbound and outbound from the viewpoint of the websocket client (or UI frontend application).__
+
+The functioning of the websocket gateway is quite simple:
+1. We can define the list of inbound and outbound event channel names.
+2. The gateway will forward the messages coming in the outbound event channels to the NATS topics with the same name.
+3. The gateway will also forward the messages coming in the NATS topics toward the inbound event channels.
+
 ### Working Modes
 The working mode is controlled by the starting command, which can be either `server`, `producer` or `consumer`.
 
@@ -88,15 +98,16 @@ Check if `wsgw` is properly installed:
       --help     Show help                                                 [boolean]
 ```
 
-The following sections shows the typical use-cases of the wsgw in different working modes.
-The detaled description of the specific wsgw working modes can be found below, in dedicated sections.
-
 __Note__: In each modes the `wsgw` provides the following config parameters:
 
 - `--version`: Prints the version of the application.
 - `--help`: Prints the help of the selected command.
 - `--logLevel`, `-l`: Sets the logging level. One of `error`, `warn`, `info`, `debug`. The default is `info`.
 - `--logFormat`, `-f`: Either `plainText` or `json`. Default is: `plainText`.
+
+The following sections shows the typical use-cases of the wsgw in different working modes.
+The detaled description of the specific wsgw working modes can be found below, in dedicated sections.
+
 
 ### WS-to-NATS messaging
 
