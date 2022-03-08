@@ -261,6 +261,15 @@ This is an other example of using inbound and outbound NATS topics:
 ```bash
     wsgw server -n nats:localhost:4222 -i "IN1,IN2,IN3" -o "OUT1,OUT2"
 ```
+We have to define the inbound (`-i`, `--inbound`) and outbound (`-o`, `--outbound`) event channels.
+We can define zero to many inbound and outbound names, separated by comma, for example: `-i "update,data,notification",
+or `-o "feedback,accept"`, etc..
+
+The following command makes the `wsgw server` using the `IN` inbound and `OUT` outbound channels:
+
+```bash
+    $ wsgw -i "IN" -o "OUT"
+
 
 __Note:__
 The `wsgw server` mode is made mostly to test the `wsgw consumer` and `wsgw producer` working modes,
@@ -296,8 +305,20 @@ For example:
     $ wsgw consumer -t "IN1"
 ```
 
-
 ### The `wsgw producer` client
+
+The `wsgw producer` command provides the following features:
+- Send a single message to a specific topic with the content defined as a CLI argument.
+- Send a single message to a specific topic with the content loaded from a file.
+- Send several messages according to a scenario file.
+  The scenario file can hold:
+  - the content of the messages,
+  - the delays to wait before sending the message
+  - the content of the message (directly in the scenario file, or loaded from a content file),
+  - the recursive inclusion of other, sub-scenario files.
+- Send messages as a combination of the previously mentioned sending methods.
+
+The CLI parameters of the producer:
 
 ```bash
     $ wsgw producer --help
@@ -327,73 +348,135 @@ For example:
                                                           [boolean] [default: false]
 ```
 
-Send a direct message from the command line:
+Send a direct message from the command line with direct content definition:
 
 ```bash
-    $ wsgw producer -m '{ "a": true, "topic": "OUT1" }'
+    $ wsgw producer -m '{ "a": true, "note": "Some notes..." }'
 ```
 
-Send messages from a file:
+Send a single message to a specific topic with the content loaded from a file.
+
+```bash
+    $ wsgw producer -c message_content.json
+```
+
+
+Send messages from a scenario file:
 
 ```bash
     $ wsgw producer -s ./commands/producer/fixtures/test_scenario.yml
 ```
 
-You can use both `-m` and `-s` parameters together.
-In this case the direct message will be sent first, then the messages from the file.
+You can use `-m`, `-c` and `-s` parameters together. In this case the messages will be composed into one scenario, starting with the
+message content defined by the `-m` parameter, then with the `-c` parameter, finally folowed by the ones defined via the `-s` scenario.
 
-This is an example messages file:
-```YAML
-    ---
-    - delay: 200
-      message:
-          topic: OUT1
-          payload:
-              id: some-unique-id-1
-              text: some plain text 1
-    - delay: 100
-      message:
-          topic: OUT2
-          payload:
-              id: some-unique-id-2
-              text: some plain text 2
-    - delay: 300
-      message:
-          topic: OUT3
-          payload:
-              id: some-unique-id-3
-              text: some plain text 3
-```
 
 The file contains an array of message entries, where each entry can contain the following properties:
 
 - `delay`: Delay in milliseconds, to wait before sending the actual message.
   The delay is relative to the previous sending.
-- `message`: The message object, to send.
-- `file`: The name of the file, that contains the message. First it loads from the file, then sends it.
+  Default value is `0`.
+- `topic`: The name of the event channel/topic to send the topic into.
+  Default value is the topic name given by the `-t`, `topic` CLI parameter.
+- one of `message`, `file`, `scenario`:
+    - `message`: The message object, to send.
+    - `file`: The path to the file, that contains the message.
+      First it loads from the file, then sends it.
+      The path is relative to the location of the scenario file.
+    - `scenario`: The path to the scenario file to include at the point of definition.
+      The included scenario has the same structure, and may contain further scenario files recursively.
+      The path is relative to the location of the scenario file.
 
-Note: The messages you want to send to a specific topic should contain the name of the target topic,
-in the message as a `topic` property, but the event name you have to send is the `<forwardEvent>` of the server,
-that is "message" by default. If you change the name of the `forwardEvent` on the server,
-you also have to change it in the `producer` as well. You can use the `-t` argument for this, that is by default set to "message".
+This is a list of a simple scenario:
 
-The producer command can be used to send messages to websocket server as well as to NATS.
-It depends on the protocol part of the server URI.
-If the URI starts with `nats://` (for example: `nats://localhost:4222`),
-then the messages will be sent through the NATS middleware,
-if it starts with `http:` (for example: `http://localhost:8001`), then it uses the websocket protocol.
+```YAML
+    ---
+    - delay: 0
+      topic: TMA
+      message:
+          id: some-unique-id-1
+          text: some plain text 1
+    - delay: 1000
+      topic: TMA
+      message:
+          id: some-unique-id-2
+          text: some plain text 2
+    - delay: 3000
+      topic: TMA
+      message:
+          id: some-unique-id-3
+          text: some plain text 3
+```
 
-The inbound/outbound message forwarding automatically happens in case of the websocket mode.
-The topic should be `message` (this is the default value) in this case.
+The different items in a scenario file may combine the `message`, `file` and `scenario` properties.
 
-__Note:__
-The topic handling works differently in case of the `nats:` URIs.
-If we sent the messages to a NATS server, the topic should be the one you really want to send the message.
-If the message itself contain the topic, it will be automatically sent to that topic, if not defined,
-then the topic argument will determine it that you can define with the `-t` or `--topic` switch.
-Its default value is `message`.
-In case of NATS, the messages will automatically get a `$pubsub: true` property as well,
-to properly forward the message to a NATS topic.
+```YAML
+    ---
+    - delay: 0
+      topic: TMA
+      message:
+        id: some-unique-id-1
+        text: some plain text 1
+    - delay: 1000
+      topic: TMA
+      file: message1.yml
+    - delay: 3000
+      topic: TMA
+      message:
+        id: some-unique-id-3
+        text: some plain text 3
+```
+
+You can find a more complex, recursively nested example under the
+[`src/commands/producer/fixtures/` folder](src/commands/producer/fixtures/):
+
+For example the [`test_scenario_nested_L0.yml`](src/commands/producer/fixtures/test_scenario_nested_L0.yml)
+```YAML
+---
+- scenario: test_scenario_nested_L1.yml
+- delay: 0
+  topic: NORMAL
+  message:
+      payload: L0_1
+- delay: 1000
+  file: message1.yml
+- delay: 3000
+  topic: NORMAL
+  message:
+      payload: L0_2
+- scenario: test_scenario_mixed.yml
+```
+
+which includes [`test_scenario_nested_L1.yml`](src/commands/producer/fixtures/test_scenario_nested_L1.yml):
+```YAML
+---
+- scenario: test_scenario_nested_L2.yml
+- delay: 567
+  topic: NORMAL
+  message:
+      payload: L1_1
+- delay: 333
+  file: message1.yml
+- delay: 3000
+  topic: NORMAL
+  message:
+      payload: L1_2
+- scenario: test_scenario_nested_L2.yml
+```
+
+which further includes [`test_scenario_nested_L2.yml`](src/commands/producer/fixtures/test_scenario_nested_L2.yml)
+```YAML
+---
+- delay: 0
+  topic: NESTED
+  message:
+      payload: L2
+- delay: 1000
+  file: message1.yml
+```
+
+The [`embedded_results.json`](src/commands/producer/fixtures/embedded_results.json)
+effective scenario that is finally composed by these nested scenario files.
 
 ## References
 
