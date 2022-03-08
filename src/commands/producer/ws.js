@@ -1,4 +1,5 @@
 import ioClient from 'socket.io-client'
+import _ from 'lodash'
 
 export const getWsClient = (serverUri) => ioClient(serverUri)
 
@@ -15,8 +16,9 @@ export const finishWithErrorWs = (container, wsClient, endCb) => (err) => {
 
 export const emitMessageWs = (container, wsClient) => (topic, message) => {
     return new Promise((resolve, reject) => {
-        container.logger.info(`${JSON.stringify(message)} >> [${topic}]`)
-        wsClient.emit(topic, message, (confirmation) => {
+        const strToEmit = _.isString(message) ? message : JSON.stringify(message)
+        container.logger.info(`${strToEmit} >> [${topic}]`)
+        wsClient.emit(topic, strToEmit, (confirmation) => {
             container.logger.debug(`Got confirmation: ${confirmation}`)
             resolve(message)
         })

@@ -9,6 +9,10 @@ var _socket = require('socket.io-client');
 
 var _socket2 = _interopRequireDefault(_socket);
 
+var _lodash = require('lodash');
+
+var _lodash2 = _interopRequireDefault(_lodash);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var getWsClient = exports.getWsClient = function getWsClient(serverUri) {
@@ -33,8 +37,9 @@ var finishWithErrorWs = exports.finishWithErrorWs = function finishWithErrorWs(c
 var emitMessageWs = exports.emitMessageWs = function emitMessageWs(container, wsClient) {
     return function (topic, message) {
         return new Promise(function (resolve, reject) {
-            container.logger.info(JSON.stringify(message) + ' >> [' + topic + ']');
-            wsClient.emit(topic, message, function (confirmation) {
+            var strToEmit = _lodash2.default.isString(message) ? message : JSON.stringify(message);
+            container.logger.info(strToEmit + ' >> [' + topic + ']');
+            wsClient.emit(topic, strToEmit, function (confirmation) {
                 container.logger.debug('Got confirmation: ' + confirmation);
                 resolve(message);
             });

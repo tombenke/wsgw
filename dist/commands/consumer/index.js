@@ -14,6 +14,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  *
  * @arg {Object} container - Container context object, holds config data of the application and supporting functions.
  * @arg {Object} args - Command arguments object. Contains the name-value pairs of command arguments.
+ * @arg {Function} responseCb - Callback function
  *
  * @function
  */
@@ -23,8 +24,7 @@ exports.execute = function (container, args, responseCb) {
 
     if (args.channelType === 'NATS') {
         container.logger.info('Start listening to messages on NATS "' + args.topic + '" topic');
-        //container.pdms.add({ pubsub$: true, topic: args.topic }, (data) => {
-        container.pdms.subscribe(topic, function (data) {
+        container.pdms.subscribe(args.topic, function (data) {
             container.logger.info('NATS[' + args.topic + '] >> ' + JSON.stringify(data) + '\n');
         });
     } else {

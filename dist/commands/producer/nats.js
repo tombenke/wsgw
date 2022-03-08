@@ -28,18 +28,16 @@ var finishWithErrorNats = exports.finishWithErrorNats = function finishWithError
 
 var emitMessageNats = exports.emitMessageNats = function emitMessageNats(container, rpc) {
     return function (topic, message) {
+        var strToEmit = _lodash2.default.isString(message) ? message : JSON.stringify(message);
         return new Promise(function (resolve, reject) {
-            // Send to the message specific topic if defined, otherwise sent to the globally defined topic
-            var topicToSend = _lodash2.default.get(message, 'topic', topic);
-
             if (rpc) {
-                container.pdms.request(topic, JSON.stringify(message), function (response) {
+                container.pdms.request(topic, strToEmit, function (response) {
                     console.log(JSON.stringify(response, null, '  '));
                     resolve(response);
                 });
             } else {
-                container.pdms.publish(topic, JSON.stringify(message));
-                container.logger.info(JSON.stringify(message) + ' >> [' + topicToSend + ']');
+                container.pdms.publish(topic, strToEmit);
+                container.logger.info(strToEmit + ' >> [' + topic + ']');
                 resolve(message);
             }
         });

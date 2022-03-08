@@ -12,18 +12,16 @@ export const finishWithErrorNats = (container, endCb) => (err) => {
 }
 
 export const emitMessageNats = (container, rpc) => (topic, message) => {
+    const strToEmit = _.isString(message) ? message : JSON.stringify(message)
     return new Promise((resolve, reject) => {
-        // Send to the message specific topic if defined, otherwise sent to the globally defined topic
-        const topicToSend = _.get(message, 'topic', topic)
-
         if (rpc) {
-            container.pdms.request(topic, JSON.stringify(message), (response) => {
+            container.pdms.request(topic, strToEmit, (response) => {
                 console.log(JSON.stringify(response, null, '  '))
                 resolve(response)
             })
         } else {
-            container.pdms.publish(topic, JSON.stringify(message))
-            container.logger.info(`${JSON.stringify(message)} >> [${topicToSend}]`)
+            container.pdms.publish(topic, strToEmit)
+            container.logger.info(`${strToEmit} >> [${topic}]`)
             resolve(message)
         }
     })
