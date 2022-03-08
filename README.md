@@ -426,7 +426,7 @@ The different items in a scenario file may combine the `message`, `file` and `sc
 ```
 
 You can find a more complex, recursively nested example under the
-[`src/commands/producer/fixtures/` folder](src/commands/producer/fixtures/):
+[`src/commands/producer/fixtures/`](src/commands/producer/fixtures/) folder:
 
 For example the [`test_scenario_nested_L0.yml`](src/commands/producer/fixtures/test_scenario_nested_L0.yml)
 ```YAML
