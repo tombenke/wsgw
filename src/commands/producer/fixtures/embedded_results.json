@@ -1,134 +1,120 @@
 [
     {
         "delay": 0,
+        "topic": "NESTED",
         "message": {
-            "topic": "NESTED",
             "payload": "L2"
         }
     },
     {
         "delay": 1000,
+        "topic": "TMA",
         "message": {
-            "topic": "TMA",
-            "payload": {
-                "id": "message1",
-                "content": {
-                    "textField": "Some text",
-                    "numberField": 42,
-                    "arrayField": [1, 2, 3, 4]
-                }
+            "id": "message1",
+            "content": {
+                "textField": "Some text",
+                "numberField": 42,
+                "arrayField": [1, 2, 3, 4]
             }
         }
     },
     {
         "delay": 567,
+        "topic": "NORMAL",
         "message": {
-            "topic": "NESTED",
             "payload": "L1_1"
         }
     },
     {
         "delay": 333,
+        "topic": "TMA",
         "message": {
-            "topic": "TMA",
-            "payload": {
-                "id": "message1",
-                "content": {
-                    "textField": "Some text",
-                    "numberField": 42,
-                    "arrayField": [1, 2, 3, 4]
-                }
+            "id": "message1",
+            "content": {
+                "textField": "Some text",
+                "numberField": 42,
+                "arrayField": [1, 2, 3, 4]
             }
         }
     },
     {
         "delay": 3000,
+        "topic": "NORMAL",
         "message": {
-            "topic": "NESTED",
             "payload": "L1_2"
         }
     },
     {
-        "delay": 22,
+        "delay": 0,
+        "topic": "NESTED",
         "message": {
-            "topic": "NESTED",
             "payload": "L2"
         }
     },
     {
         "delay": 1000,
+        "topic": "TMA",
         "message": {
-            "topic": "TMA",
-            "payload": {
-                "id": "message1",
-                "content": {
-                    "textField": "Some text",
-                    "numberField": 42,
-                    "arrayField": [1, 2, 3, 4]
-                }
+            "id": "message1",
+            "content": {
+                "textField": "Some text",
+                "numberField": 42,
+                "arrayField": [1, 2, 3, 4]
             }
         }
     },
     {
         "delay": 0,
+        "topic": "NORMAL",
         "message": {
-            "topic": "NESTED",
             "payload": "L0_1"
         }
     },
     {
         "delay": 1000,
+        "topic": "TMA",
         "message": {
-            "topic": "TMA",
-            "payload": {
-                "id": "message1",
-                "content": {
-                    "textField": "Some text",
-                    "numberField": 42,
-                    "arrayField": [1, 2, 3, 4]
-                }
+            "id": "message1",
+            "content": {
+                "textField": "Some text",
+                "numberField": 42,
+                "arrayField": [1, 2, 3, 4]
             }
         }
     },
     {
         "delay": 3000,
+        "topic": "NORMAL",
         "message": {
-            "topic": "NESTED",
             "payload": "L0_2"
         }
     },
     {
         "delay": 0,
+        "topic": "TMA",
         "message": {
-            "topic": "TMA",
-            "payload": {
-                "id": "some-unique-id-1",
-                "text": "some plain text 1"
-            }
+            "id": "some-unique-id-1",
+            "text": "some plain text 1"
         }
     },
     {
         "delay": 1000,
+        "topic": "TMA",
         "message": {
-            "topic": "TMA",
-            "payload": {
-                "id": "message1",
-                "content": {
-                    "textField": "Some text",
-                    "numberField": 42,
-                    "arrayField": [1, 2, 3, 4]
-                }
+            "id": "message1",
+            "content": {
+                "textField": "Some text",
+                "numberField": 42,
+                "arrayField": [1, 2, 3, 4]
             }
         }
     },
     {
         "delay": 3000,
+        "topic": "TMA",
         "message": {
-            "topic": "TMA",
-            "payload": {
-                "id": "some-unique-id-3",
-                "text": "some plain text 3"
-            }
+            "id": "some-unique-id-3",
+            "text": "some plain text 3"
         }
     }
 ]

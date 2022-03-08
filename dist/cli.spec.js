@@ -26,6 +26,10 @@ var _cli = require('./cli');
 
 var _cli2 = _interopRequireDefault(_cli);
 
+var _path = require('path');
+
+var _path2 = _interopRequireDefault(_path);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 before(function (done) {
@@ -49,7 +53,6 @@ describe('cli', function () {
                 args: {}
             },
             cliConfig: {
-                configFileName: 'config.yml',
                 logger: {
                     level: 'info',
                     transports: {
@@ -86,7 +89,6 @@ describe('cli', function () {
                 args: {}
             },
             cliConfig: {
-                configFileName: 'config.yml',
                 logger: {
                     level: 'info',
                     transports: {
@@ -127,7 +129,6 @@ describe('cli', function () {
                 }
             },
             cliConfig: {
-                configFileName: 'config.yml',
                 logger: {
                     level: 'info',
                     transports: {
@@ -156,7 +157,6 @@ describe('cli', function () {
                 }
             },
             cliConfig: {
-                configFileName: 'config.yml',
                 logger: {
                     level: 'info',
                     transports: {
@@ -183,13 +183,13 @@ describe('cli', function () {
                     topic: 'message',
                     uri: 'http://localhost:8001',
                     message: null,
-                    source: null,
+                    messageContent: null,
+                    scenario: null,
                     dumpMessages: false,
                     rpc: false
                 }
             },
             cliConfig: {
-                configFileName: 'config.yml',
                 logger: {
                     level: 'info',
                     transports: {
@@ -206,7 +206,7 @@ describe('cli', function () {
     });
 
     it('#parse producer command with full list of args', function (done) {
-        var processArgv = ['node', 'src/index.js', 'producer', '-c', 'config.yml', '-u', 'wss://ws.mydomain.com:1234', '-t', 'MY_TOPIC', '-m', '{ "topic": "MY_TOPIC", "payload": "Some payload..."}', '-s', '/fixtures/test_scenario.yml', '-d', '-r'];
+        var processArgv = ['node', 'src/index.js', 'producer', '-u', 'wss://ws.mydomain.com:1234', '-t', 'MY_TOPIC', '-m', '{ "topic": "MY_TOPIC", "payload": "Some payload..."}', '-c', 'message-content.json', '-s', '/fixtures/test_scenario.yml', '-d', '-r'];
         var expected = {
             command: {
                 name: 'producer',
@@ -216,13 +216,13 @@ describe('cli', function () {
                     topic: 'MY_TOPIC',
                     uri: 'wss://ws.mydomain.com:1234',
                     message: { topic: 'MY_TOPIC', payload: 'Some payload...' },
-                    source: '/fixtures/test_scenario.yml',
+                    messageContent: _path2.default.resolve('message-content.json'),
+                    scenario: '/fixtures/test_scenario.yml',
                     dumpMessages: true,
                     rpc: true
                 }
             },
             cliConfig: {
-                configFileName: 'config.yml',
                 logger: {
                     level: 'info',
                     transports: {

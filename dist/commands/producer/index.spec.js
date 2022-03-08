@@ -14,24 +14,24 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 describe('commands/producer', function () {
     var container = { logger: console };
-    it('#loadMessagesFromFile -  single message', function () {
+
+    it('#loadMessageContentFromFile', function () {
         var fileName = __dirname + '/fixtures/message1.yml';
-        (0, _chai.expect)((0, _index.loadMessagesFromFile)(container, fileName, fileName, 0)).to.eql(_fixtures.testSingleMessage);
+        (0, _chai.expect)((0, _index.loadMessageContentFromFile)(container, 0, 'topic1', fileName)).to.eql(_fixtures.testSingleMessage);
     });
 
-    it('#loadMessagesFromFile -  messages only', function () {
+    it('#loadMessagesFromScenarioFile -  messages only', function () {
         var fileName = __dirname + '/fixtures/test_scenario.yml';
-        (0, _chai.expect)((0, _index.loadMessagesFromFile)(container, fileName, fileName, 0)).to.eql(_fixtures.testScenario);
+        (0, _chai.expect)((0, _index.loadMessagesFromScenarioFile)(container, 'topic1', fileName)).to.eql(_fixtures.testScenario);
     });
 
     it('#loadMessagesFromFile -  messages and files mixed', function () {
         var fileName = __dirname + '/fixtures/test_scenario_mixed.yml';
-        (0, _chai.expect)((0, _index.loadMessagesFromFile)(container, fileName, fileName, 0)).to.eql(_fixtures.testScenarioMixed);
+        (0, _chai.expect)((0, _index.loadMessagesFromScenarioFile)(container, 'TMA', fileName)).to.eql(_fixtures.testScenarioMixed);
     });
 
-    it('#loadMessagesFromFile -  messages and files mixed with embedded scenario', function () {
+    it('#loadMessagesFromFile -  messages and files mixed with embedded sub-scenario', function () {
         var fileName = __dirname + '/fixtures/test_scenario_nested_L0.yml';
-        //        console.log(JSON.stringify(loadMessagesFromFile(container, fileName, fileName, 0), null, '  '))
-        (0, _chai.expect)((0, _index.loadMessagesFromFile)(container, fileName, fileName, 0)).to.eql(_fixtures.embeddedResults);
+        (0, _chai.expect)((0, _index.loadMessagesFromScenarioFile)(container, 'TMA', fileName)).to.eql(_fixtures.embeddedResults);
     });
 });

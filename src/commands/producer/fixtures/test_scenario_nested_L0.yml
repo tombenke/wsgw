@@ -1,13 +1,13 @@
 ---
-- file: test_scenario_nested_L1.yml
+- scenario: test_scenario_nested_L1.yml
 - delay: 0
+  topic: NORMAL
   message:
-      topic: NESTED
       payload: L0_1
 - delay: 1000
   file: message1.yml
 - delay: 3000
+  topic: NORMAL
   message:
-      topic: NESTED
       payload: L0_2
-- file: test_scenario_mixed.yml
+- scenario: test_scenario_mixed.yml 

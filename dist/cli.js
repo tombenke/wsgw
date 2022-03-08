@@ -21,11 +21,7 @@ var parse = function parse(defaults) {
     };
 
     yargs(processArgv.slice(2)).command('server', 'Run in server mode', function (yargs) {
-        return yargs.option('config', {
-            alias: 'c',
-            desc: 'The name of the configuration file',
-            default: defaults.configFileName
-        }).option('logLevel', {
+        return yargs.option('logLevel', {
             alias: 'l',
             desc: 'The log level',
             default: defaults.logger.level
@@ -63,7 +59,6 @@ var parse = function parse(defaults) {
                 args: {}
             },
             cliConfig: {
-                configFileName: argv.config,
                 logger: {
                     level: argv.logLevel,
                     transports: {
@@ -91,11 +86,7 @@ var parse = function parse(defaults) {
             }
         };
     }).command('producer', 'Run as a producer client', function (yargs) {
-        return yargs.option('config', {
-            alias: 'c',
-            desc: 'The name of the configuration file',
-            default: defaults.configFileName
-        }).option('logLevel', {
+        return yargs.option('logLevel', {
             alias: 'l',
             desc: 'The log level',
             default: defaults.logger.level
@@ -119,9 +110,14 @@ var parse = function parse(defaults) {
             desc: 'The JSON-format message string to send',
             type: 'String',
             default: null
-        }).option('source', {
+        }).option('messageContent', {
+            alias: 'c',
+            desc: 'The file that contains the message content string to send',
+            type: 'String',
+            default: null
+        }).option('scenario', {
             alias: 's',
-            desc: 'The name of the YAML or JSON format source file that holds the messages to send',
+            desc: 'The name of the YAML or JSON format scenario file that holds a list of messages to send',
             type: 'String',
             default: null
         }).option('dumpMessages', {
@@ -146,13 +142,13 @@ var parse = function parse(defaults) {
                     uri: argv.uri,
                     topic: argv.topic,
                     message: argv.message != null && _lodash2.default.isString(argv.message) ? JSON.parse(argv.message) : null,
-                    source: argv.source != null && _lodash2.default.isString(argv.source) ? _path2.default.resolve(argv.source) : null,
+                    messageContent: argv.messageContent != null && _lodash2.default.isString(argv.messageContent) ? _path2.default.resolve(argv.messageContent) : null,
+                    scenario: argv.scenario != null && _lodash2.default.isString(argv.scenario) ? _path2.default.resolve(argv.scenario) : null,
                     dumpMessages: argv.dumpMessages,
                     rpc: argv.rpc
                 }
             },
             cliConfig: channelType === 'NATS' ? {
-                configFileName: argv.config,
                 pdms: {
                     natsUri: argv.uri
                 },
@@ -165,7 +161,6 @@ var parse = function parse(defaults) {
                     }
                 }
             } : {
-                configFileName: argv.config,
                 logger: {
                     level: argv.logLevel,
                     transports: {
@@ -177,11 +172,7 @@ var parse = function parse(defaults) {
             }
         };
     }).command('consumer', 'Run as a consumer client', function (yargs) {
-        return yargs.option('config', {
-            alias: 'c',
-            desc: 'The name of the configuration file',
-            default: defaults.configFileName
-        }).option('logLevel', {
+        return yargs.option('logLevel', {
             alias: 'l',
             desc: 'The log level',
             default: defaults.logger.level
@@ -214,7 +205,6 @@ var parse = function parse(defaults) {
                 }
             },
             cliConfig: channelType === 'NATS' ? {
-                configFileName: argv.config,
                 pdms: {
                     natsUri: argv.uri
                 },
@@ -227,7 +217,6 @@ var parse = function parse(defaults) {
                     }
                 }
             } : {
-                configFileName: argv.config,
                 logger: {
                     level: argv.logLevel,
                     transports: {

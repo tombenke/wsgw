@@ -5,6 +5,7 @@ import pdms from 'npac-pdms-hemera-adapter'
 import wsServer from 'npac-wsgw-adapters'
 import webServer from './adapters/webServer/'
 import cli from './cli'
+import path from 'path'
 
 before((done) => {
     done()
@@ -27,7 +28,6 @@ describe('cli', () => {
                 args: {}
             },
             cliConfig: {
-                configFileName: 'config.yml',
                 logger: {
                     level: 'info',
                     transports: {
@@ -81,7 +81,6 @@ describe('cli', () => {
                 args: {}
             },
             cliConfig: {
-                configFileName: 'config.yml',
                 logger: {
                     level: 'info',
                     transports: {
@@ -122,7 +121,6 @@ describe('cli', () => {
                 }
             },
             cliConfig: {
-                configFileName: 'config.yml',
                 logger: {
                     level: 'info',
                     transports: {
@@ -161,7 +159,6 @@ describe('cli', () => {
                 }
             },
             cliConfig: {
-                configFileName: 'config.yml',
                 logger: {
                     level: 'info',
                     transports: {
@@ -188,13 +185,13 @@ describe('cli', () => {
                     topic: 'message',
                     uri: 'http://localhost:8001',
                     message: null,
-                    source: null,
+                    messageContent: null,
+                    scenario: null,
                     dumpMessages: false,
                     rpc: false
                 }
             },
             cliConfig: {
-                configFileName: 'config.yml',
                 logger: {
                     level: 'info',
                     transports: {
@@ -215,14 +212,14 @@ describe('cli', () => {
             'node',
             'src/index.js',
             'producer',
-            '-c',
-            'config.yml',
             '-u',
             'wss://ws.mydomain.com:1234',
             '-t',
             'MY_TOPIC',
             '-m',
             '{ "topic": "MY_TOPIC", "payload": "Some payload..."}',
+            '-c',
+            'message-content.json',
             '-s',
             '/fixtures/test_scenario.yml',
             '-d',
@@ -237,13 +234,13 @@ describe('cli', () => {
                     topic: 'MY_TOPIC',
                     uri: 'wss://ws.mydomain.com:1234',
                     message: { topic: 'MY_TOPIC', payload: 'Some payload...' },
-                    source: '/fixtures/test_scenario.yml',
+                    messageContent: path.resolve('message-content.json'),
+                    scenario: '/fixtures/test_scenario.yml',
                     dumpMessages: true,
                     rpc: true
                 }
             },
             cliConfig: {
-                configFileName: 'config.yml',
                 logger: {
                     level: 'info',
                     transports: {

@@ -1,7 +1,7 @@
 ---
 - delay: 0
+  topic: NESTED
   message:
-      topic: NESTED
       payload: L2
 - delay: 1000
   file: message1.yml

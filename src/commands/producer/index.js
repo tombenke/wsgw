@@ -6,40 +6,53 @@ import { loadJsonFileSync } from 'datafile'
 import { getWsClient, emitMessageWs, finishWithErrorWs, finishWithSuccessWs } from './ws'
 import { emitMessageNats, finishWithErrorNats, finishWithSuccessNats } from './nats'
 
-export const loadMessagesFromFile = (container, hostFileName, messageFileName, delay = 0) => {
-    //container.logger.info(`loadMessagesFromFile("${hostFileName}", "${messageFileName}", delay=${delay})`)
+export const loadMessagesFromScenarioFile = (container, topic, scenarioFileName) => {
+    container.logger.debug(`loadMessagesFromScenarioFile(scenarioFileName: "${scenarioFileName}")`)
     let messages = []
-    if (!_.isString(hostFileName) || !_.isString(messageFileName)) {
+    if (!_.isString(scenarioFileName) || scenarioFileName === '') {
         return messages
     }
-    const content = loadJsonFileSync(path.resolve(path.dirname(hostFileName), path.basename(messageFileName)))
+    const scenario = loadJsonFileSync(path.resolve(scenarioFileName))
 
-    // If this is a single message, then make a messages array from it
-    if (_.isArray(content)) {
-        const firstItem = _.head(content)
-        if (_.has(firstItem, 'message')) {
-            const firstMessage = { ...firstItem, delay: delay + _.get(firstItem, 'delay', 0) }
-            messages = _.concat(firstMessage, _.tail(content))
-        } else {
-            messages = content
-        }
-    } else if (_.isObject(content) && _.has(content, ['topic']) /* && _.has(content, ['payload'])*/) {
-        messages = [{ delay: delay, message: content }]
+    if (_.isArray(scenario)) {
+        const basePath = path.dirname(scenarioFileName)
+        messages = _.chain(scenario)
+            .flatMap((item) =>
+                _.has(item, 'scenario')
+                    ? loadMessagesFromScenarioFile(container, topic, path.resolve(basePath, item.scenario))
+                    : _.has(item, 'file')
+                    ? loadMessageContentFromFile(container, item.delay, item.topic, path.resolve(basePath, item.file))
+                    : item
+            )
+            .value()
+            .map((item) => ({
+                delay: _.get(item, 'delay', 0),
+                topic: _.get(item, 'topic', topic),
+                message: _.get(item, 'message', {})
+            }))
     }
 
-    return _.chain(messages)
-        .flatMap((item) =>
-            _.has(item, 'file')
-                ? loadMessagesFromFile(container, hostFileName, item.file, _.get(item, 'delay', 0))
-                : item
-        )
-        .value()
-        .map((item) => ({ delay: _.get(item, 'delay', 0), message: _.get(item, 'message', {}) }))
+    return messages
+}
+
+export const loadMessageContentFromFile = (container, delay, topic, messageFileName) => {
+    container.logger.debug(`loadMessageContentFromFile(messageFileName: "${messageFileName}")`)
+    let messages = []
+    if (!_.isString(messageFileName)) {
+        return messages
+    }
+    const content = loadJsonFileSync(path.resolve(messageFileName))
+    messages = [{ delay: delay, topic: topic, message: content }]
+    return messages
 }
 
 const getMessagesToPublish = (container, args) => {
-    const directMessage = args.message != null ? [{ delay: 0, message: args.message }] : []
-    const messagesToPublish = _.concat(directMessage, loadMessagesFromFile(container, args.source, args.source, 0))
+    const directMessage = args.message != null ? [{ delay: 0, topic: args.topic, message: args.message }] : []
+    const messagesToPublish = _.concat(
+        directMessage,
+        loadMessageContentFromFile(container, 0, args.topic, args.messageContent),
+        loadMessagesFromScenarioFile(container, args.topic, args.scenario)
+    )
     if (args.dumpMessages) {
         container.logger.info(`Messages to publish: ${JSON.stringify(messagesToPublish, null, '  ')}`)
     }
@@ -49,7 +62,6 @@ const getMessagesToPublish = (container, args) => {
 
 const publishMessages = (messages, topic, emitMessageFun) =>
     new Promise((resolve, reject) => {
-        //console.log('publishMessages: ', JSON.stringify(messages, null, '  '))
         from(messages)
             .pipe(
                 scan((accu, message) => _.merge({}, message, { delay: accu.delay + message.delay }), { delay: 0 }),
@@ -74,17 +86,17 @@ const publishMessages = (messages, topic, emitMessageFun) =>
  * @function
  */
 exports.execute = (container, args, endCb) => {
-    container.logger.info(`${container.config.app.name} client ${JSON.stringify(args)}`)
+    container.logger.debug(`${container.config.app.name} client ${JSON.stringify(args)}`)
     const serverUri = args.uri || `http://localhost:${container.config.wsServer.port}`
     const messagesToPublish = getMessagesToPublish(container, args)
 
     if (args.channelType === 'NATS') {
-        container.logger.info('It sends messages through NATS')
+        container.logger.debug('It sends messages through NATS')
         publishMessages(messagesToPublish, args.topic, emitMessageNats(container, args.rpc))
             .then(finishWithSuccessNats(container, endCb))
             .catch(finishWithErrorNats(container, endCb))
     } else {
-        container.logger.info('It sends messages through websocket')
+        container.logger.debug('It sends messages through websocket')
         const wsClient = getWsClient(serverUri)
         publishMessages(messagesToPublish, args.topic, emitMessageWs(container, wsClient))
             .then(finishWithSuccessWs(container, wsClient, endCb))

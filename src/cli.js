@@ -13,11 +13,6 @@ const parse = (defaults, processArgv = process.argv) => {
             'Run in server mode',
             (yargs) =>
                 yargs
-                    .option('config', {
-                        alias: 'c',
-                        desc: 'The name of the configuration file',
-                        default: defaults.configFileName
-                    })
                     .option('logLevel', {
                         alias: 'l',
                         desc: 'The log level',
@@ -62,7 +57,6 @@ const parse = (defaults, processArgv = process.argv) => {
                         args: {}
                     },
                     cliConfig: {
-                        configFileName: argv.config,
                         logger: {
                             level: argv.logLevel,
                             transports: {
@@ -93,11 +87,6 @@ const parse = (defaults, processArgv = process.argv) => {
             'Run as a producer client',
             (yargs) =>
                 yargs
-                    .option('config', {
-                        alias: 'c',
-                        desc: 'The name of the configuration file',
-                        default: defaults.configFileName
-                    })
                     .option('logLevel', {
                         alias: 'l',
                         desc: 'The log level',
@@ -127,9 +116,15 @@ const parse = (defaults, processArgv = process.argv) => {
                         type: 'String',
                         default: null
                     })
-                    .option('source', {
+                    .option('messageContent', {
+                        alias: 'c',
+                        desc: 'The file that contains the message content string to send',
+                        type: 'String',
+                        default: null
+                    })
+                    .option('scenario', {
                         alias: 's',
-                        desc: 'The name of the YAML or JSON format source file that holds the messages to send',
+                        desc: 'The name of the YAML or JSON format scenario file that holds a list of messages to send',
                         type: 'String',
                         default: null
                     })
@@ -157,7 +152,12 @@ const parse = (defaults, processArgv = process.argv) => {
                             uri: argv.uri,
                             topic: argv.topic,
                             message: argv.message != null && _.isString(argv.message) ? JSON.parse(argv.message) : null,
-                            source: argv.source != null && _.isString(argv.source) ? path.resolve(argv.source) : null,
+                            messageContent:
+                                argv.messageContent != null && _.isString(argv.messageContent)
+                                    ? path.resolve(argv.messageContent)
+                                    : null,
+                            scenario:
+                                argv.scenario != null && _.isString(argv.scenario) ? path.resolve(argv.scenario) : null,
                             dumpMessages: argv.dumpMessages,
                             rpc: argv.rpc
                         }
@@ -165,7 +165,6 @@ const parse = (defaults, processArgv = process.argv) => {
                     cliConfig:
                         channelType === 'NATS'
                             ? {
-                                  configFileName: argv.config,
                                   pdms: {
                                       natsUri: argv.uri
                                   },
@@ -179,7 +178,6 @@ const parse = (defaults, processArgv = process.argv) => {
                                   }
                               }
                             : {
-                                  configFileName: argv.config,
                                   logger: {
                                       level: argv.logLevel,
                                       transports: {
@@ -198,11 +196,6 @@ const parse = (defaults, processArgv = process.argv) => {
             'Run as a consumer client',
             (yargs) =>
                 yargs
-                    .option('config', {
-                        alias: 'c',
-                        desc: 'The name of the configuration file',
-                        default: defaults.configFileName
-                    })
                     .option('logLevel', {
                         alias: 'l',
                         desc: 'The log level',
@@ -242,7 +235,6 @@ const parse = (defaults, processArgv = process.argv) => {
                     cliConfig:
                         channelType === 'NATS'
                             ? {
-                                  configFileName: argv.config,
                                   pdms: {
                                       natsUri: argv.uri
                                   },
@@ -256,7 +248,6 @@ const parse = (defaults, processArgv = process.argv) => {
                                   }
                               }
                             : {
-                                  configFileName: argv.config,
                                   logger: {
                                       level: argv.logLevel,
                                       transports: {
