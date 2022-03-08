@@ -154,10 +154,10 @@ In one terminal window start receiving messages at the NATS side with the consum
 
 Then send some message from the websocket with the producer in another terminal:
 ```bash
-    $ wsgw producer -u http://localhost:3007 -t "OUT" -m '{"notes":"Some content..."}'
+    $ wsgw producer -u http://localhost:3007 -t "OUT" -m '{"notes":"Some text..."}'
 
     2022-03-08T09:39:30.325Z [wsgw@1.8.6] info: App runs the jobs...
-    2022-03-08T09:39:30.334Z [wsgw@1.8.6] info: {"notes":"Some content..."} >> [OUT]
+    2022-03-08T09:39:30.334Z [wsgw@1.8.6] info: {"notes":"Some text..."} >> [OUT]
     2022-03-08T09:39:30.355Z [wsgw@1.8.6] info: Successfully completed.
     2022-03-08T09:39:30.356Z [wsgw@1.8.6] info: App starts the shutdown process...
     2022-03-08T09:39:30.357Z [wsgw@1.8.6] info: Shutdown process successfully finished
@@ -166,7 +166,7 @@ Then send some message from the websocket with the producer in another terminal:
 on the console, running the consumer, you should see something like this as a result:
 ```bash
     ...
-    2022-03-08T09:39:30.355Z [wsgw@1.8.6] info: NATS[OUT] >> "{\"notes\":\"Some content...\"}"
+    2022-03-08T09:39:30.355Z [wsgw@1.8.6] info: NATS[OUT] >> "{\"notes\":\"Some text...\"}"
 ```
 
 ### NATS-to-WS messaging
@@ -186,13 +186,13 @@ In one terminal window start receiving messages at the websocket side with the c
 
 Then send some message from the NATS side with the producer in another terminal:
 ```bash
-    $ wsgw producer -u nats://localhost:4222 -t "IN" -m '{"notes":"Some content..."}'
+    $ wsgw producer -u nats://localhost:4222 -t "IN" -m '{"notes":"Some text..."}'
 
     2022-03-08T09:16:16.292Z [wsgw@1.8.6] info: pdms: Start up
     2022-03-08T09:16:16.305Z [wsgw@1.8.6] info: hemera: ["Connected!"]
     2022-03-08T09:16:16.306Z [wsgw@1.8.6] info: pdms: Connected to NATS
     2022-03-08T09:16:16.306Z [wsgw@1.8.6] info: App runs the jobs...
-    2022-03-08T09:16:16.309Z [wsgw@1.8.6] info: {"notes":"Some content..."} >> [IN]
+    2022-03-08T09:16:16.309Z [wsgw@1.8.6] info: {"notes":"Some text..."} >> [IN]
     2022-03-08T09:16:16.310Z [wsgw@1.8.6] info: Successfully completed.
     2022-03-08T09:16:16.310Z [wsgw@1.8.6] info: App starts the shutdown process...
     2022-03-08T09:16:16.311Z [wsgw@1.8.6] info: pdms: Shutting down
@@ -202,7 +202,7 @@ Then send some message from the NATS side with the producer in another terminal:
 on the console, running the consumer, you should see something like this as a result:
 ```bash
     ...
-    2022-03-08T09:16:16.312Z [wsgw@1.8.6] info: WS[IN] >> "{\"notes\":\"Some content...\"}"
+    2022-03-08T09:16:16.312Z [wsgw@1.8.6] info: WS[IN] >> "{\"notes\":\"Some text...\"}"
 ```
 
 ### NATS-to-NATS messaging
