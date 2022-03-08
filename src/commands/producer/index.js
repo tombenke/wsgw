@@ -60,13 +60,13 @@ const getMessagesToPublish = (container, args) => {
     return messagesToPublish
 }
 
-const publishMessages = (messages, topic, emitMessageFun) =>
+const publishMessages = (messageItems, topic, emitMessageFun) =>
     new Promise((resolve, reject) => {
-        from(messages)
+        from(messageItems)
             .pipe(
-                scan((accu, message) => _.merge({}, message, { delay: accu.delay + message.delay }), { delay: 0 }),
-                delayWhen((message) => interval(message.delay)),
-                mergeMap((message) => emitMessageFun(topic, message.message))
+                scan((accu, item) => _.merge({}, item, { delay: accu.delay + item.delay }), { delay: 0 }),
+                delayWhen((item) => interval(item.delay)),
+                mergeMap((item) => emitMessageFun(item.topic, item.message))
             )
             .subscribe(
                 (message) => {

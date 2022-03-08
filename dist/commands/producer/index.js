@@ -70,14 +70,14 @@ var getMessagesToPublish = function getMessagesToPublish(container, args) {
     return messagesToPublish;
 };
 
-var publishMessages = function publishMessages(messages, topic, emitMessageFun) {
+var publishMessages = function publishMessages(messageItems, topic, emitMessageFun) {
     return new Promise(function (resolve, reject) {
-        (0, _rxjs.from)(messages).pipe((0, _operators.scan)(function (accu, message) {
-            return _lodash2.default.merge({}, message, { delay: accu.delay + message.delay });
-        }, { delay: 0 }), (0, _operators.delayWhen)(function (message) {
-            return (0, _rxjs.interval)(message.delay);
-        }), (0, _operators.mergeMap)(function (message) {
-            return emitMessageFun(topic, message.message);
+        (0, _rxjs.from)(messageItems).pipe((0, _operators.scan)(function (accu, item) {
+            return _lodash2.default.merge({}, item, { delay: accu.delay + item.delay });
+        }, { delay: 0 }), (0, _operators.delayWhen)(function (item) {
+            return (0, _rxjs.interval)(item.delay);
+        }), (0, _operators.mergeMap)(function (item) {
+            return emitMessageFun(item.topic, item.message);
         })).subscribe(function (message) {
             /*console.log(message)*/
         }, function (err) {
