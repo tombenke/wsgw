@@ -20,14 +20,14 @@
         <y:ProxyAutoBoundsNode>
           <y:Realizers active="0">
             <y:GroupNode>
-              <y:Geometry height="291.5852401455361" width="345.48663809014283" x="1481.4972542567184" y="216.0523731024212"/>
+              <y:Geometry height="324.3213683029928" width="327.5491089529387" x="1499.4347833939225" y="189.1489054093006"/>
               <y:Fill color="#F5F5F5" transparent="false"/>
               <y:BorderStyle color="#000000" type="dashed" width="1.0"/>
-              <y:NodeLabel alignment="right" autoSizePolicy="node_width" backgroundColor="#EBEBEB" borderDistance="0.0" fontFamily="Dialog" fontSize="15" fontStyle="plain" hasLineColor="false" height="21.4609375" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="345.48663809014283" x="0.0" xml:space="preserve" y="0.0">backend (NATS clients)</y:NodeLabel>
+              <y:NodeLabel alignment="right" autoSizePolicy="node_width" backgroundColor="#EBEBEB" borderDistance="0.0" fontFamily="Dialog" fontSize="15" fontStyle="plain" hasLineColor="false" height="21.4609375" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="327.5491089529387" x="0.0" xml:space="preserve" y="0.0">backend (NATS clients)</y:NodeLabel>
               <y:Shape type="roundrectangle"/>
               <y:State closed="false" closedHeight="50.0" closedWidth="50.0" innerGraphDisplayEnabled="false"/>
               <y:Insets bottom="15" bottomF="15.0" left="15" leftF="15.0" right="15" rightF="15.0" top="15" topF="15.0"/>
-              <y:BorderInsets bottom="17" bottomF="16.629669857878127" left="0" leftF="0.0" right="0" rightF="0.0" top="12" topF="11.51059480687934"/>
+              <y:BorderInsets bottom="7" bottomF="7.462330322214257" left="0" leftF="0.0" right="0" rightF="0.0" top="0" topF="0.0"/>
             </y:GroupNode>
             <y:GroupNode>
               <y:Geometry height="50.0" width="50.0" x="572.0" y="357.0"/>
@@ -49,14 +49,14 @@
             <y:ProxyAutoBoundsNode>
               <y:Realizers active="0">
                 <y:GroupNode>
-                  <y:Geometry height="211.98403798077862" width="174.03359398622342" x="1496.4972542567184" y="264.02390540930054"/>
+                  <y:Geometry height="265.39810048077857" width="156.09606484901929" x="1514.4347833939225" y="225.6098429093006"/>
                   <y:Fill color="#F5F5F5" transparent="false"/>
                   <y:BorderStyle color="#000000" type="dashed" width="1.0"/>
-                  <y:NodeLabel alignment="right" autoSizePolicy="node_width" backgroundColor="#EBEBEB" borderDistance="0.0" fontFamily="Dialog" fontSize="15" fontStyle="plain" hasLineColor="false" height="21.4609375" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="174.03359398622342" x="0.0" xml:space="preserve" y="0.0">npac_pdms_adapter</y:NodeLabel>
+                  <y:NodeLabel alignment="right" autoSizePolicy="node_width" backgroundColor="#EBEBEB" borderDistance="0.0" fontFamily="Dialog" fontSize="15" fontStyle="plain" hasLineColor="false" height="21.4609375" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="156.09606484901929" x="0.0" xml:space="preserve" y="0.0">npac_pdms_adapter</y:NodeLabel>
                   <y:Shape type="roundrectangle"/>
                   <y:State closed="false" closedHeight="50.0" closedWidth="50.0" innerGraphDisplayEnabled="false"/>
                   <y:Insets bottom="15" bottomF="15.0" left="15" leftF="15.0" right="15" rightF="15.0" top="15" topF="15.0"/>
-                  <y:BorderInsets bottom="0" bottomF="0.0" left="23" leftF="22.606149650285715" right="15" rightF="15.0" top="7" topF="7.398982441391183"/>
+                  <y:BorderInsets bottom="4" bottomF="3.84278973816879" left="5" leftF="4.668620513081578" right="15" rightF="15.0" top="21" topF="21.493044941391076"/>
                 </y:GroupNode>
                 <y:GroupNode>
                   <y:Geometry height="278.0" width="265.0" x="447.8828886718753" y="200.985546875"/>
@@ -75,10 +75,12 @@
             <node id="n0::n0::n0">
               <data key="d6">
                 <y:GenericNode configuration="com.yworks.bpmn.Activity.withShadow">
-                  <y:Geometry height="42.0" width="106.42744433593765" x="1534.1034039070041" y="419.00794339007916"/>
+                  <y:Geometry height="57.0" width="106.42744433593765" x="1534.1034039070041" y="415.1651536519104"/>
                   <y:Fill color="#FFFFFFE6" color2="#D4D4D4CC" transparent="false"/>
                   <y:BorderStyle color="#123EA2" type="line" width="1.0"/>
-                  <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="17.96875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="84.35546875" x="11.035987792968854" xml:space="preserve" y="12.015625">pdms.publish<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:ModelParameter><y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/></y:ModelParameter></y:NodeLabel>
+                  <y:NodeLabel alignment="left" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="45.90625" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="91.3046875" x="7.561378417968854" xml:space="preserve" y="5.546875">nats.publish(
+    "INBOUND",
+    payload)<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:ModelParameter><y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/></y:ModelParameter></y:NodeLabel>
                   <y:StyleProperties>
                     <y:Property class="java.awt.Color" name="com.yworks.bpmn.icon.line.color" value="#000000"/>
                     <y:Property class="com.yworks.yfiles.bpmn.view.TaskTypeEnum" name="com.yworks.bpmn.taskType" value="TASK_TYPE_ABSTRACT"/>
@@ -93,10 +95,12 @@
             <node id="n0::n0::n1">
               <data key="d6">
                 <y:GenericNode configuration="com.yworks.bpmn.Activity.withShadow">
-                  <y:Geometry height="42.0" width="106.42744433593765" x="1534.1034039070041" y="307.8838253506917"/>
+                  <y:Geometry height="66.32000000000005" width="106.42744433593765" x="1534.1034039070041" y="283.5638253506917"/>
                   <y:Fill color="#FFFFFFE6" color2="#D4D4D4CC" transparent="false"/>
                   <y:BorderStyle color="#123EA2" type="line" width="1.0"/>
-                  <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="17.96875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="98.58203125" x="3.9227065429688537" xml:space="preserve" y="12.015625">pdms.subscribe<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:ModelParameter><y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/></y:ModelParameter></y:NodeLabel>
+                  <y:NodeLabel alignment="left" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="45.90625" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="96.00390625" x="5.211769042968854" xml:space="preserve" y="10.206875000000025">nats.subscribe(
+    "OUTPUT"
+    callbackFn)<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:ModelParameter><y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/></y:ModelParameter></y:NodeLabel>
                   <y:StyleProperties>
                     <y:Property class="java.awt.Color" name="com.yworks.bpmn.icon.line.color" value="#000000"/>
                     <y:Property class="com.yworks.yfiles.bpmn.view.TaskTypeEnum" name="com.yworks.bpmn.taskType" value="TASK_TYPE_ABSTRACT"/>
@@ -113,10 +117,10 @@
         <node id="n0::n1">
           <data key="d6">
             <y:GenericNode configuration="BevelNode3">
-              <y:Geometry height="211.98403798077857" width="120.58744433593765" x="1691.3964480109237" y="264.0239054093006"/>
+              <y:Geometry height="265.39810048077857" width="120.58744433593765" x="1691.3964480109237" y="225.6098429093006"/>
               <y:Fill color="#FF9900" transparent="false"/>
               <y:BorderStyle hasColor="false" type="line" width="1.0"/>
-              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="59.875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="99.080078125" x="10.753683105468781" xml:space="preserve" y="76.05451899038928">Business logic
+              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="59.875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="99.080078125" x="10.753683105468781" xml:space="preserve" y="102.76155024038928">Business logic
 implementation
 as a ReactiveX
 pipeline<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:ModelParameter><y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/></y:ModelParameter></y:NodeLabel>
@@ -131,14 +135,14 @@ pipeline<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:M
         <y:ProxyAutoBoundsNode>
           <y:Realizers active="0">
             <y:GroupNode>
-              <y:Geometry height="291.5852401455361" width="152.25606484901937" x="1315.9098099207808" y="216.0523731024212"/>
+              <y:Geometry height="324.3213683029928" width="152.25606484901937" x="1315.9098099207808" y="189.1489054093006"/>
               <y:Fill color="#F5F5F5" transparent="false"/>
               <y:BorderStyle color="#000000" type="dashed" width="1.0"/>
               <y:NodeLabel alignment="right" autoSizePolicy="node_width" backgroundColor="#EBEBEB" borderDistance="0.0" fontFamily="Dialog" fontSize="15" fontStyle="plain" hasLineColor="false" height="21.4609375" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="152.25606484901937" x="0.0" xml:space="preserve" y="0.0">NATS server</y:NodeLabel>
               <y:Shape type="roundrectangle"/>
               <y:State closed="false" closedHeight="50.0" closedWidth="50.0" innerGraphDisplayEnabled="false"/>
               <y:Insets bottom="15" bottomF="15.0" left="15" leftF="15.0" right="15" rightF="15.0" top="15" topF="15.0"/>
-              <y:BorderInsets bottom="33" bottomF="32.62966985787813" left="0" leftF="0.0" right="1" rightF="0.6095200195313737" top="56" topF="56.37051474827052"/>
+              <y:BorderInsets bottom="35" bottomF="34.80512006038305" left="0" leftF="0.0" right="1" rightF="0.6095200195313737" top="70" topF="69.82224859483085"/>
             </y:GroupNode>
             <y:GroupNode>
               <y:Geometry height="50.0" width="50.0" x="743.0274443359376" y="285.1055312499999"/>
@@ -157,7 +161,7 @@ pipeline<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:M
         <node id="n1::n0">
           <data key="d6">
             <y:GenericNode configuration="com.yworks.flowchart.directData">
-              <y:Geometry height="40.0" width="120.58744433593768" x="1330.9098099207808" y="420.00794339007916"/>
+              <y:Geometry height="40.0" width="120.58744433593768" x="1330.9098099207808" y="423.6651536519104"/>
               <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
               <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="4.0" x="58.29372216796878" y="18.0">
@@ -176,7 +180,7 @@ topic<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:Mode
         <node id="n1::n1">
           <data key="d6">
             <y:GenericNode configuration="com.yworks.flowchart.directData">
-              <y:Geometry height="40.0" width="120.58744433593768" x="1331.968910414331" y="308.8838253506917"/>
+              <y:Geometry height="40.0" width="120.58744433593768" x="1331.968910414331" y="295.43209150413145"/>
               <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
               <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="4.0" x="58.29372216796878" y="18.0">
@@ -200,7 +204,7 @@ topic<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:Mode
         <y:ProxyAutoBoundsNode>
           <y:Realizers active="0">
             <y:GroupNode>
-              <y:Geometry height="291.5852401455361" width="230.6621400857514" x="1075.782054599228" y="216.0523731024212"/>
+              <y:Geometry height="324.32136830299277" width="230.6621400857514" x="1075.782054599228" y="189.1489054093006"/>
               <y:Fill color="#F5F5F5" transparent="false"/>
               <y:BorderStyle color="#000000" type="dashed" width="1.0"/>
               <y:NodeLabel alignment="right" autoSizePolicy="node_width" backgroundColor="#EBEBEB" borderDistance="0.0" fontFamily="Dialog" fontSize="15" fontStyle="plain" hasLineColor="false" height="21.4609375" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="230.6621400857514" x="0.0" xml:space="preserve" y="0.0">wsgw server</y:NodeLabel>
@@ -229,7 +233,7 @@ topic<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:Mode
             <y:ProxyAutoBoundsNode>
               <y:Realizers active="0">
                 <y:GroupNode>
-                  <y:Geometry height="240.1243026455361" width="200.6621400857514" x="1090.782054599228" y="252.5133106024212"/>
+                  <y:Geometry height="272.86043080299277" width="200.6621400857514" x="1090.782054599228" y="225.6098429093006"/>
                   <y:Fill color="#F5F5F5" transparent="false"/>
                   <y:BorderStyle color="#000000" type="dashed" width="1.0"/>
                   <y:NodeLabel alignment="right" autoSizePolicy="node_width" backgroundColor="#EBEBEB" borderDistance="0.0" fontFamily="Dialog" fontSize="15" fontStyle="plain" hasLineColor="false" height="21.4609375" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="200.6621400857514" x="0.0" xml:space="preserve" y="0.0">websocket gateway</y:NodeLabel>
@@ -255,14 +259,16 @@ topic<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:Mode
             <node id="n2::n0::n0">
               <data key="d6">
                 <y:GenericNode configuration="com.yworks.bpmn.Activity.withShadow">
-                  <y:Geometry height="79.81915449654116" width="162.0726370484245" x="1111.8276683206443" y="288.9742481024212"/>
+                  <y:Geometry height="106.72262218966176" width="162.0726370484245" x="1111.8276683206443" y="262.0707804093006"/>
                   <y:Fill color="#FFFFFFE6" color2="#D4D4D4CC" transparent="false"/>
                   <y:BorderStyle color="#123EA2" type="line" width="1.0"/>
-                  <y:NodeLabel alignment="left" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="73.84375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="144.724609375" x="8.67401383671222" xml:space="preserve" y="2.9877022482705797">ws.on("OUTBOUND",...)
-
-pdms.publish(
-    topic: "OUTBOUND",
-    payload)<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:ModelParameter><y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/></y:ModelParameter></y:NodeLabel>
+                  <y:NodeLabel alignment="left" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="101.78125" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="134.86328125" x="13.60467789921222" xml:space="preserve" y="2.470686094830853">ws.on(
+    "OUTBOUND",
+    (payload) =&gt; {
+        nats.publish(
+            "OUTBOUND",
+            payload)
+})<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:ModelParameter><y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/></y:ModelParameter></y:NodeLabel>
                   <y:StyleProperties>
                     <y:Property class="java.awt.Color" name="com.yworks.bpmn.icon.line.color" value="#000000"/>
                     <y:Property class="com.yworks.yfiles.bpmn.view.TaskTypeEnum" name="com.yworks.bpmn.taskType" value="TASK_TYPE_ABSTRACT"/>
@@ -277,15 +283,15 @@ pdms.publish(
             <node id="n2::n0::n1">
               <data key="d6">
                 <y:GenericNode configuration="com.yworks.bpmn.Activity.withShadow">
-                  <y:Geometry height="100.88996172532569" width="164.61652636433524" x="1111.8276683206443" y="376.7476515226316"/>
+                  <y:Geometry height="106.72262218966176" width="164.61652636433524" x="1111.8276683206443" y="376.7476515226316"/>
                   <y:Fill color="#FFFFFFE6" color2="#D4D4D4CC" transparent="false"/>
                   <y:BorderStyle color="#123EA2" type="line" width="1.0"/>
-                  <y:NodeLabel alignment="left" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="87.8125" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="128.7578125" x="17.929356932167593" xml:space="preserve" y="6.538730862662874">pdms.subscribe(
+                  <y:NodeLabel alignment="left" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="87.8125" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="158.236328125" x="3.190099119667593" xml:space="preserve" y="9.455061094830853">pdms.subscribe(
     topic: "INBOUND",
-    payload)
-
-ws.emit("INBOUND",
-    payload)<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:ModelParameter><y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/></y:ModelParameter></y:NodeLabel>
+    (payload) =&gt; {
+        ws.emit("INBOUND",
+        payload)
+})<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:ModelParameter><y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/></y:ModelParameter></y:NodeLabel>
                   <y:StyleProperties>
                     <y:Property class="java.awt.Color" name="com.yworks.bpmn.icon.line.color" value="#000000"/>
                     <y:Property class="com.yworks.yfiles.bpmn.view.TaskTypeEnum" name="com.yworks.bpmn.taskType" value="TASK_TYPE_ABSTRACT"/>
@@ -307,14 +313,14 @@ ws.emit("INBOUND",
         <y:ProxyAutoBoundsNode>
           <y:Realizers active="0">
             <y:GroupNode>
-              <y:Geometry height="290.70893823786054" width="440.72313321019124" x="483.6314770530994" y="216.0523731024212"/>
+              <y:Geometry height="324.3213683029928" width="400.6956674670329" x="523.6589427962577" y="189.1489054093006"/>
               <y:Fill color="#F5F5F5" transparent="false"/>
               <y:BorderStyle color="#000000" type="dashed" width="1.0"/>
-              <y:NodeLabel alignment="right" autoSizePolicy="node_width" backgroundColor="#EBEBEB" borderDistance="0.0" fontFamily="Dialog" fontSize="15" fontStyle="plain" hasLineColor="false" height="21.4609375" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="440.72313321019124" x="0.0" xml:space="preserve" y="0.0">redux based browser-client</y:NodeLabel>
+              <y:NodeLabel alignment="right" autoSizePolicy="node_width" backgroundColor="#EBEBEB" borderDistance="0.0" fontFamily="Dialog" fontSize="15" fontStyle="plain" hasLineColor="false" height="21.4609375" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="400.6956674670329" x="0.0" xml:space="preserve" y="0.0">redux based browser-client</y:NodeLabel>
               <y:Shape type="roundrectangle"/>
               <y:State closed="false" closedHeight="50.0" closedWidth="50.0" innerGraphDisplayEnabled="false"/>
               <y:Insets bottom="15" bottomF="15.0" left="15" leftF="15.0" right="15" rightF="15.0" top="15" topF="15.0"/>
-              <y:BorderInsets bottom="2" bottomF="1.9146100716475871" left="0" leftF="0.0" right="0" rightF="0.0" top="0" topF="0.0"/>
+              <y:BorderInsets bottom="7" bottomF="6.6704474436592704" left="0" leftF="0.0" right="0" rightF="0.0" top="0" topF="0.0"/>
             </y:GroupNode>
             <y:GroupNode>
               <y:Geometry height="50.0" width="50.0" x="987.5932216796884" y="157.44765625000002"/>
@@ -333,7 +339,7 @@ ws.emit("INBOUND",
         <node id="n3::n0">
           <data key="d6">
             <y:GenericNode configuration="BevelNode3">
-              <y:Geometry height="42.0" width="166.59783373351638" x="498.6314770530994" y="394.90704386854804"/>
+              <y:Geometry height="42.0" width="166.59783373351638" x="538.6589427962577" y="394.90704386854804"/>
               <y:Fill color="#FF9900" transparent="false"/>
               <y:BorderStyle hasColor="false" type="line" width="1.0"/>
               <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="17.96875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="142.19921875" x="12.19930749175819" xml:space="preserve" y="12.015625">inboundReduxAction_1<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:ModelParameter><y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/></y:ModelParameter></y:NodeLabel>
@@ -343,10 +349,10 @@ ws.emit("INBOUND",
         <node id="n3::n1">
           <data key="d6">
             <y:GenericNode configuration="BevelNode3">
-              <y:Geometry height="42.0" width="166.5978337335166" x="498.6314770530994" y="284.66591777877767"/>
+              <y:Geometry height="42.0" width="166.5978337335166" x="538.6589427962577" y="271.21418393221734"/>
               <y:Fill color="#FF9900" transparent="false"/>
               <y:BorderStyle hasColor="false" type="line" width="1.0"/>
-              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="17.96875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="150.912109375" x="7.842862179258191" xml:space="preserve" y="12.015625">outboundReduxAction_1<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:ModelParameter><y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/></y:ModelParameter></y:NodeLabel>
+              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="17.96875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="150.912109375" x="7.842862179258304" xml:space="preserve" y="12.015625">outboundReduxAction_1<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:ModelParameter><y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/></y:ModelParameter></y:NodeLabel>
             </y:GenericNode>
           </data>
         </node>
@@ -356,14 +362,14 @@ ws.emit("INBOUND",
             <y:ProxyAutoBoundsNode>
               <y:Realizers active="0">
                 <y:GroupNode>
-                  <y:Geometry height="237.33339066621295" width="204.283140625" x="705.0714696382906" y="252.5133106024212"/>
+                  <y:Geometry height="266.18998335933355" width="166.59783373351638" x="742.7567765297742" y="225.6098429093006"/>
                   <y:Fill color="#F5F5F5" transparent="false"/>
                   <y:BorderStyle color="#000000" type="dashed" width="1.0"/>
-                  <y:NodeLabel alignment="right" autoSizePolicy="node_width" backgroundColor="#EBEBEB" borderDistance="0.0" fontFamily="Dialog" fontSize="15" fontStyle="plain" hasLineColor="false" height="21.4609375" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="204.283140625" x="0.0" xml:space="preserve" y="0.0">wsAdapter</y:NodeLabel>
+                  <y:NodeLabel alignment="right" autoSizePolicy="node_width" backgroundColor="#EBEBEB" borderDistance="0.0" fontFamily="Dialog" fontSize="15" fontStyle="plain" hasLineColor="false" height="21.4609375" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="166.59783373351638" x="0.0" xml:space="preserve" y="0.0">wsAdapter</y:NodeLabel>
                   <y:Shape type="roundrectangle"/>
                   <y:State closed="false" closedHeight="50.0" closedWidth="50.0" innerGraphDisplayEnabled="false"/>
                   <y:Insets bottom="15" bottomF="15.0" left="15" leftF="15.0" right="15" rightF="15.0" top="15" topF="15.0"/>
-                  <y:BorderInsets bottom="14" bottomF="13.838757878554986" left="1" leftF="1.016373786014583" right="9" rightF="8.952373786014732" top="0" topF="0.0"/>
+                  <y:BorderInsets bottom="1" bottomF="0.7918828785549863" left="7" leftF="7.05801561156386" right="9" rightF="8.952373786014732" top="13" topF="13.451733846560273"/>
                 </y:GroupNode>
                 <y:GroupNode>
                   <y:Geometry height="50.0" width="50.0" x="1438.9399004903062" y="240.5735286558417"/>
@@ -382,10 +388,12 @@ ws.emit("INBOUND",
             <node id="n3::n2::n0">
               <data key="d6">
                 <y:GenericNode configuration="com.yworks.bpmn.Activity.withShadow">
-                  <y:Geometry height="42.0" width="164.31439305297062" x="721.0878434243052" y="419.00794339007916"/>
+                  <y:Geometry height="73.10089952153112" width="120.58744433593773" x="764.8147921413381" y="402.90704386854804"/>
                   <y:Fill color="#FFFFFFE6" color2="#D4D4D4CC" transparent="false"/>
                   <y:BorderStyle color="#123EA2" type="line" width="1.0"/>
-                  <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="17.96875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="156.619140625" x="3.8476262139852224" xml:space="preserve" y="12.015625">wsSubscribe("INBOUND")<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:ModelParameter><y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/></y:ModelParameter></y:NodeLabel>
+                  <y:NodeLabel alignment="left" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="45.90625" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="87.583984375" x="16.501729980468895" xml:space="preserve" y="13.59732476076556">ws.on(
+    "INBOUND"
+    callbackFn)<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:ModelParameter><y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/></y:ModelParameter></y:NodeLabel>
                   <y:StyleProperties>
                     <y:Property class="java.awt.Color" name="com.yworks.bpmn.icon.line.color" value="#000000"/>
                     <y:Property class="com.yworks.yfiles.bpmn.view.TaskTypeEnum" name="com.yworks.bpmn.taskType" value="TASK_TYPE_ABSTRACT"/>
@@ -400,11 +408,11 @@ ws.emit("INBOUND",
             <node id="n3::n2::n1">
               <data key="d6">
                 <y:GenericNode configuration="com.yworks.bpmn.Activity.withShadow">
-                  <y:Geometry height="79.81915449654116" width="164.31439305297062" x="721.0878434243052" y="288.9742481024212"/>
+                  <y:Geometry height="79.81915449654116" width="120.58744433593773" x="764.8147921413381" y="275.52251425586087"/>
                   <y:Fill color="#FFFFFFE6" color2="#D4D4D4CC" transparent="false"/>
                   <y:BorderStyle color="#123EA2" type="line" width="1.0"/>
-                  <y:NodeLabel alignment="left" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="45.90625" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="141.80078125" x="11.256805901485222" xml:space="preserve" y="16.95645224827058">wsPublish(
-    topic: "OUTBOUND",
+                  <y:NodeLabel alignment="left" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="45.90625" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="104.34765625" x="8.119894042968895" xml:space="preserve" y="16.95645224827058">ws.emit(
+    "OUTBOUND",
     payload)<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:ModelParameter><y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/></y:ModelParameter></y:NodeLabel>
                   <y:StyleProperties>
                     <y:Property class="java.awt.Color" name="com.yworks.bpmn.icon.line.color" value="#000000"/>
@@ -422,7 +430,7 @@ ws.emit("INBOUND",
         <node id="n3::n3">
           <data key="d6">
             <y:GenericNode configuration="BevelNode3">
-              <y:Geometry height="42.0" width="166.59783373351638" x="498.6314770530994" y="447.02737092933523"/>
+              <y:Geometry height="42.0" width="166.59783373351638" x="538.6589427962577" y="447.02737092933523"/>
               <y:Fill color="#FF9900" transparent="false"/>
               <y:BorderStyle hasColor="false" type="line" width="1.0"/>
               <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="17.96875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="142.169921875" x="12.21395592925819" xml:space="preserve" y="12.015625">inboundReduxAction_n<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:ModelParameter><y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/></y:ModelParameter></y:NodeLabel>
@@ -432,7 +440,7 @@ ws.emit("INBOUND",
         <node id="n3::n4">
           <data key="d6">
             <y:GenericNode configuration="BevelNode3">
-              <y:Geometry height="42.0" width="166.59783373351638" x="498.6314770530994" y="337.37558740186165"/>
+              <y:Geometry height="42.0" width="166.59783373351638" x="538.6589427962577" y="323.9238535553013"/>
               <y:Fill color="#FF9900" transparent="false"/>
               <y:BorderStyle hasColor="false" type="line" width="1.0"/>
               <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="17.96875" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="150.8828125" x="7.857510616758191" xml:space="preserve" y="12.015625">outboundReduxAction_n<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:ModelParameter><y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/></y:ModelParameter></y:NodeLabel>
@@ -447,14 +455,14 @@ ws.emit("INBOUND",
         <y:ProxyAutoBoundsNode>
           <y:Realizers active="0">
             <y:GroupNode>
-              <y:Geometry height="290.70893823786054" width="136.4274443359376" x="931.8546102632905" y="216.0523731024212"/>
+              <y:Geometry height="324.3213683029928" width="136.4274443359376" x="931.8546102632905" y="189.1489054093006"/>
               <y:Fill color="#F5F5F5" transparent="false"/>
               <y:BorderStyle color="#000000" type="dashed" width="1.0"/>
               <y:NodeLabel alignment="right" autoSizePolicy="node_width" backgroundColor="#EBEBEB" borderDistance="0.0" fontFamily="Dialog" fontSize="15" fontStyle="plain" hasLineColor="false" height="21.4609375" horizontalTextPosition="center" iconTextGap="4" modelName="internal" modelPosition="t" textColor="#000000" verticalTextPosition="bottom" visible="true" width="136.4274443359376" x="0.0" xml:space="preserve" y="0.0">websockets</y:NodeLabel>
               <y:Shape type="roundrectangle"/>
               <y:State closed="false" closedHeight="50.0" closedWidth="50.0" innerGraphDisplayEnabled="false"/>
               <y:Insets bottom="15" bottomF="15.0" left="15" leftF="15.0" right="15" rightF="15.0" top="15" topF="15.0"/>
-              <y:BorderInsets bottom="32" bottomF="31.753367950202573" left="0" leftF="0.0" right="0" rightF="0.0" top="56" topF="56.37051474827058"/>
+              <y:BorderInsets bottom="35" bottomF="34.80512006038305" left="0" leftF="0.0" right="0" rightF="0.0" top="70" topF="69.82224859483085"/>
             </y:GroupNode>
             <y:GroupNode>
               <y:Geometry height="50.0" width="50.0" x="959.197555664063" y="188.83639062499992"/>
@@ -473,10 +481,10 @@ ws.emit("INBOUND",
         <node id="n4::n0">
           <data key="d6">
             <y:GenericNode configuration="com.yworks.flowchart.directData">
-              <y:Geometry height="40.0" width="106.4274443359376" x="946.8546102632905" y="308.8838253506918"/>
+              <y:Geometry height="40.0" width="106.4274443359376" x="946.8546102632905" y="295.43209150413145"/>
               <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
-              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="4.0" x="51.213722167968854" y="18.0">
+              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="4.0" x="51.21372216796874" y="18.0">
                 <y:LabelModel>
                   <y:SmartNodeLabelModel distance="4.0"/>
                 </y:LabelModel>
@@ -492,10 +500,10 @@ event<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:Mode
         <node id="n4::n1">
           <data key="d6">
             <y:GenericNode configuration="com.yworks.flowchart.directData">
-              <y:Geometry height="40.0" width="106.4274443359376" x="946.8546102632905" y="420.00794339007916"/>
+              <y:Geometry height="40.0" width="106.4274443359376" x="946.8546102632905" y="423.6651536519104"/>
               <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
-              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="4.0" x="51.213722167968854" y="18.0">
+              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="4.0" x="51.21372216796874" y="18.0">
                 <y:LabelModel>
                   <y:SmartNodeLabelModel distance="4.0"/>
                 </y:LabelModel>
@@ -513,7 +521,7 @@ event<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:Mode
     <edge id="n0::e0" source="n0::n1" target="n0::n0::n0">
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="-5.223122774030178" sy="69.99201899038928" tx="0.0" ty="0.0"/>
+          <y:Path sx="-2.5929201788922" sy="85.3562605022205" tx="0.0" ty="0.0"/>
           <y:LineStyle color="#008000" type="line" width="2.0"/>
           <y:Arrows source="none" target="standard"/>
           <y:BendStyle smoothed="false"/>
@@ -543,7 +551,7 @@ event<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:Mode
     <edge id="n0::e1" source="n0::n0::n1" target="n0::n1">
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="0.0" sy="0.0" tx="-2.92941238433923" ty="-41.13209904899816"/>
+          <y:Path sx="0.0" sy="0.0" tx="-1.312920178892" ty="-41.58506779899818"/>
           <y:LineStyle color="#FF0000" type="line" width="2.0"/>
           <y:Arrows source="none" target="standard"/>
           <y:BendStyle smoothed="false"/>
@@ -553,7 +561,7 @@ event<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:Mode
     <edge id="e2" source="n1::n0" target="n2::n0::n1">
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="0.0" sy="0.0" tx="-4.97708758385761" ty="12.81531100478469"/>
+          <y:Path sx="0.0" sy="0.0" tx="-4.97708758385761" ty="13.556191034447892"/>
           <y:LineStyle color="#008000" type="line" width="2.0"/>
           <y:Arrows source="none" target="standard"/>
           <y:BendStyle smoothed="false"/>
@@ -593,7 +601,7 @@ event<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:Mode
     <edge id="e6" source="n2::n0::n1" target="n4::n1">
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="-0.7053172489293047" sy="12.81531100478469" tx="0.0" ty="0.0"/>
+          <y:Path sx="-0.7053172489293047" sy="13.556191034447892" tx="0.0" ty="0.0"/>
           <y:LineStyle color="#008000" type="line" width="2.0"/>
           <y:Arrows source="none" target="standard"/>
           <y:BendStyle smoothed="false"/>
@@ -614,8 +622,8 @@ event<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:Mode
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
-            <y:Point x="689.5287732508963" y="440.00794339007916"/>
-            <y:Point x="689.5287732508963" y="415.90704386854804"/>
+            <y:Point x="729.5562389940546" y="440.00794339007916"/>
+            <y:Point x="729.5562389940546" y="415.90704386854804"/>
           </y:Path>
           <y:LineStyle color="#008000" type="line" width="2.0"/>
           <y:Arrows source="none" target="standard"/>
@@ -627,8 +635,8 @@ event<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:Mode
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
-            <y:Point x="690.0714696382905" y="440.00794339007916"/>
-            <y:Point x="690.0714696382905" y="468.0273709293352"/>
+            <y:Point x="730.0989353814489" y="440.00794339007916"/>
+            <y:Point x="730.0989353814489" y="468.0273709293352"/>
           </y:Path>
           <y:LineStyle color="#008000" type="line" width="2.0"/>
           <y:Arrows source="none" target="standard"/>
@@ -640,8 +648,8 @@ event<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:Mode
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
-            <y:Point x="690.1739653480521" y="305.66591777877767"/>
-            <y:Point x="690.1739653480521" y="329.9703028295541"/>
+            <y:Point x="730.2014310912105" y="292.21418393221734"/>
+            <y:Point x="730.2014310912105" y="316.51856898299377"/>
           </y:Path>
           <y:LineStyle color="#FF0000" type="line" width="2.0"/>
           <y:Arrows source="none" target="standard"/>
@@ -653,8 +661,8 @@ event<y:LabelModel><y:SmartNodeLabelModel distance="4.0"/></y:LabelModel><y:Mode
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
-            <y:Point x="690.0714696382905" y="358.37558740186165"/>
-            <y:Point x="690.0714696382905" y="329.9703028295541"/>
+            <y:Point x="730.0989353814489" y="344.9238535553013"/>
+            <y:Point x="730.0989353814489" y="316.51856898299377"/>
           </y:Path>
           <y:LineStyle color="#FF0000" type="line" width="2.0"/>
           <y:Arrows source="none" target="standard"/>

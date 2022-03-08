@@ -11,17 +11,29 @@ that uses messaging to communicate with each other.
 
 It makes possible the passing of messages among websocket clients and/or NATS clients.
 
+### Events vs. topics
+
+The WebSocket uses event handlers to manage the receiving and sending of messages.
+The websocket clients can subscribe to event names, that they observe, and act in case an incoming message arrives.
+
+The messaging middlewares typically use the topic to name the channels through which the messages are transferred.
+
+The messages can be forwarded back-and-forth between websocket event channels and messaging topics
+using their names to associate them. 
+
+### Typical use-cases
+
 The typical use-cases are demonstrated by the following figure:
 
 ![The overview of the message flow of a complete WS-NATS messaging system](docs/messageflow_overview.png)
 
 __Important Note:__
-In the followings we will use the terms of inbound and outbound topics.
-It refers to the grouping of event channels and topics to which the messages will be send of received from.
-__They meant to be inbound and outbound from the viewpoint of the websocket client (or UI frontend application).__
+In the followings we will use the terms of inbound and outbound message channels.
+It refers to the grouping of event channels to which the messages will be send or received from by the websocket client.
+So They meant to be __inbound and outbound from the viewpoint of the websocket client__ (or UI frontend application).
 
 The functioning of the websocket gateway is quite simple:
-1. We can define the list of inbound and outbound event channel names.
+1. We define the list of inbound and outbound event channel names.
 2. The gateway will forward the messages coming in the outbound event channels to the NATS topics with the same name.
 3. The gateway will also forward the messages coming in the NATS topics toward the inbound event channels.
 
@@ -66,11 +78,6 @@ For example you can implement a backend service, which is a sensor event consume
 that preprocesses and forwards the measured values toward frontend applications that visualize them.
 At the same time you can control the backend by sending command messages via the `wsgw` as a message producer client.
 
-### Events vs. topics
-
-The WebSocket uses event handlers to manage the receiving and sending of messages.
-The clients can subscribe to event names, that they observe, and act in case an incoming message arrives.
-
 ## Installation
 
 Run the install command:
@@ -81,7 +88,10 @@ Check if `wsgw` is properly installed:
 
     $ wsgw --help
 
+__Note:__ In order to use the `wsgw`, you also need to have a running [NATS server](https://nats.io/).
+
 ## Usage
+
 ### Overview of the application commands
 
 ```bash
