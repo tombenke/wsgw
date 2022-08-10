@@ -48,6 +48,16 @@ const parse = (defaults, processArgv = process.argv) => {
                         type: 'string',
                         default: defaults.pdms.natsUri
                     })
+                    .option('cluster-id', {
+                        desc: 'The cluster ID of the NATS server',
+                        type: 'string',
+                        default: ''
+                    })
+                    .option('client-id', {
+                        desc: 'The client ID of the NATS client',
+                        type: 'string',
+                        default: ''
+                    })
                     .demandOption([]),
             (argv) => {
                 results = {
@@ -75,7 +85,9 @@ const parse = (defaults, processArgv = process.argv) => {
                             port: argv.port
                         },
                         pdms: {
-                            natsUri: argv.natsUri
+                            natsUri: argv.natsUri,
+                            clusterId: argv.clusterId,
+                            clientId: argv.clientId
                         }
                     }
                 }
@@ -103,6 +115,16 @@ const parse = (defaults, processArgv = process.argv) => {
                         desc: 'The URI of the WebSocket server',
                         type: 'string',
                         default: 'http://localhost:8001'
+                    })
+                    .option('cluster-id', {
+                        desc: 'The cluster ID of the NATS server',
+                        type: 'string',
+                        default: ''
+                    })
+                    .option('client-id', {
+                        desc: 'The client ID of the NATS client',
+                        type: 'string',
+                        default: ''
                     })
                     .option('topic', {
                         alias: 't',
@@ -166,7 +188,9 @@ const parse = (defaults, processArgv = process.argv) => {
                         channelType === 'NATS'
                             ? {
                                   pdms: {
-                                      natsUri: argv.uri
+                                      natsUri: argv.uri,
+                                      clusterId: argv.clusterId,
+                                      clientId: argv.clientId
                                   },
                                   logger: {
                                       level: argv.logLevel,
@@ -209,9 +233,19 @@ const parse = (defaults, processArgv = process.argv) => {
                     })
                     .option('uri', {
                         alias: 'u',
-                        desc: 'The URI of the WebSocket server',
+                        desc: 'The URI of the WebSocket or NATS server',
                         type: 'string',
                         default: 'http://localhost:8001'
+                    })
+                    .option('cluster-id', {
+                        desc: 'The cluster ID of the NATS server',
+                        type: 'string',
+                        default: ''
+                    })
+                    .option('client-id', {
+                        desc: 'The client ID of the NATS client',
+                        type: 'string',
+                        default: ''
                     })
                     .option('topic', {
                         alias: 't',
@@ -236,7 +270,9 @@ const parse = (defaults, processArgv = process.argv) => {
                         channelType === 'NATS'
                             ? {
                                   pdms: {
-                                      natsUri: argv.uri
+                                      natsUri: argv.uri,
+                                      clusterId: argv.clusterId,
+                                      clientId: argv.clientId
                                   },
                                   logger: {
                                       level: argv.logLevel,

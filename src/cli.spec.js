@@ -46,7 +46,9 @@ describe('cli', () => {
                     port: 8001
                 },
                 pdms: {
-                    natsUri: 'nats://localhost:4222'
+                    natsUri: 'nats://localhost:4222',
+                    clusterId: '',
+                    clientId: ''
                 }
             }
         }
@@ -99,7 +101,9 @@ describe('cli', () => {
                     port: 8002
                 },
                 pdms: {
-                    natsUri: 'nats://localhost:4222'
+                    natsUri: 'nats://localhost:4222',
+                    clusterId: '',
+                    clientId: ''
                 }
             }
         }
@@ -144,7 +148,11 @@ describe('cli', () => {
             '-c',
             'config.yml',
             '-u',
-            'wss://ws.mydomain.com:1234',
+            'nats://localhost:4222',
+            '--cluster-id',
+            'test-cluster',
+            '--client-id',
+            'test-consumer-client',
             '-t',
             'MY_TOPIC'
         ]
@@ -153,9 +161,9 @@ describe('cli', () => {
                 name: 'consumer',
                 type: 'async',
                 args: {
-                    channelType: 'WS',
+                    channelType: 'NATS',
                     topic: 'MY_TOPIC',
-                    uri: 'wss://ws.mydomain.com:1234'
+                    uri: 'nats://localhost:4222'
                 }
             },
             cliConfig: {
@@ -166,6 +174,11 @@ describe('cli', () => {
                             format: 'plainText'
                         }
                     }
+                },
+                pdms: {
+                    natsUri: 'nats://localhost:4222',
+                    clusterId: 'test-cluster',
+                    clientId: 'test-consumer-client'
                 }
             }
         }

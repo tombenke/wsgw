@@ -71,7 +71,9 @@ describe('cli', function () {
                     port: 8001
                 },
                 pdms: {
-                    natsUri: 'nats://localhost:4222'
+                    natsUri: 'nats://localhost:4222',
+                    clusterId: '',
+                    clientId: ''
                 }
             }
         };
@@ -107,7 +109,9 @@ describe('cli', function () {
                     port: 8002
                 },
                 pdms: {
-                    natsUri: 'nats://localhost:4222'
+                    natsUri: 'nats://localhost:4222',
+                    clusterId: '',
+                    clientId: ''
                 }
             }
         };
@@ -145,15 +149,15 @@ describe('cli', function () {
     });
 
     it('#parse consumer command with full list of args', function (done) {
-        var processArgv = ['node', 'src/index.js', 'consumer', '-c', 'config.yml', '-u', 'wss://ws.mydomain.com:1234', '-t', 'MY_TOPIC'];
+        var processArgv = ['node', 'src/index.js', 'consumer', '-c', 'config.yml', '-u', 'nats://localhost:4222', '--cluster-id', 'test-cluster', '--client-id', 'test-consumer-client', '-t', 'MY_TOPIC'];
         var expected = {
             command: {
                 name: 'consumer',
                 type: 'async',
                 args: {
-                    channelType: 'WS',
+                    channelType: 'NATS',
                     topic: 'MY_TOPIC',
-                    uri: 'wss://ws.mydomain.com:1234'
+                    uri: 'nats://localhost:4222'
                 }
             },
             cliConfig: {
@@ -164,6 +168,11 @@ describe('cli', function () {
                             format: 'plainText'
                         }
                     }
+                },
+                pdms: {
+                    natsUri: 'nats://localhost:4222',
+                    clusterId: 'test-cluster',
+                    clientId: 'test-consumer-client'
                 }
             }
         };
