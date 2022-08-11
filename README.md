@@ -140,21 +140,28 @@ The next figure shows the message flow when a WebSocket client sends messages to
 
 ![The WS-to-NATS message flow](docs/messageflow_ws_to_nats.png)
 
-In one terminal window start receiving messages at the NATS side with the consumer:
+
+In one terminal start the websocket-nats-gateway test server:
 ```bash
-    wsgw consumer -u nats://localhost:4222 -t "OUT"
+    wsgw server -u nats://localhost:4222 --cluster-id "wsgw-cluster" --client-id "s1" --inbound "IN" --outbound "OUT"
+```
+
+In another terminal start receiving messages at the NATS side with the consumer:
+```bash
+    wsgw consumer -u nats://localhost:4222 --cluster-id "wsgw-cluster" --client-id "c1" -t "OUT"
 
     2022-03-08T09:38:30.367Z [wsgw@1.8.6] info: pdms: Start up
     2022-03-08T09:38:30.380Z [wsgw@1.8.6] info: hemera: ["Connected!"]
     2022-03-08T09:38:30.381Z [wsgw@1.8.6] info: pdms: Connected to NATS
+    2022-03-08T09:38:30.381Z [wsgw@1.8.6] info: stan: Connected to STAN
     2022-03-08T09:38:30.382Z [wsgw@1.8.6] info: App runs the jobs...
     2022-03-08T09:38:30.382Z [wsgw@1.8.6] info: wsgw client {"channelType":"NATS","uri":"nats://localhost:4222","topic":"OUT"}
     2022-03-08T09:38:30.382Z [wsgw@1.8.6] info: Start listening to messages on NATS "OUT" topic
 ```
 
-Then send some message from the websocket with the producer in another terminal:
+Then send some message from the websocket with the producer in a third terminal:
 ```bash
-    $ wsgw producer -u http://localhost:3007 -t "OUT" -m '{"notes":"Some text..."}'
+    $ wsgw producer -u http://localhost:8001 --cluster-id "wsgw-cluster" --client-id "c1" -t "OUT" -m '{"notes":"Some text..."}'
 
     2022-03-08T09:39:30.325Z [wsgw@1.8.6] info: App runs the jobs...
     2022-03-08T09:39:30.334Z [wsgw@1.8.6] info: {"notes":"Some text..."} >> [OUT]
@@ -177,7 +184,7 @@ The next figure shows the message flow when a NATS client sends messages to a We
 
 In one terminal window start receiving messages at the websocket side with the consumer:
 ```bash
-    wsgw consumer -u http://localhost:3007 -t "IN"
+    wsgw consumer -u http://localhost:8001 --cluster-id "wsgw-cluster" --client-id "c1" -t "IN"
 
     2022-03-08T09:15:19.704Z [wsgw@1.8.6] info: App runs the jobs...
     2022-03-08T09:15:19.705Z [wsgw@1.8.6] info: wsgw client {"channelType":"WS","uri":"http://localhost:3007","topic":"IN"}
@@ -186,7 +193,7 @@ In one terminal window start receiving messages at the websocket side with the c
 
 Then send some message from the NATS side with the producer in another terminal:
 ```bash
-    $ wsgw producer -u nats://localhost:4222 -t "IN" -m '{"notes":"Some text..."}'
+    $ wsgw producer -u nats://localhost:4222 --cluster-id "wsgw-cluster" --client-id "p1" -t "IN" -m '{"notes":"Some text..."}'
 
     2022-03-08T09:16:16.292Z [wsgw@1.8.6] info: pdms: Start up
     2022-03-08T09:16:16.305Z [wsgw@1.8.6] info: hemera: ["Connected!"]
@@ -238,19 +245,26 @@ The config parameters of the `wsgw server`:
     Run in server mode
 
     Options:
-          --version    Show version number                                 [boolean]
-          --help       Show help                                           [boolean]
-      -l, --logLevel   The log level                               [default: "info"]
-      -f, --logFormat  The log (`plainText` or `json`)
+          --version     Show version number                                [boolean]
+          --help        Show help                                          [boolean]
+      -l, --logLevel    The log level                              [default: "info"]
+      -f, --logFormat   The log (`plainText` or `json`)
                                                      [string] [default: "plainText"]
-      -p, --port       The webSocket server port            [number] [default: 8001]
-      -i, --inbound    Comma separated list of inbound NATS topics to forward
-                       through websocket                      [string] [default: ""]
-      -o, --outbound   Comma separated list of outbound NATS topics to forward
-                       towards from websocket                 [string] [default: ""]
-      -n, --natsUri    NATS server URI used by the pdms adapter.
+      -p, --port        The webSocket server port           [number] [default: 8001]
+      -i, --inbound     Comma separated list of inbound NATS topics to forward
+                        through websocket                     [string] [default: ""]
+      -o, --outbound    Comma separated list of outbound NATS topics to forward
+                        towards from websocket                [string] [default: ""]
+      -n, --natsUri     NATS server URI used by the pdms adapter.
                                          [string] [default: "nats://localhost:4222"]
+          --cluster-id  The cluster ID of the NATS server     [string] [default: ""]
+          --client-id   The client ID of the NATS client      [string] [default: ""]
 ```
+
+The server needs to connect to the NATS cluster.
+The `--natsUri` defines the URI of the NATS server, for example: `nats://localhost:4222`.
+The `--cluster-id` and `--client-id` parameters are mandatory.
+The `--client-id` must be unique among the NATS clients, whether they are server, producer or consumer.
 
 The server will listen on `http://localhost:8001` by default.
 You can change the port by setting the `WSGW_SERVER_PORT` environment value
@@ -286,15 +300,18 @@ Every time a message arrives, prints it out to the console.
     Run as a consumer client
 
     Options:
-          --version    Show version number                                 [boolean]
-          --help       Show help                                           [boolean]
-      -l, --logLevel   The log level                               [default: "info"]
-      -f, --logFormat  The log (`plainText` or `json`)
+          --version     Show version number                                [boolean]
+          --help        Show help                                          [boolean]
+      -l, --logLevel    The log level                              [default: "info"]
+      -f, --logFormat   The log (`plainText` or `json`)
                                                      [string] [default: "plainText"]
-      -u, --uri        The URI of the WebSocket server
+      -u, --uri         The URI of the WebSocket or NATS server or NATS
                                          [string] [default: "http://localhost:8001"]
-      -t, --topic      The topic (event name) the message will be sent
+          --cluster-id  The cluster ID of the NATS server     [string] [default: ""]
+          --client-id   The client ID of the NATS client      [string] [default: ""]
+      -t, --topic       The topic (event name) the message will be sent
                                                        [string] [default: "message"]
+          --durable     Use durable topic                 [boolean] [default: false]
 ```
 
 For example:
@@ -302,6 +319,14 @@ For example:
 ```bash
     $ wsgw consumer -t "IN1"
 ```
+The `--uri` parameter determines if the consumer connects to the WebSocket server or to the NATS server.
+By default it connects to the WebSocket server using the `"http://localhost:8001"` value.
+
+When the consumer connects to the NATS server then the `--uri` defines the URI of the NATS server, for example: `nats://localhost:4222`.
+In such cases the the `--cluster-id` and `--client-id` parameters are mandatory.
+The `--client-id` must be unique among the NATS clients, whether they are server, producer or consumer.
+
+If the channel to consume is durable, use the `--durable` flag. By default the topic the cosumer will subscribe is non-durable.
 
 ### The `wsgw producer` client
 
@@ -331,10 +356,13 @@ The CLI parameters of the producer:
       -l, --logLevel        The log level                          [default: "info"]
       -f, --logFormat       The log (`plainText` or `json`)
                                                      [string] [default: "plainText"]
-      -u, --uri             The URI of the WebSocket server
+      -u, --uri             The URI of the WebSocket server or NATS server
                                          [string] [default: "http://localhost:8001"]
+          --cluster-id      The cluster ID of the NATS server [string] [default: ""]
+          --client-id       The client ID of the NATS client  [string] [default: ""]
       -t, --topic           The topic (event name) the message will be sent
                                                        [string] [default: "message"]
+          --durable         Use durable topic             [boolean] [default: false]
       -m, --message         The JSON-format message string to send   [default: null]
       -c, --messageContent  The file that contains the message content string to
                             send                                     [default: null]
@@ -345,6 +373,16 @@ The CLI parameters of the producer:
       -r, --rpc             Do RPC-like, synchronous call through NATS
                                                           [boolean] [default: false]
 ```
+
+The `--uri` parameter determines if the producer connects to the WebSocket server or to the NATS server.
+By default it connects to the WebSocket server using the `"http://localhost:8001"` value.
+
+When the producer connects to the NATS server then the `--uri` defines the URI of the NATS server, for example: `nats://localhost:4222`.
+In such cases the the `--cluster-id` and `--client-id` parameters are mandatory.
+The `--client-id` must be unique among the NATS clients, whether they are server, producer or consumer.
+
+If the channel to consume is durable, use the `--durable` flag. By default the topic the producer will publish is non-durable.
+
 
 Send a direct message from the command line with direct content definition:
 
@@ -376,6 +414,7 @@ The file contains an array of message entries, where each entry can contain the 
   Default value is `0`.
 - `topic`: The name of the event channel/topic to send the topic into.
   Default value is the topic name given by the `-t`, `topic` CLI parameter.
+- `durable`: `true` or `false`. Selects if the topic is durable, or non-durable. By default it is `false`.
 - one of `message`, `file`, `scenario`:
     - `message`: The message object, to send.
     - `file`: The path to the file, that contains the message.

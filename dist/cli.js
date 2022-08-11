@@ -107,7 +107,7 @@ var parse = function parse(defaults) {
             default: defaults.logger.transports.console.format
         }).option('uri', {
             alias: 'u',
-            desc: 'The URI of the WebSocket server',
+            desc: 'The URI of the WebSocket server or NATS server',
             type: 'string',
             default: 'http://localhost:8001'
         }).option('cluster-id', {

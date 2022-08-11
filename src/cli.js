@@ -112,7 +112,7 @@ const parse = (defaults, processArgv = process.argv) => {
                     })
                     .option('uri', {
                         alias: 'u',
-                        desc: 'The URI of the WebSocket server',
+                        desc: 'The URI of the WebSocket server or NATS server',
                         type: 'string',
                         default: 'http://localhost:8001'
                     })
