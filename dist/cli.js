@@ -123,6 +123,10 @@ var parse = function parse(defaults) {
             desc: 'The topic (event name) the message will be sent',
             type: 'string',
             default: 'message'
+        }).option('durable', {
+            desc: 'Use durable topic',
+            type: 'boolean',
+            default: false
         }).option('message', {
             alias: 'm',
             desc: 'The JSON-format message string to send',
@@ -163,6 +167,7 @@ var parse = function parse(defaults) {
                     messageContent: argv.messageContent != null && _lodash2.default.isString(argv.messageContent) ? _path2.default.resolve(argv.messageContent) : null,
                     scenario: argv.scenario != null && _lodash2.default.isString(argv.scenario) ? _path2.default.resolve(argv.scenario) : null,
                     dumpMessages: argv.dumpMessages,
+                    durable: argv.durable,
                     rpc: argv.rpc
                 }
             },
@@ -219,6 +224,10 @@ var parse = function parse(defaults) {
             desc: 'The topic (event name) the message will be sent',
             type: 'string',
             default: 'message'
+        }).option('durable', {
+            desc: 'Use durable topic',
+            type: 'boolean',
+            default: false
         }).demandOption([]);
     }, function (argv) {
         var channelType = getChannelType(argv.uri);
@@ -229,7 +238,8 @@ var parse = function parse(defaults) {
                 args: {
                     channelType: channelType,
                     uri: argv.uri,
-                    topic: argv.topic
+                    topic: argv.topic,
+                    durable: argv.durable
                 }
             },
             cliConfig: channelType === 'NATS' ? {

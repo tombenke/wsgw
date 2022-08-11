@@ -121,6 +121,7 @@ describe('cli', () => {
                 args: {
                     channelType: 'WS',
                     topic: 'message',
+                    durable: false,
                     uri: 'http://localhost:8001'
                 }
             },
@@ -154,7 +155,8 @@ describe('cli', () => {
             '--client-id',
             'test-consumer-client',
             '-t',
-            'MY_TOPIC'
+            'MY_TOPIC',
+            '--durable'
         ]
         const expected = {
             command: {
@@ -163,6 +165,7 @@ describe('cli', () => {
                 args: {
                     channelType: 'NATS',
                     topic: 'MY_TOPIC',
+                    durable: true,
                     uri: 'nats://localhost:4222'
                 }
             },
@@ -196,6 +199,7 @@ describe('cli', () => {
                 args: {
                     channelType: 'WS',
                     topic: 'message',
+                    durable: false,
                     uri: 'http://localhost:8001',
                     message: null,
                     messageContent: null,
@@ -229,6 +233,7 @@ describe('cli', () => {
             'wss://ws.mydomain.com:1234',
             '-t',
             'MY_TOPIC',
+            '--durable',
             '-m',
             '{ "topic": "MY_TOPIC", "payload": "Some payload..."}',
             '-c',
@@ -245,6 +250,7 @@ describe('cli', () => {
                 args: {
                     channelType: 'WS',
                     topic: 'MY_TOPIC',
+                    durable: true,
                     uri: 'wss://ws.mydomain.com:1234',
                     message: { topic: 'MY_TOPIC', payload: 'Some payload...' },
                     messageContent: path.resolve('message-content.json'),

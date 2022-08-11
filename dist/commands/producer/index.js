@@ -36,11 +36,12 @@ var loadMessagesFromScenarioFile = exports.loadMessagesFromScenarioFile = functi
     if (_lodash2.default.isArray(scenario)) {
         var basePath = _path2.default.dirname(scenarioFileName);
         messages = _lodash2.default.chain(scenario).flatMap(function (item) {
-            return _lodash2.default.has(item, 'scenario') ? loadMessagesFromScenarioFile(container, topic, _path2.default.resolve(basePath, item.scenario)) : _lodash2.default.has(item, 'file') ? loadMessageContentFromFile(container, item.delay, item.topic, _path2.default.resolve(basePath, item.file)) : item;
+            return _lodash2.default.has(item, 'scenario') ? loadMessagesFromScenarioFile(container, topic, _path2.default.resolve(basePath, item.scenario)) : _lodash2.default.has(item, 'file') ? loadMessageContentFromFile(container, item.delay, item.topic, !_lodash2.default.isUndefined(item.durable) && item.durable, _path2.default.resolve(basePath, item.file)) : item;
         }).value().map(function (item) {
             return {
                 delay: _lodash2.default.get(item, 'delay', 0),
                 topic: _lodash2.default.get(item, 'topic', topic),
+                durable: _lodash2.default.get(item, 'durable', false),
                 message: _lodash2.default.get(item, 'message', {})
             };
         });
@@ -49,20 +50,20 @@ var loadMessagesFromScenarioFile = exports.loadMessagesFromScenarioFile = functi
     return messages;
 };
 
-var loadMessageContentFromFile = exports.loadMessageContentFromFile = function loadMessageContentFromFile(container, delay, topic, messageFileName) {
+var loadMessageContentFromFile = exports.loadMessageContentFromFile = function loadMessageContentFromFile(container, delay, topic, durable, messageFileName) {
     container.logger.debug('loadMessageContentFromFile(messageFileName: "' + messageFileName + '")');
     var messages = [];
     if (!_lodash2.default.isString(messageFileName)) {
         return messages;
     }
     var content = (0, _datafile.loadJsonFileSync)(_path2.default.resolve(messageFileName));
-    messages = [{ delay: delay, topic: topic, message: content }];
+    messages = [{ delay: delay, topic: topic, durable: durable, message: content }];
     return messages;
 };
 
 var getMessagesToPublish = function getMessagesToPublish(container, args) {
-    var directMessage = args.message != null ? [{ delay: 0, topic: args.topic, message: args.message }] : [];
-    var messagesToPublish = _lodash2.default.concat(directMessage, loadMessageContentFromFile(container, 0, args.topic, args.messageContent), loadMessagesFromScenarioFile(container, args.topic, args.scenario));
+    var directMessage = args.message != null ? [{ delay: 0, topic: args.topic, durable: args.durable, message: args.message }] : [];
+    var messagesToPublish = _lodash2.default.concat(directMessage, loadMessageContentFromFile(container, 0, args.topic, args.durable, args.messageContent), loadMessagesFromScenarioFile(container, args.topic, args.scenario));
     if (args.dumpMessages) {
         container.logger.info('Messages to publish: ' + JSON.stringify(messagesToPublish, null, '  '));
     }
@@ -77,7 +78,7 @@ var publishMessages = function publishMessages(messageItems, topic, emitMessageF
         }, { delay: 0 }), (0, _operators.delayWhen)(function (item) {
             return (0, _rxjs.interval)(item.delay);
         }), (0, _operators.mergeMap)(function (item) {
-            return emitMessageFun(item.topic, item.message);
+            return emitMessageFun(item.topic, !_lodash2.default.isUndefined(item.durable) && item.durable, item.message);
         })).subscribe(function (message) {
             /*console.log(message)*/
         }, function (err) {

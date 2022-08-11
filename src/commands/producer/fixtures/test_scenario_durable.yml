@@ -1,0 +1,24 @@
+---
+- delay: 0
+  topic: TMA
+  message:
+      id: some-unique-id-1
+      text: some plain text 1 to a non-durable subject
+- delay: 1000
+  topic: TMA_DURABLE
+  durable: true
+  message:
+      id: some-unique-id-2
+      text: some plain text 2 to a durable channel
+- delay: 3000
+  topic: TMA
+  message:
+      id: some-unique-id-3
+      text: some plain text 3 to a non-durable subject
+- delay: 1000
+  topic: TMA_DURABLE
+  durable: true
+  message:
+      id: some-unique-id-4
+      text: some plain text 4 to a durable channel
+

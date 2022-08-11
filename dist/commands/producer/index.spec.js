@@ -17,17 +17,17 @@ describe('commands/producer', function () {
 
     it('#loadMessageContentFromFile', function () {
         var fileName = __dirname + '/fixtures/message1.yml';
-        (0, _chai.expect)((0, _index.loadMessageContentFromFile)(container, 0, 'topic1', fileName)).to.eql(_fixtures.testSingleMessage);
+        (0, _chai.expect)((0, _index.loadMessageContentFromFile)(container, 0, 'topic1', false, fileName)).to.eql(_fixtures.testSingleMessage);
     });
 
     it('#loadMessagesFromScenarioFile -  messages only', function () {
         var fileName = __dirname + '/fixtures/test_scenario.yml';
-        (0, _chai.expect)((0, _index.loadMessagesFromScenarioFile)(container, 'topic1', fileName)).to.eql(_fixtures.testScenario);
+        (0, _chai.expect)((0, _index.loadMessagesFromScenarioFile)(container, 'topic1', fileName)).to.eql(_fixtures.testScenarioExpected);
     });
 
     it('#loadMessagesFromFile -  messages and files mixed', function () {
         var fileName = __dirname + '/fixtures/test_scenario_mixed.yml';
-        (0, _chai.expect)((0, _index.loadMessagesFromScenarioFile)(container, 'TMA', fileName)).to.eql(_fixtures.testScenarioMixed);
+        (0, _chai.expect)((0, _index.loadMessagesFromScenarioFile)(container, 'TMA', fileName)).to.eql(_fixtures.testScenarioMixedExpected);
     });
 
     it('#loadMessagesFromFile -  messages and files mixed with embedded sub-scenario', function () {

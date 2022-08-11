@@ -1,0 +1,33 @@
+[
+    {
+        "delay": 0,
+        "durable": false,
+        "message": {
+            "id": "some-unique-id-1",
+            "text": "some plain text 1"
+        },
+        "topic": "TMA"
+    },
+    {
+        "delay": 1000,
+        "durable": false,
+        "message": {
+            "content": {
+                "arrayField": [1, 2, 3, 4],
+                "numberField": 42,
+                "textField": "Some text"
+            },
+            "id": "message1"
+        },
+        "topic": "TMA"
+    },
+    {
+        "delay": 3000,
+        "durable": false,
+        "message": {
+            "id": "some-unique-id-3",
+            "text": "some plain text 3"
+        },
+        "topic": "TMA"
+    }
+]

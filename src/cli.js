@@ -132,6 +132,11 @@ const parse = (defaults, processArgv = process.argv) => {
                         type: 'string',
                         default: 'message'
                     })
+                    .option('durable', {
+                        desc: 'Use durable topic',
+                        type: 'boolean',
+                        default: false
+                    })
                     .option('message', {
                         alias: 'm',
                         desc: 'The JSON-format message string to send',
@@ -181,6 +186,7 @@ const parse = (defaults, processArgv = process.argv) => {
                             scenario:
                                 argv.scenario != null && _.isString(argv.scenario) ? path.resolve(argv.scenario) : null,
                             dumpMessages: argv.dumpMessages,
+                            durable: argv.durable,
                             rpc: argv.rpc
                         }
                     },
@@ -253,6 +259,11 @@ const parse = (defaults, processArgv = process.argv) => {
                         type: 'string',
                         default: 'message'
                     })
+                    .option('durable', {
+                        desc: 'Use durable topic',
+                        type: 'boolean',
+                        default: false
+                    })
                     .demandOption([]),
             (argv) => {
                 const channelType = getChannelType(argv.uri)
@@ -263,7 +274,8 @@ const parse = (defaults, processArgv = process.argv) => {
                         args: {
                             channelType: channelType,
                             uri: argv.uri,
-                            topic: argv.topic
+                            topic: argv.topic,
+                            durable: argv.durable
                         }
                     },
                     cliConfig:

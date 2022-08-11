@@ -14,7 +14,7 @@ export const finishWithErrorWs = (container, wsClient, endCb) => (err) => {
     endCb(err, null)
 }
 
-export const emitMessageWs = (container, wsClient) => (topic, message) => {
+export const emitMessageWs = (container, wsClient) => (topic, durable, message) => {
     return new Promise((resolve, reject) => {
         const strToEmit = _.isString(message) ? message : JSON.stringify(message)
         container.logger.info(`${strToEmit} >> [${topic}]`)

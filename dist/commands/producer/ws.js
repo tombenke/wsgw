@@ -35,7 +35,7 @@ var finishWithErrorWs = exports.finishWithErrorWs = function finishWithErrorWs(c
 };
 
 var emitMessageWs = exports.emitMessageWs = function emitMessageWs(container, wsClient) {
-    return function (topic, message) {
+    return function (topic, durable, message) {
         return new Promise(function (resolve, reject) {
             var strToEmit = _lodash2.default.isString(message) ? message : JSON.stringify(message);
             container.logger.info(strToEmit + ' >> [' + topic + ']');

@@ -11,7 +11,7 @@ export const finishWithErrorNats = (container, endCb) => (err) => {
     // NATS will be closed by the container
 }
 
-export const emitMessageNats = (container, rpc) => (topic, message) => {
+export const emitMessageNats = (container, rpc) => (topic, durable, message) => {
     const strToEmit = _.isString(message) ? message : JSON.stringify(message)
     return new Promise((resolve, reject) => {
         if (rpc) {
@@ -20,9 +20,22 @@ export const emitMessageNats = (container, rpc) => (topic, message) => {
                 resolve(response)
             })
         } else {
-            container.pdms.publish(topic, strToEmit)
-            container.logger.info(`${strToEmit} >> [${topic}]`)
-            resolve(message)
+            if (durable) {
+                container.pdms.publishAsyncDurable(topic, strToEmit, (err, guid) => {
+                    if (err) {
+                        container.logger.error('publish failed: ' + err)
+                        reject(err)
+                    } else {
+                        container.logger.debug('published message with guid: ' + guid)
+                        container.logger.info(`${strToEmit} >> [${topic}] durable`)
+                        resolve(message)
+                    }
+                })
+            } else {
+                container.pdms.publish(topic, strToEmit)
+                container.logger.info(`${strToEmit} >> [${topic}]`)
+                resolve(message)
+            }
         }
     })
 }

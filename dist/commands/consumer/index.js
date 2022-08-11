@@ -23,10 +23,18 @@ exports.execute = function (container, args, responseCb) {
     var serverUri = args.uri || 'http://localhost:' + container.config.wsServer.port;
 
     if (args.channelType === 'NATS') {
-        container.logger.info('Start listening to messages on NATS "' + args.topic + '" topic');
-        container.pdms.subscribe(args.topic, function (data) {
-            container.logger.info('NATS[' + args.topic + '] >> ' + JSON.stringify(data) + '\n');
-        });
+        if (args.durable) {
+            container.logger.info('Start listening to messages on NATS "' + args.topic + '" durable topic');
+            container.pdms.subscribeDurable(args.topic, function (msg) {
+                container.logger.info('NATS[' + args.topic + '] >> ' + JSON.stringify(msg.getData()) + '\n');
+                msg.ack();
+            });
+        } else {
+            container.logger.info('Start listening to messages on NATS "' + args.topic + '" topic');
+            container.pdms.subscribe(args.topic, function (data) {
+                container.logger.info('NATS[' + args.topic + '] >> ' + JSON.stringify(data) + '\n');
+            });
+        }
     } else {
         container.logger.info('Start listening to messages on WebSocket "' + args.topic + '" topic');
         var wsClient = (0, _socket2.default)(serverUri);

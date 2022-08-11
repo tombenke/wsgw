@@ -27,7 +27,7 @@ var finishWithErrorNats = exports.finishWithErrorNats = function finishWithError
 };
 
 var emitMessageNats = exports.emitMessageNats = function emitMessageNats(container, rpc) {
-    return function (topic, message) {
+    return function (topic, durable, message) {
         var strToEmit = _lodash2.default.isString(message) ? message : JSON.stringify(message);
         return new Promise(function (resolve, reject) {
             if (rpc) {
@@ -36,9 +36,22 @@ var emitMessageNats = exports.emitMessageNats = function emitMessageNats(contain
                     resolve(response);
                 });
             } else {
-                container.pdms.publish(topic, strToEmit);
-                container.logger.info(strToEmit + ' >> [' + topic + ']');
-                resolve(message);
+                if (durable) {
+                    container.pdms.publishAsyncDurable(topic, strToEmit, function (err, guid) {
+                        if (err) {
+                            container.logger.error('publish failed: ' + err);
+                            reject(err);
+                        } else {
+                            container.logger.debug('published message with guid: ' + guid);
+                            container.logger.info(strToEmit + ' >> [' + topic + '] durable');
+                            resolve(message);
+                        }
+                    });
+                } else {
+                    container.pdms.publish(topic, strToEmit);
+                    container.logger.info(strToEmit + ' >> [' + topic + ']');
+                    resolve(message);
+                }
             }
         });
     };

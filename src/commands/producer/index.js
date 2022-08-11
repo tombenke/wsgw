@@ -21,13 +21,20 @@ export const loadMessagesFromScenarioFile = (container, topic, scenarioFileName)
                 _.has(item, 'scenario')
                     ? loadMessagesFromScenarioFile(container, topic, path.resolve(basePath, item.scenario))
                     : _.has(item, 'file')
-                    ? loadMessageContentFromFile(container, item.delay, item.topic, path.resolve(basePath, item.file))
+                    ? loadMessageContentFromFile(
+                          container,
+                          item.delay,
+                          item.topic,
+                          !_.isUndefined(item.durable) && item.durable,
+                          path.resolve(basePath, item.file)
+                      )
                     : item
             )
             .value()
             .map((item) => ({
                 delay: _.get(item, 'delay', 0),
                 topic: _.get(item, 'topic', topic),
+                durable: _.get(item, 'durable', false),
                 message: _.get(item, 'message', {})
             }))
     }
@@ -35,22 +42,23 @@ export const loadMessagesFromScenarioFile = (container, topic, scenarioFileName)
     return messages
 }
 
-export const loadMessageContentFromFile = (container, delay, topic, messageFileName) => {
+export const loadMessageContentFromFile = (container, delay, topic, durable, messageFileName) => {
     container.logger.debug(`loadMessageContentFromFile(messageFileName: "${messageFileName}")`)
     let messages = []
     if (!_.isString(messageFileName)) {
         return messages
     }
     const content = loadJsonFileSync(path.resolve(messageFileName))
-    messages = [{ delay: delay, topic: topic, message: content }]
+    messages = [{ delay: delay, topic: topic, durable: durable, message: content }]
     return messages
 }
 
 const getMessagesToPublish = (container, args) => {
-    const directMessage = args.message != null ? [{ delay: 0, topic: args.topic, message: args.message }] : []
+    const directMessage =
+        args.message != null ? [{ delay: 0, topic: args.topic, durable: args.durable, message: args.message }] : []
     const messagesToPublish = _.concat(
         directMessage,
-        loadMessageContentFromFile(container, 0, args.topic, args.messageContent),
+        loadMessageContentFromFile(container, 0, args.topic, args.durable, args.messageContent),
         loadMessagesFromScenarioFile(container, args.topic, args.scenario)
     )
     if (args.dumpMessages) {
@@ -66,7 +74,9 @@ const publishMessages = (messageItems, topic, emitMessageFun) =>
             .pipe(
                 scan((accu, item) => _.merge({}, item, { delay: accu.delay + item.delay }), { delay: 0 }),
                 delayWhen((item) => interval(item.delay)),
-                mergeMap((item) => emitMessageFun(item.topic, item.message))
+                mergeMap((item) =>
+                    emitMessageFun(item.topic, !_.isUndefined(item.durable) && item.durable, item.message)
+                )
             )
             .subscribe(
                 (message) => {

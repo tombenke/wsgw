@@ -2,6 +2,7 @@
     {
         "delay": 0,
         "topic": "NESTED",
+        "durable": false,
         "message": {
             "payload": "L2"
         }
@@ -9,6 +10,7 @@
     {
         "delay": 1000,
         "topic": "TMA",
+        "durable": false,
         "message": {
             "id": "message1",
             "content": {
@@ -21,6 +23,7 @@
     {
         "delay": 567,
         "topic": "NORMAL",
+        "durable": false,
         "message": {
             "payload": "L1_1"
         }
@@ -28,6 +31,7 @@
     {
         "delay": 333,
         "topic": "TMA",
+        "durable": false,
         "message": {
             "id": "message1",
             "content": {
@@ -40,6 +44,7 @@
     {
         "delay": 3000,
         "topic": "NORMAL",
+        "durable": false,
         "message": {
             "payload": "L1_2"
         }
@@ -47,6 +52,7 @@
     {
         "delay": 0,
         "topic": "NESTED",
+        "durable": false,
         "message": {
             "payload": "L2"
         }
@@ -54,6 +60,7 @@
     {
         "delay": 1000,
         "topic": "TMA",
+        "durable": false,
         "message": {
             "id": "message1",
             "content": {
@@ -66,6 +73,7 @@
     {
         "delay": 0,
         "topic": "NORMAL",
+        "durable": false,
         "message": {
             "payload": "L0_1"
         }
@@ -73,6 +81,7 @@
     {
         "delay": 1000,
         "topic": "TMA",
+        "durable": false,
         "message": {
             "id": "message1",
             "content": {
@@ -85,6 +94,7 @@
     {
         "delay": 3000,
         "topic": "NORMAL",
+        "durable": false,
         "message": {
             "payload": "L0_2"
         }
@@ -92,6 +102,7 @@
     {
         "delay": 0,
         "topic": "TMA",
+        "durable": false,
         "message": {
             "id": "some-unique-id-1",
             "text": "some plain text 1"
@@ -100,6 +111,7 @@
     {
         "delay": 1000,
         "topic": "TMA",
+        "durable": false,
         "message": {
             "id": "message1",
             "content": {
@@ -112,6 +124,7 @@
     {
         "delay": 3000,
         "topic": "TMA",
+        "durable": false,
         "message": {
             "id": "some-unique-id-3",
             "text": "some plain text 3"

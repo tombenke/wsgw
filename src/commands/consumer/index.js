@@ -17,10 +17,18 @@ exports.execute = (container, args, responseCb) => {
     const serverUri = args.uri || `http://localhost:${container.config.wsServer.port}`
 
     if (args.channelType === 'NATS') {
-        container.logger.info(`Start listening to messages on NATS "${args.topic}" topic`)
-        container.pdms.subscribe(args.topic, (data) => {
-            container.logger.info(`NATS[${args.topic}] >> ${JSON.stringify(data)}\n`)
-        })
+        if (args.durable) {
+            container.logger.info(`Start listening to messages on NATS "${args.topic}" durable topic`)
+            container.pdms.subscribeDurable(args.topic, (msg) => {
+                container.logger.info(`NATS[${args.topic}] >> ${JSON.stringify(msg.getData())}\n`)
+                msg.ack()
+            })
+        } else {
+            container.logger.info(`Start listening to messages on NATS "${args.topic}" topic`)
+            container.pdms.subscribe(args.topic, (data) => {
+                container.logger.info(`NATS[${args.topic}] >> ${JSON.stringify(data)}\n`)
+            })
+        }
     } else {
         container.logger.info(`Start listening to messages on WebSocket "${args.topic}" topic`)
         const wsClient = ioClient(serverUri)

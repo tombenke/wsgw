@@ -129,6 +129,7 @@ describe('cli', function () {
                 args: {
                     channelType: 'WS',
                     topic: 'message',
+                    durable: false,
                     uri: 'http://localhost:8001'
                 }
             },
@@ -149,7 +150,7 @@ describe('cli', function () {
     });
 
     it('#parse consumer command with full list of args', function (done) {
-        var processArgv = ['node', 'src/index.js', 'consumer', '-c', 'config.yml', '-u', 'nats://localhost:4222', '--cluster-id', 'test-cluster', '--client-id', 'test-consumer-client', '-t', 'MY_TOPIC'];
+        var processArgv = ['node', 'src/index.js', 'consumer', '-c', 'config.yml', '-u', 'nats://localhost:4222', '--cluster-id', 'test-cluster', '--client-id', 'test-consumer-client', '-t', 'MY_TOPIC', '--durable'];
         var expected = {
             command: {
                 name: 'consumer',
@@ -157,6 +158,7 @@ describe('cli', function () {
                 args: {
                     channelType: 'NATS',
                     topic: 'MY_TOPIC',
+                    durable: true,
                     uri: 'nats://localhost:4222'
                 }
             },
@@ -190,6 +192,7 @@ describe('cli', function () {
                 args: {
                     channelType: 'WS',
                     topic: 'message',
+                    durable: false,
                     uri: 'http://localhost:8001',
                     message: null,
                     messageContent: null,
@@ -215,7 +218,7 @@ describe('cli', function () {
     });
 
     it('#parse producer command with full list of args', function (done) {
-        var processArgv = ['node', 'src/index.js', 'producer', '-u', 'wss://ws.mydomain.com:1234', '-t', 'MY_TOPIC', '-m', '{ "topic": "MY_TOPIC", "payload": "Some payload..."}', '-c', 'message-content.json', '-s', '/fixtures/test_scenario.yml', '-d', '-r'];
+        var processArgv = ['node', 'src/index.js', 'producer', '-u', 'wss://ws.mydomain.com:1234', '-t', 'MY_TOPIC', '--durable', '-m', '{ "topic": "MY_TOPIC", "payload": "Some payload..."}', '-c', 'message-content.json', '-s', '/fixtures/test_scenario.yml', '-d', '-r'];
         var expected = {
             command: {
                 name: 'producer',
@@ -223,6 +226,7 @@ describe('cli', function () {
                 args: {
                     channelType: 'WS',
                     topic: 'MY_TOPIC',
+                    durable: true,
                     uri: 'wss://ws.mydomain.com:1234',
                     message: { topic: 'MY_TOPIC', payload: 'Some payload...' },
                     messageContent: _path2.default.resolve('message-content.json'),
